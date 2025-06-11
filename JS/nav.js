@@ -27,4 +27,6 @@ document.addEventListener("DOMContentLoaded", () => {
     `;
 
     document.querySelector("header").style.fontFamily = "'Gruppo', cursive";
+    document.querySelector("header").style.position = "relative";
+    document.querySelector("header").style.zIndex = "10";
   });
