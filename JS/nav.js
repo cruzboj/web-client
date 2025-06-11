@@ -26,5 +26,5 @@ document.addEventListener("DOMContentLoaded", () => {
     </header>
     `;
 
-    nav.style.fontFamily = "'Gruppo', cursive";
+    document.querySelector("header").style.fontFamily = "'Gruppo', cursive";
   });
