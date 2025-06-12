@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <li class="mx-4"><a href="#" class="nav-link px-2 link-body-emphasis">CARDS</a></li>
             <li class="mx-4"><a href="#" class="nav-link px-2 link-body-emphasis">CONTACT</a></li>
           </ul>
-          <a href="#">
+          <a href="#" style="text-decoration: none; color : black;" >
             <img src="https://imgs.search.brave.com/yZXQiGHMPQtCEPv3o0fSmq3S3svXOP3E97BaULqkdK0/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93d3cu/cG5nYWxsLmNvbS93/cC1jb250ZW50L3Vw/bG9hZHMvNS9Vc2Vy/LVByb2ZpbGUtUE5H/LUZpbGUucG5n" alt="cart" width="50" height="50">
             Guest
           </a>
@@ -27,6 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
     `;
 
     document.querySelector("header").style.fontFamily = "'Gruppo', cursive";
+    document.querySelector("header").style.fontWeight = "bold";
     document.querySelector("header").style.position = "relative";
     document.querySelector("header").style.zIndex = "10";
   });
