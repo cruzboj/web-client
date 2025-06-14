@@ -1,4 +1,4 @@
-fetch('data/card_items.json')
+fetch('https://web-server-q7kx.onrender.com/cards')
   .then(response => response.json())
   .then(data => {
     allitems = data;
