@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PackTest</title>
+
+  <script>
+    //handle scaling to fit the window
+    function scaleToFit() {
+      const wrapper = document.getElementById("wrapper");
+      if (!wrapper) return;
+      const scaleX = window.innerWidth / 1920;
+      const scaleY = window.innerHeight / 1080;
+      const scale = Math.min(scaleX, scaleY);
+      wrapper.style.transform = `scale(${scale})`;
+    }
+  
+    window.addEventListener("resize", scaleToFit);
+  
+    window.addEventListener("DOMContentLoaded", () => {
+      scaleToFit();
+    
+    
+    //choose pack
+    let packChoose = null;
+    const packs = document.querySelectorAll(".pack");
+
+    packs.forEach((pack) => {
+        let wasChosen = false;
+        let wasOpened = false;
+
+        pack.addEventListener("click", () => {
+        // לחיצה ראשונה – בחירה
+        if (!packChoose) {
+            packChoose = pack;
+            wasChosen = true;
+
+            packs.forEach((otherPack) => {
+            if (otherPack !== packChoose) {
+                otherPack.classList.add("hide-with-animation");
+                otherPack.addEventListener(
+                "animationend",
+                () => {
+                    otherPack.style.display = "none";
+                },
+                { once: true }
+                );
+            }
+            });
+
+            return; // נעצור פה כדי לא להמשיך לפתיחה באותה לחיצה
+        }
+
+        // לחיצה שנייה – פתיחה
+        if (pack === packChoose && wasChosen && !wasOpened) {
+            wasOpened = true;
+
+            const header = pack.querySelector(".pack-header");
+
+            // לאתחל אנימציה
+            header.classList.remove("tear-top");
+            void header.offsetWidth; // רנדר מחדש
+            header.classList.add("tear-top");
+
+            header.addEventListener(
+            "animationend",
+            () => {
+                const body = pack.querySelector(".pack-body");
+
+                setTimeout(() => {
+                body.classList.add("fadeout");
+                }, 1000);
+            },
+            { once: true }
+            );
+        }
+        });
+    });
+    //animate pack hover effect
+      document.querySelectorAll(".pack").forEach((pack) => {
+        const inner = pack.querySelector(".pack-inner");
+  
+        pack.addEventListener("mousemove", (e) => {
+          const rect = pack.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          const centerX = rect.width / 2;
+          const centerY = rect.height / 2;
+  
+          const rotateX = ((y - centerY) / centerY) * -15;
+          const rotateY = ((x - centerX) / centerX) * 15;
+  
+          inner.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+        });
+  
+        pack.addEventListener("mouseleave", () => {
+          inner.style.transform = "rotateX(0deg) rotateY(0deg)";
+        });
+      });
+    });
+  </script>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      height: 100%;
+    }
+
+    #wrapper {
+      position: absolute;
+      width: 1920px;
+      height: 1080px;
+      transform-origin: top left;
+    }
+
+    .packs-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+      gap: 30px;
+    }
+
+    .pack {
+      width: 300px;
+      height: 600px;
+      perspective: 1000px;
+    }
+
+    .pack-inner {
+      width: 100%;
+      height: 100%;
+      /* background-color: rgb(255, 124, 124); */
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.3s ease;
+      transform-style: preserve-3d;
+    }
+
+    .pack-header {
+      height: 100px;
+      background-image: url('image/Pack-Header.png');
+      background-repeat: no-repeat;
+      background-size: contain;
+      background-position: bottom center;
+      /* background-color: blue; */
+    }
+    @keyframes tearTop {
+            0% {
+                transform: translate(0, 0) rotate(0deg);
+                opacity: 1;
+            }
+            30% {
+                transform: translate(-10px, -10px) rotate(-5deg);
+                opacity: 0.9;
+            }
+            60% {
+                transform: translate(-30px, -30px) rotate(-15deg);
+                opacity: 0.6;
+            }
+            100% {
+                transform: translate(-100px, -100px) rotate(-25deg);
+                opacity: 0;
+            }
+        }
+
+    .tear-top {
+        animation: tearTop 0.8s ease-in forwards;
+    }
+
+    .pack-body {
+      flex: 1;
+      /* background-color: rgb(234, 0, 255); */
+      background-image: url('image/Pack-Body.png');
+      background-repeat: no-repeat;
+      background-size: contain;
+      background-position: top center;
+    }
+
+    @keyframes fadeout {
+      0% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      100% {
+        transform: translateY(200px);
+        opacity: 0;
+      }
+    }
+
+    .fadeout {
+      animation: fadeout 1s forwards ease-in;
+    }
+
+    @keyframes fadeOutShrink {
+        0% {
+            opacity: 1;
+            transform: scale(1);
+        }
+        100% {
+            opacity: 0;
+            transform: scale(0.8);
+        }
+    }
+
+    .hide-with-animation {
+        animation: fadeOutShrink 0.5s forwards;
+    }
+  </style>
+</head>
+<body>
+  <div id="wrapper">
+    <div class="packs-container">
+      <div class="pack">
+        <div class="pack-inner">
+          <div class="pack-header"></div>
+          <div class="pack-body"></div>
+        </div>
+      </div>
+      <div class="pack">
+        <div class="pack-inner">
+          <div class="pack-header"></div>
+          <div class="pack-body"></div>
+        </div>
+      </div>
+      <div class="pack">
+        <div class="pack-inner">
+          <div class="pack-header"></div>
+          <div class="pack-body"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</body>
+</html>
