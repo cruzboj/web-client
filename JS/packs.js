@@ -1,3 +1,61 @@
+let allitems = [];
+
+fetch('http://localhost:8081/cards')
+  .then(response => response.json())
+  .then(data => {
+    allitems = data;
+    renderCards(data); // <<< להוסיף קריאה כאן
+  })
+  .catch(error => {
+    console.error("Error loading JSON:", error);
+    document.getElementById("errorContainer").textContent = "Failed to load items. Please try again later";
+  });
+
+  function renderCards(cardsData) {
+    const cardsContainers = document.querySelectorAll(".cards");
+  
+    cardsContainers.forEach((container) => {
+      container.innerHTML = "";  // מנקה תוכן קודם (מונע שכפול)
+  
+      cardsData.forEach((item, index) => {
+        const cardBorder = document.createElement("section");
+        cardBorder.className = "card-border";
+        if (index === 0) {
+          cardBorder.classList.add("special");
+        } else {
+          cardBorder.style.backgroundColor = "yellow"; // או כל צבע שתרצה
+        }
+        
+        const card = document.createElement("section");
+        card.className = "card";
+  
+        const img = document.createElement("img");
+        img.src = item.image;
+        img.alt = item.name;
+  
+        const title = document.createElement("h1");
+        title.textContent = item.name;
+  
+        card.appendChild(img);
+        card.appendChild(title);
+        cardBorder.appendChild(card);
+        container.appendChild(cardBorder);
+  
+        cardBorder.style.cursor = "pointer";
+        cardBorder.addEventListener("click", () => {
+          cardBorder.style.transition = "transform 1s ease, opacity 1s ease";
+          cardBorder.style.transform = "translateY(-200vh) scale(1.2)";
+          cardBorder.style.opacity = "0";
+  
+          setTimeout(() => {
+            cardBorder.style.display = "none";
+          }, 500);
+        });
+      });
+
+    });
+  }
+  
 document.addEventListener("DOMContentLoaded", () => {
   // css styles for the packs section
   const style = document.createElement("style");
@@ -132,7 +190,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     .card{
-      background-image: url('https://media1.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3azBjOW9scnNzdHZneXU1aG1pOGl5MzgyMzF6dDZzcTVldDdvaWZ0bSZlcD12MV9naWZzX3JlbGF0ZWQmY3Q9Zw/wjybBL42gvDvaAXRvw/200.webp');
+      /* background-image: url('https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExc2N3d2NsYm4zMnNsbmxxZGlleGJlZGlsazgxNGFvbXlrcW1raTVncCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/LM2Bl3ucXVmCc/giphy.gif'); */
       background-size: cover;
       background-repeat: no-repeat;
       background-position: center;
@@ -142,17 +200,51 @@ document.addEventListener("DOMContentLoaded", () => {
       height: 380px;
       width: 233px;
       border-radius: 5px;
-      margin: 10px;
+      margin: 5px;
 
       transition: transform 0.3s ease;
       transform-style: preserve-3d;
       will-change: transform;
+      overflow: hidden;
+    }
+
+    .card img{
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .card h1{
+      position: absolute;
+      z-index: 2;
+      margin: 0;
+      color: rgb(255, 255, 255);
+      font-size: 2rem;
+      text-shadow:
+        -2px -2px 0 black,
+        2px -2px 0 black,
+        -2px  2px 0 black,
+        2px  2px 0 black;
     }
 
     @property --angle{
       syntax: "<angle>";
       initial-value: 0deg;
       inherits: false;
+    }
+
+    .card-border {
+      position: absolute;
+      height: 100%;
+      width: 100%;
+      padding: 3px;
+      z-index: -1;
+      top: 50%;
+      left: 50%;
+      translate: -50% -50%;
+      border-radius: 5px;
+      background-color: yellow;
     }
     .card-border::after , .card-border::before{
       content: '';
@@ -165,17 +257,20 @@ document.addEventListener("DOMContentLoaded", () => {
       z-index: -1;
       padding: 3px;
       border-radius: 5px;
-      background-image: conic-gradient(from var(--angle), #ff4545,#00ff99,#006aff,#ff0095,#ff4545);
+      /*background-image: conic-gradient(from var(--angle), #ff4545,#00ff99,#006aff,#ff0095,#ff4545);*/
       animation: 3s spin linear infinite;
 
       perspective: 1000px;
       transform-style: preserve-3d;
     }
+    .card-border.special::before, .card-border.special::after {
+      background-image: conic-gradient(from var(--angle), #ff4545, #00ff99, #006aff, #ff0095, #ff4545);
+    }
     /* glowing effect */
-    /* .card-border::before{
+    .card-border::before{
       filter:  blur(1.5rem);
       opacity: 0.5;
-    } */
+    }
 
     @keyframes spin{
       from{
@@ -191,46 +286,24 @@ document.addEventListener("DOMContentLoaded", () => {
   // <section  class="packs"> is expected to be present in the HTML
   const packsContainer = document.querySelector(".packs");
   if (!packsContainer) return;
+  
 
   packsContainer.innerHTML = `
     <section id="wrapper">
-    <section class="packs-container">
-      <section class="pack">
-        <section class="pack-inner">
-          <section class="pack-header"></section>
-          <section class="pack-body"></section>
+          <section class="packs-container">
+            ${[1, 2, 3].map(() => `
+              <section class="pack">
+                <section class="pack-inner">
+                  <section class="pack-header"></section>
+                  <section class="pack-body"></section>
+                </section>
+                <section class="cards"></section>
+              </section>
+            `).join('')}
+          </section>
         </section>
-        <section class="cards">
-          <section class="card-border"><section class="card">Card 1</section></section>
-          <section class="card-border"><section class="card">Card 2</section></section>
-          <section class="card-border"><section class="card">Card 3</section></section>
-        </section>
-      </section>
-      <section class="pack">
-        <section class="pack-inner">
-          <section class="pack-header"></section>
-          <section class="pack-body"></section>
-        </section>
-        <section class="cards">
-          <section class="card-border"><section class="card">Card 1</section></section>
-          <section class="card-border"><section class="card">Card 2</section></section>
-          <section class="card-border"><section class="card">Card 3</section></section>
-        </section>
-      </section>
-      <section class="pack">
-        <section class="pack-inner">
-          <section class="pack-header"></section>
-          <section class="pack-body"></section>
-        </section>
-        <section class="cards">
-          <section class="card-border"><section class="card">Card 1</section></section>
-          <section class="card-border"><section class="card">Card 2</section></section>
-          <section class="card-border"><section class="card">Card 3</section></section>
-        </section>
-      </section>
-    </section>
-  </section>
-  `;
+      `;
+  document.body.appendChild(packsContainer);
 
   // size the warper to fit the screen size
   function scaleToFit() {
