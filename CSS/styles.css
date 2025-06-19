@@ -149,9 +149,8 @@ input[type="submit"]:hover{
 @media screen and (max-width: 768px){
   .toolbar {
     display: flex;
-    flex-direction: column;
     background-color: rgb(255, 255, 255);
-    justify-content: center;
+    justify-content: right;
     box-shadow: 0px 0px 10px 10px rgba(0, 0, 0, 0.082);
     font-family: 'Gruppo', cursive;
     position: relative;
@@ -159,14 +158,19 @@ input[type="submit"]:hover{
     z-index: 10;
   }
 
+  .mobile-nav > li {
+    transition: transform 0.3s ease;
+  }
+
+  .mobile-nav li:hover {
+    transform: translateX(-10px); /* תזוזה קלה שמאלה */
+  }
+
   .toolbar ul {
+      flex-direction: column;
       gap: 30px;
   }
-
-  .toolbar a {
-      font-size: 16px;
-  }
-
+  
   .slide-down{
       top: 100%;
   }

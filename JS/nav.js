@@ -18,6 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <section class="formContainer slide-up"></section>
     `;
     bindFormDropdown();
+    showLoginForm();
   }
 
   function showNavMobile() {
@@ -28,12 +29,13 @@ document.addEventListener("DOMContentLoaded", () => {
       <section class="formContainer slide-up"></section>
     `;
     bindFormDropdown();
+    bindMobileMenu();
+    showLoginForm();
   }
 
   function updateNavbar() {
     const isMobile = window.innerWidth <= 769;
 
-    // אם מצב זהה למצב קודם - לא עושים כלום
     if ((isMobile && currentView === 'mobile') || (!isMobile && currentView === 'pc')) {
       return;
     }
@@ -45,13 +47,34 @@ document.addEventListener("DOMContentLoaded", () => {
       showNavPc();
       currentView = 'pc';
     }
+  }
 
-    showLoginForm();
+  function bindMobileMenu() {
+    const menuBtn = document.querySelector(".mobile-menu");
+    const navList = document.querySelector(".mobile-nav");
+    if (!menuBtn || !navList) return;
+
+    menuBtn.addEventListener("click", () => {
+      const isExpanded = navList.classList.toggle("expanded");
+      navList.innerHTML = `
+        <button class="mobile-menu"><i class="fa-solid fa-bars"></i></button>
+        ${isExpanded ? `
+          <li><a href="#">HOME</a></li>
+          <li><a href="#">SHOP</a></li>
+          <li><a href="#">NEWS</a></li>
+          <li><a href="#">BATTLE</a></li>
+          <li><a href="#">TRADE</a></li>
+          <li><a href="#">CARDS</a></li>
+          <li><a href="#">CONTACT</a></li>
+        ` : ""}
+      `;
+      bindMobileMenu(); // לחבר מחדש את הכפתור
+    });
   }
 
   function showLoginForm() {
     const formContainer = document.querySelector(".formContainer");
-    if (!formContainer) return; // הגנה למקרה שהאלמנט לא קיים
+    if (!formContainer) return;
 
     formContainer.innerHTML = `
       <section class="changeform">
@@ -73,14 +96,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function bindFormButtons() {
     const formDisplay = document.querySelector(".formDisplay");
-    if (!formDisplay) return;
-
-    // נתקע כאן מראש את האירועים הקודמים (אם יש)
     const loginBtn = document.getElementById("login");
     const registerBtn = document.getElementById("register");
-    if (!loginBtn || !registerBtn) return;
+    if (!formDisplay || !loginBtn || !registerBtn) return;
 
-    loginBtn.onclick = () => {
+    loginBtn.addEventListener("click", () => {
       formDisplay.innerHTML = `
         <form class="mainForm">
           <h1>Login information</h1>
@@ -91,9 +111,9 @@ document.addEventListener("DOMContentLoaded", () => {
           <input type="submit" value="Login" />
         </form>
       `;
-    };
+    });
 
-    registerBtn.onclick = () => {
+    registerBtn.addEventListener("click", () => {
       formDisplay.innerHTML = `
         <form class="mainForm">
           <h1>Create Account</h1>
@@ -108,22 +128,17 @@ document.addEventListener("DOMContentLoaded", () => {
           <input type="submit" value="Register" />
         </form>
       `;
-    };
+    });
   }
 
   function bindFormDropdown() {
     const toggleBtn = document.querySelector(".formdropDown");
     const formContainer = document.querySelector(".formContainer");
     if (!toggleBtn || !formContainer) return;
-    toggleBtn.onclick = () => {
-      if (formContainer.classList.contains("slide-up")) {
-        formContainer.classList.remove("slide-up");
-        formContainer.classList.add("slide-down");
-      } else {
-        formContainer.classList.remove("slide-down");
-        formContainer.classList.add("slide-up");
-      }
-    };
+    toggleBtn.addEventListener("click", () => {
+      formContainer.classList.toggle("slide-down");
+      formContainer.classList.toggle("slide-up");
+    });
   }
 
   updateNavbar();
