@@ -1,5 +1,6 @@
 const local = "http://localhost:8081";
-const serverNet = local //for now its local
+const serverNet = "https://web-server-q7kx.onrender.com";
+//for now its local
 
 let packs = [];
 let cards = [];

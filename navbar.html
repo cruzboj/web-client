@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Gruppo&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+     integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+      crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
     <link rel="stylesheet" href="CSS/styles.css">
     <link rel="stylesheet" href="CSS/Packs.css">
     <script src="JS/fetchPacks.js"></script>
@@ -61,6 +66,10 @@
             text-indent: 50px;
         }
 
+        .toolbar .mainForm i{
+            transform: translateY(50px);
+            margin-left: 30px;
+        }
         .formContainer {
             z-index: 10;
             background-color: rgb(255, 255, 255);
@@ -134,22 +143,11 @@
         }
     
         .slide-up {
-            top: -1200%;
+            top: -2000%;
         }
 
         /*pc screen*/
         @media screen and (max-width: 768px) {
-            .toolbar ul {
-                display: none;
-            }
-
-            .hamburger {
-                display: flex;
-            }
-
-            .toolbar {
-                padding: 15px 20px;
-            }
         }
 
         /*tablet screen*/
@@ -170,108 +168,144 @@
 
         /*phone screen*/
         @media screen and (max-width: 480px) {
-            .mobile-menu a {
-                font-size: 20px;
-            }
-
-            .mobile-menu {
-                gap: 25px;
-            }
-
             .slide-down{
                 display: none;
             }
+            
+            .mobile-nav i{
+                margin: 0;
+                padding: 0;
+            }
         }
 
+        
     </style>
       
-    <script>
+      <script>
         document.addEventListener("DOMContentLoaded", () => {
-        const formContainer = document.querySelector(".formContainer");
-        const toggleBtn = document.querySelector(".formdropDown");
+        let user = 'guest';
+        const navbar = document.querySelector(".toolbar");
 
-        const showLoginForm = () => {
+        // פונקציה להצגת ניווט במחשב רגיל
+        function showNavPc() {
+            navbar.innerHTML = `
+            <ul class="web-nav">
+                <li><a href="#">HOME</a></li>
+                <li><a href="#">SHOP</a></li>
+                <li><a href="#">NEWS</a></li>
+                <li><a href="#">BATTLE</a></li>
+                <li><a href="#">TRADE</a></li>
+                <li><a href="#">CARDS</a></li>
+                <li><a href="#">CONTACT</a></li>
+                <li><button class="formdropDown">${user}</button></li>
+            </ul>
+            <section class="formContainer slide-up"></section>
+            `;
+            bindFormDropdown();
+        }
+
+        // פונקציה להצגת ניווט במובייל
+        function showNavMobile() {
+            navbar.innerHTML = `
+            <ul class="mobile-nav">
+                <li><button class="mobile-menu"><i class="fa-solid fa-bars"></i></button></li>
+            </ul>
+            `;
+            bindFormDropdown();
+        }
+
+        // פונקציה שמחליטה איזה ניווט להציג לפי רוחב המסך
+        function updateNavbar() {
+            if (window.innerWidth <= 769) {
+            showNavMobile();
+            } else {
+            showNavPc();
+            }
+            // אחרי יצירת ה-navbar, מציג את הטופס להתחברות
+            showLoginForm();
+        }
+
+        // מציג את טופס ההתחברות בתוך ה-formContainer
+        function showLoginForm() {
+            const formContainer = document.querySelector(".formContainer");
             formContainer.innerHTML = `
-            
             <section class="changeform">
                 <button id="login">LOGIN</button>
                 <button id="register">REGISTER</button>
             </section>
             <section class="formDisplay">
                 <form class="mainForm">
-                <h1>Login information</h1>
-                <input type="text" id="username" placeholder="User" name="USER NAME" required>
-                <input type="password" id="pass" name="pass" placeholder="PASSWORD" required>
-                <a href="#">Forget Password ?</a>
-                <input type="submit" value="Login">
-                
+                <i class="fa-solid fa-user"></i>
+                <input type="text" id="username" placeholder="User" required />
+                <i class="fa-solid fa-lock"></i>
+                <input type="password" id="pass" placeholder="Password" required />
+                <input type="submit" value="Login" />
                 </form>
             </section>
             `;
             bindFormButtons();
-        };
+        }
 
-        const bindFormButtons = () => {
+        // מחבר אירועים לכפתורי login ו-register בטופס
+        function bindFormButtons() {
             const formDisplay = document.querySelector(".formDisplay");
-
             document.getElementById("login").addEventListener("click", () => {
             formDisplay.innerHTML = `
                 <form class="mainForm">
-                    <h1>Login information</h1>
-                    <input type="text" id="username" placeholder="User" name="USER NAME" required>
-                    <input type="password" id="pass" name="pass" placeholder="PASSWORD" required>
-                    <a href="#">Forget Password ?</a>
-                    <input type="submit" value="Login">
+                <h1>Login information</h1>
+                <i class="fa-solid fa-user"></i>
+                <input type="text" id="username" placeholder="User" required />
+                <i class="fa-solid fa-lock"></i>
+                <input type="password" id="pass" placeholder="Password" required />
+                <input type="submit" value="Login" />
                 </form>
             `;
             });
-
             document.getElementById("register").addEventListener("click", () => {
             formDisplay.innerHTML = `
-                
                 <form class="mainForm">
-                    <h1>Create Account</h1>
-                    <input type="text" id="username" placeholder="User" name="USER NAME" required>
-                    <input type="email" id="email" name="email" placeholder="EMAIL" required>
-                    <input type="password" id="pass" name="pass" placeholder="PASSWORD" required>
-                    <input type="password" id="confirm" name="confirm" placeholder="CONFIRM PASSWORD" required>
-                    <input type="submit" value="Register">
+                <h1>Create Account</h1>
+                <i class="fa-solid fa-user"></i>
+                <input type="text" placeholder="User" required />
+                <i class="fa-solid fa-envelope"></i>
+                <input type="email" placeholder="Email" required />
+                <i class="fa-solid fa-lock"></i>
+                <input type="password" placeholder="Password" required />
+                <i class="fa-solid fa-key"></i>
+                <input type="password" placeholder="Confirm Password" required />
+                <input type="submit" value="Register" />
                 </form>
             `;
             });
-        };
+        }
 
-        // הצגת טופס ראשונית
-        showLoginForm();
-
-        // כפתור פתיחה / סגירה של הטופס
-        toggleBtn.addEventListener("click", () => {
+        // מאזין ללחיצה על כפתור המשתמש (Dropdown)
+        function bindFormDropdown() {
+            const toggleBtn = document.querySelector(".formdropDown");
+            const formContainer = document.querySelector(".formContainer");
+            if (!toggleBtn) return; // אם אין כפתור (במובייל אין עכשיו), תתעלם
+            toggleBtn.addEventListener("click", () => {
             if (formContainer.classList.contains("slide-up")) {
-            formContainer.classList.remove("slide-up");
-            formContainer.classList.add("slide-down");
+                formContainer.classList.remove("slide-up");
+                formContainer.classList.add("slide-down");
             } else {
-            formContainer.classList.remove("slide-down");
-            formContainer.classList.add("slide-up");
+                formContainer.classList.remove("slide-down");
+                formContainer.classList.add("slide-up");
             }
+            });
+        }
+
+        // קריאה ראשונית לעדכון הניווט לפי גודל מסך
+        updateNavbar();
+
+        // מאזין לאירוע שינוי גודל חלון כדי לעדכן את הניווט
+        window.addEventListener("resize", updateNavbar);
         });
-        });
-      </script>
+
+        </script>
 </head>
 <body>
-    <header class="toolbar">
-        <ul>
-            <li><a href="#">HOME</a></li>
-            <li><a href="#">SHOP</a></li>
-            <li><a href="#">NEWS</a></li>
-            <li><a href="#">BATTLE</a></li>
-            <li><a href="#">TRADE</a></li>
-            <li><a href="#">CARDS</a></li>
-            <li><a href="#">CONTACT</a></li>
-            <li><button class="formdropDown">${user}</button></li>
-        </ul>
-        <section class="formContainer slide-up"></section>
-    </header>
-
+    <header class="toolbar"></header>
     <section class="packs"></section>
 </body>
 </html>
