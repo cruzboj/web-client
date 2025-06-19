@@ -1,0 +1,31 @@
+@import url('https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap');
+
+#news-section {
+    /* background-color: aqua; */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 16px;
+}
+
+.news-container {
+    margin: 16px;
+    padding: 8px;
+    border-radius: 15px;
+    width: 80%;
+    background-color: rgba(0, 0, 0, 0.125);
+    /* border: 5px solid rgba(255, 255, 255, 0.474); */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
+    /* font-family: Figtree, sans-serif; */
+}
+
+.news-container>p {
+    margin: 16px 16px;
+}
+
+.news-container>h2 {
+    margin: 8px 16px;
+    font-size: 30px;
+    color: rgb(72, 72, 65);
+    font-weight: 700;
+}
