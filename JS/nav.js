@@ -1,9 +1,10 @@
 document.addEventListener("DOMContentLoaded", () => {
   let user = 'guest';
   const navbar = document.querySelector(".toolbar");
+  let currentView = ''; // "mobile" או "pc"
 
   function showNavPc() {
-      navbar.innerHTML = `
+    navbar.innerHTML = `
       <ul class="web-nav">
           <li><a href="#">HOME</a></li>
           <li><a href="#">SHOP</a></li>
@@ -15,96 +16,116 @@ document.addEventListener("DOMContentLoaded", () => {
           <li><button class="formdropDown">${user}</button></li>
       </ul>
       <section class="formContainer slide-up"></section>
-      `;
-      bindFormDropdown();
+    `;
+    bindFormDropdown();
   }
 
   function showNavMobile() {
-      navbar.innerHTML = `
+    navbar.innerHTML = `
       <ul class="mobile-nav">
           <li><button class="mobile-menu"><i class="fa-solid fa-bars"></i></button></li>
       </ul>
-      `;
-      bindFormDropdown();
+      <section class="formContainer slide-up"></section>
+    `;
+    bindFormDropdown();
   }
 
   function updateNavbar() {
-      if (window.innerWidth <= 769) {
+    const isMobile = window.innerWidth <= 769;
+
+    // אם מצב זהה למצב קודם - לא עושים כלום
+    if ((isMobile && currentView === 'mobile') || (!isMobile && currentView === 'pc')) {
+      return;
+    }
+
+    if (isMobile) {
       showNavMobile();
-      } else {
+      currentView = 'mobile';
+    } else {
       showNavPc();
-      }
-      showLoginForm();
+      currentView = 'pc';
+    }
+
+    showLoginForm();
   }
 
-function showLoginForm() {
+  function showLoginForm() {
     const formContainer = document.querySelector(".formContainer");
+    if (!formContainer) return; // הגנה למקרה שהאלמנט לא קיים
+
     formContainer.innerHTML = `
-    <section class="changeform">
-        <button id="login">LOGIN</button>
-        <button id="register">REGISTER</button>
-    </section>
-    <section class="formDisplay">
-        <form class="mainForm">
-        <i class="fa-solid fa-user"></i>
-        <input type="text" id="username" placeholder="User" required />
-        <i class="fa-solid fa-lock"></i>
-        <input type="password" id="pass" placeholder="Password" required />
-        <input type="submit" value="Login" />
-        </form>
-    </section>
+      <section class="changeform">
+          <button id="login">LOGIN</button>
+          <button id="register">REGISTER</button>
+      </section>
+      <section class="formDisplay">
+          <form class="mainForm">
+            <i class="fa-solid fa-user"></i>
+            <input type="text" id="username" placeholder="User" required />
+            <i class="fa-solid fa-lock"></i>
+            <input type="password" id="pass" placeholder="Password" required />
+            <input type="submit" value="Login" />
+          </form>
+      </section>
     `;
     bindFormButtons();
-}
+  }
 
-function bindFormButtons() {
+  function bindFormButtons() {
     const formDisplay = document.querySelector(".formDisplay");
-    document.getElementById("login").addEventListener("click", () => {
-    formDisplay.innerHTML = `
-        <form class="mainForm">
-        <h1>Login information</h1>
-        <i class="fa-solid fa-user"></i>
-        <input type="text" id="username" placeholder="User" required />
-        <i class="fa-solid fa-lock"></i>
-        <input type="password" id="pass" placeholder="Password" required />
-        <input type="submit" value="Login" />
-        </form>
-    `;
-    });
-    document.getElementById("register").addEventListener("click", () => {
-    formDisplay.innerHTML = `
-        <form class="mainForm">
-        <h1>Create Account</h1>
-        <i class="fa-solid fa-user"></i>
-        <input type="text" placeholder="User" required />
-        <i class="fa-solid fa-envelope"></i>
-        <input type="email" placeholder="Email" required />
-        <i class="fa-solid fa-lock"></i>
-        <input type="password" placeholder="Password" required />
-        <i class="fa-solid fa-key"></i>
-        <input type="password" placeholder="Confirm Password" required />
-        <input type="submit" value="Register" />
-        </form>
-    `;
-    });
-}
+    if (!formDisplay) return;
 
-function bindFormDropdown() {
+    // נתקע כאן מראש את האירועים הקודמים (אם יש)
+    const loginBtn = document.getElementById("login");
+    const registerBtn = document.getElementById("register");
+    if (!loginBtn || !registerBtn) return;
+
+    loginBtn.onclick = () => {
+      formDisplay.innerHTML = `
+        <form class="mainForm">
+          <h1>Login information</h1>
+          <i class="fa-solid fa-user"></i>
+          <input type="text" id="username" placeholder="User" required />
+          <i class="fa-solid fa-lock"></i>
+          <input type="password" id="pass" placeholder="Password" required />
+          <input type="submit" value="Login" />
+        </form>
+      `;
+    };
+
+    registerBtn.onclick = () => {
+      formDisplay.innerHTML = `
+        <form class="mainForm">
+          <h1>Create Account</h1>
+          <i class="fa-solid fa-user"></i>
+          <input type="text" placeholder="User" required />
+          <i class="fa-solid fa-envelope"></i>
+          <input type="email" placeholder="Email" required />
+          <i class="fa-solid fa-lock"></i>
+          <input type="password" placeholder="Password" required />
+          <i class="fa-solid fa-key"></i>
+          <input type="password" placeholder="Confirm Password" required />
+          <input type="submit" value="Register" />
+        </form>
+      `;
+    };
+  }
+
+  function bindFormDropdown() {
     const toggleBtn = document.querySelector(".formdropDown");
     const formContainer = document.querySelector(".formContainer");
-    if (!toggleBtn) return;
-    toggleBtn.addEventListener("click", () => {
-    if (formContainer.classList.contains("slide-up")) {
+    if (!toggleBtn || !formContainer) return;
+    toggleBtn.onclick = () => {
+      if (formContainer.classList.contains("slide-up")) {
         formContainer.classList.remove("slide-up");
         formContainer.classList.add("slide-down");
-    } else {
+      } else {
         formContainer.classList.remove("slide-down");
         formContainer.classList.add("slide-up");
-    }
-    });
-}
+      }
+    };
+  }
 
-updateNavbar();
-
-window.addEventListener("resize", updateNavbar);
+  updateNavbar();
+  window.addEventListener("resize", updateNavbar);
 });

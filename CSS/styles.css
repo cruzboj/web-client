@@ -131,7 +131,7 @@ input[type="submit"]:hover{
   box-shadow: inset 4px 4px 4px rgba(0, 0, 0, 0.568);
 }
 .slide-down {
-  top: 200%;
+  top: 150%;
 }
 
 .slide-up {
@@ -139,11 +139,26 @@ input[type="submit"]:hover{
 }
 
 /*pc screen*/
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 1280px) {
+  .slide-down {
+    top: 50%;
+  }
 }
 
 /*tablet screen*/
-@media screen and (max-width: 1024px){
+@media screen and (max-width: 768px){
+  .toolbar {
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(255, 255, 255);
+    justify-content: center;
+    box-shadow: 0px 0px 10px 10px rgba(0, 0, 0, 0.082);
+    font-family: 'Gruppo', cursive;
+    position: relative;
+    padding: 0 20px;
+    z-index: 10;
+  }
+
   .toolbar ul {
       gap: 30px;
   }
@@ -163,6 +178,7 @@ input[type="submit"]:hover{
   .mobile-nav button{
     border: none;
     background-color: transparent;
+    cursor: pointer;
   }
 }
 
