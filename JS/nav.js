@@ -1,38 +1,110 @@
-let user = "Guest";
-
 document.addEventListener("DOMContentLoaded", () => {
-  document.querySelector("header").innerHTML = `
-  <header class="p-3 mb-3 border-bottom bg-light">
-    <div class="container">
-      <div class="d-flex align-items-center justify-content-between w-100">
-        <a href="/" class="d-flex align-items-center link-body-emphasis text-decoration-none">
-          <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap">
-            <use xlink:href="#bootstrap"></use>
-          </svg>
-        </a>
-        
-        <ul class="nav d-flex justify-content-center mb-0">
-          <li class="mx-3"><a href="#" class="nav-link px-2 link-secondary">HOME</a></li>
-          <li class="mx-3"><a href="#" class="nav-link px-2 link-body-emphasis">SHOP</a></li>
-          <li class="mx-3"><a href="#" class="nav-link px-2 link-body-emphasis">NEWS</a></li>
-          <li class="mx-3"><a href="#" class="nav-link px-2 link-body-emphasis">BATTLE</a></li>
-          <li class="mx-3"><a href="#" class="nav-link px-2 link-body-emphasis">TRADE</a></li>
-          <li class="mx-3"><a href="#" class="nav-link px-2 link-body-emphasis">CARDS</a></li>
-          <li class="mx-3"><a href="#" class="nav-link px-2 link-body-emphasis">CONTACT</a></li>
-        </ul>
+  let user = 'guest';
+  const navbar = document.querySelector(".toolbar");
 
-        <a href="#" class="d-flex align-items-center" style="text-decoration: none; color: black;">
-          <img src="https://images.rawpixel.com/image_png_800/czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvbHIvdjkzNy1hZXctMTExXzEucG5n.png" alt="cart" width="50" height="50" class="me-2">
-        </a>
-        <button id="formdropDown">${user}</button>
+  function showNavPc() {
+      navbar.innerHTML = `
+      <ul class="web-nav">
+          <li><a href="#">HOME</a></li>
+          <li><a href="#">SHOP</a></li>
+          <li><a href="#">NEWS</a></li>
+          <li><a href="#">BATTLE</a></li>
+          <li><a href="#">TRADE</a></li>
+          <li><a href="#">CARDS</a></li>
+          <li><a href="#">CONTACT</a></li>
+          <li><button class="formdropDown">${user}</button></li>
+      </ul>
+      <section class="formContainer slide-up"></section>
+      `;
+      bindFormDropdown();
+  }
 
-      </div>
-    </div>
-  </header>
-  `;
+  function showNavMobile() {
+      navbar.innerHTML = `
+      <ul class="mobile-nav">
+          <li><button class="mobile-menu"><i class="fa-solid fa-bars"></i></button></li>
+      </ul>
+      `;
+      bindFormDropdown();
+  }
 
-  document.querySelector("header").style.fontFamily = "'Gruppo', cursive";
-  document.querySelector("header").style.fontWeight = "bold";
-  document.querySelector("header").style.position = "relative";
-  document.querySelector("header").style.zIndex = "10";
+  function updateNavbar() {
+      if (window.innerWidth <= 769) {
+      showNavMobile();
+      } else {
+      showNavPc();
+      }
+      showLoginForm();
+  }
+
+function showLoginForm() {
+    const formContainer = document.querySelector(".formContainer");
+    formContainer.innerHTML = `
+    <section class="changeform">
+        <button id="login">LOGIN</button>
+        <button id="register">REGISTER</button>
+    </section>
+    <section class="formDisplay">
+        <form class="mainForm">
+        <i class="fa-solid fa-user"></i>
+        <input type="text" id="username" placeholder="User" required />
+        <i class="fa-solid fa-lock"></i>
+        <input type="password" id="pass" placeholder="Password" required />
+        <input type="submit" value="Login" />
+        </form>
+    </section>
+    `;
+    bindFormButtons();
+}
+
+function bindFormButtons() {
+    const formDisplay = document.querySelector(".formDisplay");
+    document.getElementById("login").addEventListener("click", () => {
+    formDisplay.innerHTML = `
+        <form class="mainForm">
+        <h1>Login information</h1>
+        <i class="fa-solid fa-user"></i>
+        <input type="text" id="username" placeholder="User" required />
+        <i class="fa-solid fa-lock"></i>
+        <input type="password" id="pass" placeholder="Password" required />
+        <input type="submit" value="Login" />
+        </form>
+    `;
+    });
+    document.getElementById("register").addEventListener("click", () => {
+    formDisplay.innerHTML = `
+        <form class="mainForm">
+        <h1>Create Account</h1>
+        <i class="fa-solid fa-user"></i>
+        <input type="text" placeholder="User" required />
+        <i class="fa-solid fa-envelope"></i>
+        <input type="email" placeholder="Email" required />
+        <i class="fa-solid fa-lock"></i>
+        <input type="password" placeholder="Password" required />
+        <i class="fa-solid fa-key"></i>
+        <input type="password" placeholder="Confirm Password" required />
+        <input type="submit" value="Register" />
+        </form>
+    `;
+    });
+}
+
+function bindFormDropdown() {
+    const toggleBtn = document.querySelector(".formdropDown");
+    const formContainer = document.querySelector(".formContainer");
+    if (!toggleBtn) return;
+    toggleBtn.addEventListener("click", () => {
+    if (formContainer.classList.contains("slide-up")) {
+        formContainer.classList.remove("slide-up");
+        formContainer.classList.add("slide-down");
+    } else {
+        formContainer.classList.remove("slide-down");
+        formContainer.classList.add("slide-up");
+    }
+    });
+}
+
+updateNavbar();
+
+window.addEventListener("resize", updateNavbar);
 });
