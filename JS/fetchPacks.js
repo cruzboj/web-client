@@ -59,6 +59,8 @@ function createPacks(data){
     packsContainer.innerHTML = '';
     packsContainer.appendChild(wrapper);
 
+    scaleToFit();
+    
     // 3d effect on hover
     document.querySelectorAll(".pack").forEach((pack) => {
         const inner = pack.querySelector(".pack-inner");
@@ -193,5 +195,5 @@ function scaleToFit() {
 }
 
 window.addEventListener("resize", scaleToFit);
-scaleToFit();
+
 

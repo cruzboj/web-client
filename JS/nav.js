@@ -1,3 +1,5 @@
+let user = "Guest";
+
 document.addEventListener("DOMContentLoaded", () => {
   document.querySelector("header").innerHTML = `
   <header class="p-3 mb-3 border-bottom bg-light">
@@ -21,8 +23,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
         <a href="#" class="d-flex align-items-center" style="text-decoration: none; color: black;">
           <img src="https://images.rawpixel.com/image_png_800/czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvbHIvdjkzNy1hZXctMTExXzEucG5n.png" alt="cart" width="50" height="50" class="me-2">
-          Guest
         </a>
+        <button id="formdropDown">${user}</button>
 
       </div>
     </div>

@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Gruppo&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="CSS/styles.css">
+    <link rel="stylesheet" href="CSS/Packs.css">
+    <script src="JS/fetchPacks.js"></script>
+    <title>NAV</title>
+    <style>
+        .toolbar {
+            display: flex;
+            flex-direction: row;
+            background-color: rgb(255, 255, 255);
+            justify-content: center;
+            box-shadow: 0px 0px 10px 10px rgba(0, 0, 0, 0.082);
+            font-family: 'Gruppo', cursive;
+            position: relative;
+            padding: 0 20px;
+            z-index: 10;
+        }
+
+        .toolbar ul {
+            display: flex;
+            flex-direction: row;
+            gap: 50px;
+            list-style: none;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .toolbar ul li {
+            list-style: none;
+        }
+
+        .toolbar ul a {
+            text-decoration: none;
+            color: black;
+            font-size: 18px;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+
+        .toolbar a:hover {
+            color: #666;
+        }
+
+        .formdropDown {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-image: url('https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg?semt=ais_hybrid&w=740');
+            background-repeat: no-repeat;
+            background-size: contain;
+            background-position: center;
+            border: none;
+            cursor: pointer;
+
+            font-size: large;
+            text-indent: 50px;
+        }
+
+        .formContainer {
+            z-index: 10;
+            background-color: rgb(255, 255, 255);
+            position: absolute;
+            top: 20%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 400px;
+            border-radius: 10px;
+            box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            transition: top 0.5s ease;
+        }
+    
+        .mainForm {
+          margin-top: 15%;
+          display: flex;
+          flex-direction: column;
+          gap: 20px;
+        }
+        
+        .mainForm a,h1{
+            text-align: center;
+        }
+
+        .changeform {
+          display: flex;
+          justify-content: center;
+          gap: 50px;
+          margin: 32px;
+        }
+    
+        .changeform button {
+          border: none;
+          background-color: rgb(93, 150, 255);
+          box-shadow: inset 1px 1px 4px rgba(0, 0, 0, 0.568);
+          padding: 20px;
+          width: 35%;
+          border-radius: 5px;
+        }
+    
+        .changeform button:hover {
+          background-color: rgb(63, 130, 255);
+        }
+    
+        input[type="text"],
+        input[type="email"],
+        input[type="password"] {
+          padding: 10px;
+          width: 70%;
+          margin-left: 15%;
+          border-radius: 3px;
+        }
+    
+        input[type="submit"] {
+          background-color: rgba(207, 207, 207, 0.568);
+          box-shadow:4px 4px 4px rgba(0, 0, 0, 0.568);
+          border: none;
+          margin-left: 25%;
+          border-radius: 20px;
+          width: 50%;
+          height: 40px;
+          margin-top: 30px;
+        }
+        input[type="submit"]:hover{
+            background-color: rgba(156, 156, 156, 0.568);
+            box-shadow: inset 4px 4px 4px rgba(0, 0, 0, 0.568);
+        }
+        .slide-down {
+            top: 200%;
+        }
+    
+        .slide-up {
+            top: -1200%;
+        }
+
+        /*pc screen*/
+        @media screen and (max-width: 768px) {
+            .toolbar ul {
+                display: none;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .toolbar {
+                padding: 15px 20px;
+            }
+        }
+
+        /*tablet screen*/
+        @media screen and (max-width: 1024px) and (min-width: 769px) {
+            .toolbar ul {
+                gap: 30px;
+            }
+
+            .toolbar a {
+                font-size: 16px;
+            }
+
+            .slide-down{
+                top: 100%;
+            }
+
+        }
+
+        /*phone screen*/
+        @media screen and (max-width: 480px) {
+            .mobile-menu a {
+                font-size: 20px;
+            }
+
+            .mobile-menu {
+                gap: 25px;
+            }
+
+            .slide-down{
+                display: none;
+            }
+        }
+
+    </style>
+      
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+        const formContainer = document.querySelector(".formContainer");
+        const toggleBtn = document.querySelector(".formdropDown");
+
+        const showLoginForm = () => {
+            formContainer.innerHTML = `
+            
+            <section class="changeform">
+                <button id="login">LOGIN</button>
+                <button id="register">REGISTER</button>
+            </section>
+            <section class="formDisplay">
+                <form class="mainForm">
+                <h1>Login information</h1>
+                <input type="text" id="username" placeholder="User" name="USER NAME" required>
+                <input type="password" id="pass" name="pass" placeholder="PASSWORD" required>
+                <a href="#">Forget Password ?</a>
+                <input type="submit" value="Login">
+                
+                </form>
+            </section>
+            `;
+            bindFormButtons();
+        };
+
+        const bindFormButtons = () => {
+            const formDisplay = document.querySelector(".formDisplay");
+
+            document.getElementById("login").addEventListener("click", () => {
+            formDisplay.innerHTML = `
+                <form class="mainForm">
+                    <h1>Login information</h1>
+                    <input type="text" id="username" placeholder="User" name="USER NAME" required>
+                    <input type="password" id="pass" name="pass" placeholder="PASSWORD" required>
+                    <a href="#">Forget Password ?</a>
+                    <input type="submit" value="Login">
+                </form>
+            `;
+            });
+
+            document.getElementById("register").addEventListener("click", () => {
+            formDisplay.innerHTML = `
+                
+                <form class="mainForm">
+                    <h1>Create Account</h1>
+                    <input type="text" id="username" placeholder="User" name="USER NAME" required>
+                    <input type="email" id="email" name="email" placeholder="EMAIL" required>
+                    <input type="password" id="pass" name="pass" placeholder="PASSWORD" required>
+                    <input type="password" id="confirm" name="confirm" placeholder="CONFIRM PASSWORD" required>
+                    <input type="submit" value="Register">
+                </form>
+            `;
+            });
+        };
+
+        // הצגת טופס ראשונית
+        showLoginForm();
+
+        // כפתור פתיחה / סגירה של הטופס
+        toggleBtn.addEventListener("click", () => {
+            if (formContainer.classList.contains("slide-up")) {
+            formContainer.classList.remove("slide-up");
+            formContainer.classList.add("slide-down");
+            } else {
+            formContainer.classList.remove("slide-down");
+            formContainer.classList.add("slide-up");
+            }
+        });
+        });
+      </script>
+</head>
+<body>
+    <header class="toolbar">
+        <ul>
+            <li><a href="#">HOME</a></li>
+            <li><a href="#">SHOP</a></li>
+            <li><a href="#">NEWS</a></li>
+            <li><a href="#">BATTLE</a></li>
+            <li><a href="#">TRADE</a></li>
+            <li><a href="#">CARDS</a></li>
+            <li><a href="#">CONTACT</a></li>
+            <li><button class="formdropDown">${user}</button></li>
+        </ul>
+        <section class="formContainer slide-up"></section>
+    </header>
+
+    <section class="packs"></section>
+</body>
+</html>
