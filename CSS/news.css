@@ -51,6 +51,7 @@
     width: 100%;
     max-width: 150px;
     height:auto;
+    max-height: 250px;
     border-radius: 10px;
 }
 

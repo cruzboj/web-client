@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function showNavPc() {
     navbar.innerHTML = `
       <ul class="web-nav">
-          <li><a href="#">HOME</a></li>
+          <li><a href="/client/index.html">HOME</a></li>
           <li><a href="#">SHOP</a></li>
           <li><a href="/client/news.html">NEWS</a></li>
           <li><a href="#">BATTLE</a></li>
