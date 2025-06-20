@@ -16,32 +16,25 @@
     padding: 8px;
     border-radius: 15px;
     width: 80%;
-    background-color: rgba(0, 0, 0, 0.125);
+    /* background-color: rgba(62, 56, 56, 0.125); */
     /* border: 5px solid rgba(255, 255, 255, 0.474); */
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
-    /* font-family: Figtree, sans-serif; */
+    font-family: Figtree, sans-serif;
 }
 
 .text{
-    width:100%;
+    width:80%;
 }
 
-.news-container>p {
+.text>p {
     margin: 16px 16px;
 }
 
-.news-container>h2 {
+.text>h2 {
     margin: 8px 16px;
     font-size: 30px;
-    color: rgb(72, 72, 65);
+    color: rgb(39, 39, 38);
     font-weight: 700;
-}
-.news-img-container{
-    /* height:100%;
-    width:100%;
-    position: relative;
-    right:10%;
-    top:10%; */
 }
 
 .news-img-container>img{

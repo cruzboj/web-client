@@ -30,6 +30,13 @@ renderNews = (newsArr) => {
     </section>
     
     `;
+    newDiv.style.backgroundColor = `rgb(${getRandomBackgroundColor()},${getRandomBackgroundColor()},${getRandomBackgroundColor()})`;
     newsContainer.appendChild(newDiv);
   }
 };
+
+
+function getRandomBackgroundColor() {
+    const randInt = Math.random() * 255;
+    return randInt;
+}
