@@ -8,11 +8,11 @@ document.addEventListener("DOMContentLoaded", () => {
       <ul class="web-nav">
           <li><a href="#">HOME</a></li>
           <li><a href="#">SHOP</a></li>
-          <li><a href="#">NEWS</a></li>
+          <li><a href="/client/news.html">NEWS</a></li>
           <li><a href="#">BATTLE</a></li>
           <li><a href="#">TRADE</a></li>
           <li><a href="#">CARDS</a></li>
-          <li><a href="#">CONTACT</a></li>
+          <li><a href="/client/contact.html">CONTACT</a></li>
           <li><button class="formdropDown">${user}</button></li>
       </ul>
       <section class="formContainer slide-up"></section>
