@@ -1,3 +1,6 @@
+const local = "http://localhost:8081";
+const serverNet = "https://web-server-q7kx.onrender.com";
+
 document.addEventListener("DOMContentLoaded", () => {
   let user = 'guest';
   const navbar = document.querySelector(".toolbar");
@@ -153,7 +156,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       try {
-        const response = await fetch("http://localhost:8081/db", {
+        const response = await fetch(serverNet+"/db", {
           method: "POST",
           headers: {
             "Content-Type": "application/json"
