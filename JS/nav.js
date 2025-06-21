@@ -82,16 +82,17 @@ document.addEventListener("DOMContentLoaded", () => {
           <button id="register">REGISTER</button>
       </section>
       <section class="formDisplay">
-          <form class="mainForm">
+          <form class="mainForm" id="loginForm">
             <i class="fa-solid fa-user"></i>
-            <input type="text" id="username" placeholder="User" required />
+            <input type="text" id="loginUsername" placeholder="User" required />
             <i class="fa-solid fa-lock"></i>
-            <input type="password" id="pass" placeholder="Password" required />
+            <input type="password" id="loginPass" placeholder="Password" required />
             <input type="submit" value="Login" />
           </form>
       </section>
     `;
     bindFormButtons();
+    bindLoginFormSubmit();
   }
 
   function bindFormButtons() {
@@ -102,32 +103,90 @@ document.addEventListener("DOMContentLoaded", () => {
 
     loginBtn.addEventListener("click", () => {
       formDisplay.innerHTML = `
-        <form class="mainForm">
+        <form class="mainForm" id="loginForm">
           <h1>Login information</h1>
           <i class="fa-solid fa-user"></i>
-          <input type="text" id="username" placeholder="User" required />
+          <input type="text" id="loginUsername" placeholder="User" required />
           <i class="fa-solid fa-lock"></i>
-          <input type="password" id="pass" placeholder="Password" required />
+          <input type="password" id="loginPass" placeholder="Password" required />
           <input type="submit" value="Login" />
         </form>
       `;
+      bindLoginFormSubmit();
     });
 
     registerBtn.addEventListener("click", () => {
       formDisplay.innerHTML = `
-        <form class="mainForm">
+        <form id="registerForm" class="mainForm">
           <h1>Create Account</h1>
           <i class="fa-solid fa-user"></i>
-          <input type="text" placeholder="User" required />
+          <input type="text" id="regUsername" placeholder="User" required />
           <i class="fa-solid fa-envelope"></i>
-          <input type="email" placeholder="Email" required />
+          <input type="email" id="regEmail" placeholder="Email" required />
           <i class="fa-solid fa-lock"></i>
-          <input type="password" placeholder="Password" required />
+          <input type="password" id="regPassword" placeholder="Password" required />
           <i class="fa-solid fa-key"></i>
-          <input type="password" placeholder="Confirm Password" required />
+          <input type="password" id="regConfirmPassword" placeholder="Confirm Password" required />
           <input type="submit" value="Register" />
         </form>
       `;
+      bindRegisterFormSubmit();
+    });
+  }
+
+  // טיפול ב-submit של טופס ההרשמה ושליחה לשרת
+  function bindRegisterFormSubmit() {
+    const registerForm = document.getElementById("registerForm");
+    if (!registerForm) return;
+
+    registerForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const username = document.getElementById("regUsername").value.trim();
+      const email = document.getElementById("regEmail").value.trim();
+      const password = document.getElementById("regPassword").value;
+      const confirmPassword = document.getElementById("regConfirmPassword").value;
+
+      if (password !== confirmPassword) {
+        alert("Passwords do not match!");
+        return;
+      }
+
+      try {
+        const response = await fetch("http://localhost:8081/db", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ username, password, email })
+        });
+
+        const result = await response.json();
+
+        if (!response.ok) {
+          throw new Error(result.error || "Unknown error");
+        }
+
+        alert("User registered successfully!");
+        registerForm.reset();
+      } catch (err) {
+        alert("Registration failed: " + err.message);
+        console.error("Registration error:", err);
+      }
+    });
+  }
+
+  // אופציונלי - טיפול ב-login, פה רק מציג alert
+  function bindLoginFormSubmit() {
+    const loginForm = document.getElementById("loginForm");
+    if (!loginForm) return;
+
+    loginForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const username = document.getElementById("loginUsername").value.trim();
+      const password = document.getElementById("loginPass").value;
+      alert(`Login attempted for user: ${username}`);
+      // פה אפשר להוסיף לוגיקה לשליחת נתוני התחברות לשרת
     });
   }
 

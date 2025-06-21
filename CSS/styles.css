@@ -110,10 +110,11 @@ background-color: rgb(63, 130, 255);
 input[type="text"],
 input[type="email"],
 input[type="password"] {
-padding: 10px;
+height: 30px;
 width: 70%;
 margin-left: 15%;
 border-radius: 3px;
+z-index: 10;
 }
 
 input[type="submit"] {
