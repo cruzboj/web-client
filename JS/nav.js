@@ -2,9 +2,9 @@ const local = "http://localhost:8081";
 const serverNet = "https://web-server-q7kx.onrender.com";
 
 document.addEventListener("DOMContentLoaded", () => {
-  let user = 'guest';
+  let user = "guest";
   const navbar = document.querySelector(".toolbar");
-  let currentView = ''; // "mobile" או "pc"
+  let currentView = ""; // "mobile" או "pc"
 
   function showNavPc() {
     navbar.innerHTML = `
@@ -39,16 +39,19 @@ document.addEventListener("DOMContentLoaded", () => {
   function updateNavbar() {
     const isMobile = window.innerWidth <= 769;
 
-    if ((isMobile && currentView === 'mobile') || (!isMobile && currentView === 'pc')) {
+    if (
+      (isMobile && currentView === "mobile") ||
+      (!isMobile && currentView === "pc")
+    ) {
       return;
     }
 
     if (isMobile) {
       showNavMobile();
-      currentView = 'mobile';
+      currentView = "mobile";
     } else {
       showNavPc();
-      currentView = 'pc';
+      currentView = "pc";
     }
   }
 
@@ -61,7 +64,9 @@ document.addEventListener("DOMContentLoaded", () => {
       const isExpanded = navList.classList.toggle("expanded");
       navList.innerHTML = `
         <button class="mobile-menu"><i class="fa-solid fa-bars"></i></button>
-        ${isExpanded ? `
+        ${
+          isExpanded
+            ? `
           <li><a href="#">HOME</a></li>
           <li><a href="#">SHOP</a></li>
           <li><a href="#">NEWS</a></li>
@@ -69,7 +74,9 @@ document.addEventListener("DOMContentLoaded", () => {
           <li><a href="#">TRADE</a></li>
           <li><a href="#">CARDS</a></li>
           <li><a href="#">CONTACT</a></li>
-        ` : ""}
+        `
+            : ""
+        }
       `;
       bindMobileMenu(); // לחבר מחדש את הכפתור
     });
@@ -148,7 +155,8 @@ document.addEventListener("DOMContentLoaded", () => {
       const username = document.getElementById("regUsername").value.trim();
       const email = document.getElementById("regEmail").value.trim();
       const password = document.getElementById("regPassword").value;
-      const confirmPassword = document.getElementById("regConfirmPassword").value;
+      const confirmPassword =
+        document.getElementById("regConfirmPassword").value;
 
       if (password !== confirmPassword) {
         alert("Passwords do not match!");
@@ -156,12 +164,12 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       try {
-        const response = await fetch(serverNet+"/db", {
+        const response = await fetch(serverNet + "/db", {
           method: "POST",
           headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
           },
-          body: JSON.stringify({ username, password, email })
+          body: JSON.stringify({ username, password, email }),
         });
 
         const result = await response.json();
@@ -178,6 +186,72 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   }
+  function onLogin() {
+    const formContainer = document.querySelector(".formContainer");
+    formContainer.classList.toggle("slide-up");
+    const messageBox = document.createElement("div");
+    messageBox.innerText = "Login Successful";
+
+    // Style it
+    Object.assign(messageBox.style, {
+      position: "fixed",
+      top: "20px",
+      right: "20px",
+      padding: "12px 20px",
+      backgroundColor: "#4CAF50",
+      color: "white",
+      borderRadius: "8px",
+      boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
+      zIndex: 1000,
+      fontSize: "16px",
+      fontFamily: "Arial, sans-serif",
+      transition: "opacity 0.5s ease",
+      opacity: "1",
+    });
+
+    document.body.appendChild(messageBox);
+
+    // Automatically fade out after 3 seconds
+    setTimeout(() => {
+      messageBox.style.opacity = "0";
+      setTimeout(() => {
+        messageBox.remove();
+      }, 500); // match transition time
+    }, 3000);
+  }
+
+  function invalidLogin() {
+    document.getElementById("loginUsername").value = "";
+    document.getElementById("loginPass").value = ""; 
+    const messageBox = document.createElement("div");
+    messageBox.innerText = "Invalid Login";
+    // Style it
+    Object.assign(messageBox.style, {
+      position: "fixed",
+      top: "20px",
+      right: "20px",
+      padding: "12px 20px",
+      backgroundColor: "#ff3333",
+      color: "white",
+      borderRadius: "8px",
+      boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
+      zIndex: 1000,
+      fontSize: "16px",
+      fontFamily: "Arial, sans-serif",
+      transition: "opacity 0.5s ease",
+      opacity: "1",
+    });
+
+    document.body.appendChild(messageBox);
+
+    // Automatically fade out after 3 seconds
+    setTimeout(() => {
+      messageBox.style.opacity = "0";
+      setTimeout(() => {
+        messageBox.remove();
+      }, 500); // match transition time
+    }, 3000);
+  }
 
   // אופציונלי - טיפול ב-login, פה רק מציג alert
   function bindLoginFormSubmit() {
@@ -188,8 +262,28 @@ document.addEventListener("DOMContentLoaded", () => {
       e.preventDefault();
       const username = document.getElementById("loginUsername").value.trim();
       const password = document.getElementById("loginPass").value;
-      alert(`Login attempted for user: ${username}`);
+      console.log(username, password);
       // פה אפשר להוסיף לוגיקה לשליחת נתוני התחברות לשרת
+      fetch(serverNet + "/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username: username,
+          password: password,
+        }),
+      })
+        .then((response) => {
+          if (response.ok) {
+            onLogin();
+          } else {
+            invalidLogin();
+          }
+        })
+        .catch((error) => {
+          alert(`Username ${username} or Password are incorrect, ${error}`);
+        });
     });
   }
 
