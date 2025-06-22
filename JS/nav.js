@@ -2,7 +2,13 @@ const local = "http://localhost:8081";
 const serverNet = "https://web-server-q7kx.onrender.com";
 
 document.addEventListener("DOMContentLoaded", () => {
-  let user = "guest";
+  const loggedUser = localStorage.getItem("loggedInUser");
+  let user = "";
+  if (loggedUser) {
+    user = loggedUser;
+  } else {
+    user = "guest";
+  }
   const navbar = document.querySelector(".toolbar");
   let currentView = ""; // "mobile" או "pc"
 
@@ -16,7 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
           <li><a href="#">TRADE</a></li>
           <li><a href="#">CARDS</a></li>
           <li><a href="/client/contact.html">CONTACT</a></li>
-          <li><button class="formdropDown">${user}</button></li>
+          <li><button class="formdropDown" id="username">${user}</button></li>
       </ul>
       <section class="formContainer slide-up"></section>
     `;
@@ -186,9 +192,12 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   }
-  function onLogin() {
+  function onLogin(username) {
     const formContainer = document.querySelector(".formContainer");
     formContainer.classList.toggle("slide-up");
+
+    localStorage.setItem("loggedInUser", username);
+    document.getElementById("username").innerHTML = username;
     const messageBox = document.createElement("div");
     messageBox.innerText = "Login Successful";
 
@@ -218,11 +227,43 @@ document.addEventListener("DOMContentLoaded", () => {
         messageBox.remove();
       }, 500); // match transition time
     }, 3000);
+    const toggleBtn = document.getElementById("username");
+    toggleBtn.removeEventListener("click", logInEvent);
+    toggleBtn.addEventListener("click", function logOutEvent() {
+      let logOutBtn = document.getElementById("logOutBtn");
+      if (logOutBtn) {
+        logOutBtn.remove();
+        return;
+      }
+      logOutBtn = document.createElement("button");
+      logOutBtn.innerText = "Log Out";
+      logOutBtn.id = "logOutBtn";
+      Object.assign(logOutBtn.style, {
+        width: "200px",
+        height: "50px",
+        backgroundColor: "#ff3333",
+        color: "white",
+        fontSize: "1.5rem",
+        border: "none",
+        borderRadius: "20px",
+        position: "absolute",
+        left: "50%",
+        transform: "translateX(-50%)",
+        transition: "top 0.5s ease",
+        top: "-60px",
+        zIndex: 1000,
+      });
+      logOutBtn.addEventListener("click", logOutClick);
+      document.body.appendChild(logOutBtn);
+      setTimeout(() => {
+        logOutBtn.style.top = "15%";
+      }, 50);
+    });
   }
 
   function invalidLogin() {
     document.getElementById("loginUsername").value = "";
-    document.getElementById("loginPass").value = ""; 
+    document.getElementById("loginPass").value = "";
     const messageBox = document.createElement("div");
     messageBox.innerText = "Invalid Login";
     // Style it
@@ -276,7 +317,7 @@ document.addEventListener("DOMContentLoaded", () => {
       })
         .then((response) => {
           if (response.ok) {
-            onLogin();
+            onLogin(username);
           } else {
             invalidLogin();
           }
@@ -291,10 +332,61 @@ document.addEventListener("DOMContentLoaded", () => {
     const toggleBtn = document.querySelector(".formdropDown");
     const formContainer = document.querySelector(".formContainer");
     if (!toggleBtn || !formContainer) return;
-    toggleBtn.addEventListener("click", () => {
-      formContainer.classList.toggle("slide-down");
-      formContainer.classList.toggle("slide-up");
+    if (toggleBtn.innerHTML == "guest") {
+      toggleBtn.addEventListener("click", logInEvent);
+    } else {
+      toggleBtn.addEventListener("click", logOutEvent);
+    }
+  }
+
+  function logOutClick() {
+    localStorage.removeItem("loggedInUser");
+
+    const toggleBtn = document.querySelector(".formdropDown");
+    toggleBtn.replaceWith(toggleBtn.cloneNode(true));
+    const cleanToggleBtn = document.querySelector(".formdropDown");
+    cleanToggleBtn.innerHTML = "guest";
+    cleanToggleBtn.addEventListener("click", logInEvent);
+    const logOutBtn = document.getElementById("logOutBtn");
+    if (logOutBtn) {logOutBtn.remove();}
+    document.getElementById("loginUsername").value = "";
+    document.getElementById("loginPass").value = "";
+  }
+  function logInEvent() {
+    const formContainer = document.querySelector(".formContainer");
+    formContainer.classList.toggle("slide-down");
+    formContainer.classList.toggle("slide-up");
+  }
+
+  function logOutEvent() {
+    let logOutBtn = document.getElementById("logOutBtn");
+    if (logOutBtn) {
+      logOutBtn.remove();
+      return;
+    }
+    logOutBtn = document.createElement("button");
+    logOutBtn.innerText = "Log Out";
+    logOutBtn.id = "logOutBtn";
+    Object.assign(logOutBtn.style, {
+      width: "200px",
+      height: "50px",
+      backgroundColor: "#ff3333",
+      color: "white",
+      fontSize: "1.5rem",
+      border: "none",
+      borderRadius: "20px",
+      position: "absolute",
+      left: "50%",
+      transform: "translateX(-50%)",
+      transition: "top 0.5s ease",
+      top: "-60px",
+      zIndex: 1000,
     });
+    logOutBtn.addEventListener("click", logOutClick);
+    document.body.appendChild(logOutBtn);
+    setTimeout(() => {
+      logOutBtn.style.top = "15%";
+    }, 50);
   }
 
   updateNavbar();
