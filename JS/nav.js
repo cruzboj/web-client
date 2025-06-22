@@ -351,6 +351,36 @@ document.addEventListener("DOMContentLoaded", () => {
     if (logOutBtn) {logOutBtn.remove();}
     document.getElementById("loginUsername").value = "";
     document.getElementById("loginPass").value = "";
+     const messageBox = document.createElement("div");
+    messageBox.innerText = "Logged Out";
+
+    // Style it
+    Object.assign(messageBox.style, {
+      position: "fixed",
+      top: "20px",
+      right: "20px",
+      padding: "12px 20px",
+      backgroundColor: "#4CAF50",
+      color: "white",
+      borderRadius: "8px",
+      boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
+      zIndex: 1000,
+      fontSize: "16px",
+      fontFamily: "Arial, sans-serif",
+      transition: "opacity 0.5s ease",
+      opacity: "1",
+    });
+
+    document.body.appendChild(messageBox);
+
+    // Automatically fade out after 3 seconds
+    setTimeout(() => {
+      messageBox.style.opacity = "0";
+      setTimeout(() => {
+        messageBox.remove();
+      }, 500); // match transition time
+    }, 3000);
+
   }
   function logInEvent() {
     const formContainer = document.querySelector(".formContainer");
