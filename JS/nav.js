@@ -198,35 +198,37 @@ document.addEventListener("DOMContentLoaded", () => {
 
     localStorage.setItem("loggedInUser", username);
     document.getElementById("username").innerHTML = username;
-    const messageBox = document.createElement("div");
-    messageBox.innerText = "Login Successful";
+    createFeedbackMsg("Login Successful", "#4CAF50");
+    // const messageBox = document.createElement("div");
+    // messageBox.innerText = "Login Successful";
 
-    // Style it
-    Object.assign(messageBox.style, {
-      position: "fixed",
-      top: "20px",
-      right: "20px",
-      padding: "12px 20px",
-      backgroundColor: "#4CAF50",
-      color: "white",
-      borderRadius: "8px",
-      boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
-      zIndex: 1000,
-      fontSize: "16px",
-      fontFamily: "Arial, sans-serif",
-      transition: "opacity 0.5s ease",
-      opacity: "1",
-    });
+    // // Style it
+    // Object.assign(messageBox.style, {
+    //   position: "fixed",
+    //   top: "20px",
+    //   right: "20px",
+    //   padding: "12px 20px",
+    //   backgroundColor: "#4CAF50",
+    //   color: "white",
+    //   borderRadius: "8px",
+    //   boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
+    //   zIndex: 1000,
+    //   fontSize: "16px",
+    //   fontFamily: "Arial, sans-serif",
+    //   transition: "opacity 0.5s ease",
+    //   opacity: "1",
+    // });
 
-    document.body.appendChild(messageBox);
+    // document.body.appendChild(messageBox);
 
-    // Automatically fade out after 3 seconds
-    setTimeout(() => {
-      messageBox.style.opacity = "0";
-      setTimeout(() => {
-        messageBox.remove();
-      }, 500); // match transition time
-    }, 3000);
+    // // Automatically fade out after 3 seconds
+    // setTimeout(() => {
+    //   messageBox.style.opacity = "0";
+    //   setTimeout(() => {
+    //     messageBox.remove();
+    //   }, 500); // match transition time
+    // }, 3000);
+
     const toggleBtn = document.getElementById("username");
     toggleBtn.removeEventListener("click", logInEvent);
     toggleBtn.addEventListener("click", function logOutEvent() {
@@ -264,34 +266,35 @@ document.addEventListener("DOMContentLoaded", () => {
   function invalidLogin() {
     document.getElementById("loginUsername").value = "";
     document.getElementById("loginPass").value = "";
-    const messageBox = document.createElement("div");
-    messageBox.innerText = "Invalid Login";
-    // Style it
-    Object.assign(messageBox.style, {
-      position: "fixed",
-      top: "20px",
-      right: "20px",
-      padding: "12px 20px",
-      backgroundColor: "#ff3333",
-      color: "white",
-      borderRadius: "8px",
-      boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
-      zIndex: 1000,
-      fontSize: "16px",
-      fontFamily: "Arial, sans-serif",
-      transition: "opacity 0.5s ease",
-      opacity: "1",
-    });
+    createFeedbackMsg("Invalid Login", "#ff3333");
+    // const messageBox = document.createElement("div");
+    // messageBox.innerText = "Invalid Login";
+    // // Style it
+    // Object.assign(messageBox.style, {
+    //   position: "fixed",
+    //   top: "20px",
+    //   right: "20px",
+    //   padding: "12px 20px",
+    //   backgroundColor: "#ff3333",
+    //   color: "white",
+    //   borderRadius: "8px",
+    //   boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
+    //   zIndex: 1000,
+    //   fontSize: "16px",
+    //   fontFamily: "Arial, sans-serif",
+    //   transition: "opacity 0.5s ease",
+    //   opacity: "1",
+    // });
 
-    document.body.appendChild(messageBox);
+    // document.body.appendChild(messageBox);
 
-    // Automatically fade out after 3 seconds
-    setTimeout(() => {
-      messageBox.style.opacity = "0";
-      setTimeout(() => {
-        messageBox.remove();
-      }, 500); // match transition time
-    }, 3000);
+    // // Automatically fade out after 3 seconds
+    // setTimeout(() => {
+    //   messageBox.style.opacity = "0";
+    //   setTimeout(() => {
+    //     messageBox.remove();
+    //   }, 500); // match transition time
+    // }, 3000);
   }
 
   // אופציונלי - טיפול ב-login, פה רק מציג alert
@@ -348,39 +351,41 @@ document.addEventListener("DOMContentLoaded", () => {
     cleanToggleBtn.innerHTML = "guest";
     cleanToggleBtn.addEventListener("click", logInEvent);
     const logOutBtn = document.getElementById("logOutBtn");
-    if (logOutBtn) {logOutBtn.remove();}
+    if (logOutBtn) {
+      logOutBtn.remove();
+    }
     document.getElementById("loginUsername").value = "";
     document.getElementById("loginPass").value = "";
-     const messageBox = document.createElement("div");
-    messageBox.innerText = "Logged Out";
+    createFeedbackMsg("Logged Out", "#4CAF50");
+    // const messageBox = document.createElement("div");
+    // messageBox.innerText = "Logged Out";
 
-    // Style it
-    Object.assign(messageBox.style, {
-      position: "fixed",
-      top: "20px",
-      right: "20px",
-      padding: "12px 20px",
-      backgroundColor: "#4CAF50",
-      color: "white",
-      borderRadius: "8px",
-      boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
-      zIndex: 1000,
-      fontSize: "16px",
-      fontFamily: "Arial, sans-serif",
-      transition: "opacity 0.5s ease",
-      opacity: "1",
-    });
+    // // Style it
+    // Object.assign(messageBox.style, {
+    //   position: "fixed",
+    //   top: "20px",
+    //   right: "20px",
+    //   padding: "12px 20px",
+    //   backgroundColor: "#4CAF50",
+    //   color: "white",
+    //   borderRadius: "8px",
+    //   boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
+    //   zIndex: 1000,
+    //   fontSize: "16px",
+    //   fontFamily: "Arial, sans-serif",
+    //   transition: "opacity 0.5s ease",
+    //   opacity: "1",
+    // });
 
-    document.body.appendChild(messageBox);
+    // document.body.appendChild(messageBox);
 
-    // Automatically fade out after 3 seconds
-    setTimeout(() => {
-      messageBox.style.opacity = "0";
-      setTimeout(() => {
-        messageBox.remove();
-      }, 500); // match transition time
-    }, 3000);
-
+    // // Automatically fade out after 3 seconds
+    // setTimeout(() => {
+    //   messageBox.style.opacity = "0";
+    //   setTimeout(() => {
+    //     messageBox.remove();
+    //   }, 500); // match transition time
+    // }, 3000);
   }
   function logInEvent() {
     const formContainer = document.querySelector(".formContainer");
@@ -417,6 +422,38 @@ document.addEventListener("DOMContentLoaded", () => {
     setTimeout(() => {
       logOutBtn.style.top = "15%";
     }, 50);
+  }
+
+  function createFeedbackMsg(msg, color) {
+    const messageBox = document.createElement("div");
+    messageBox.innerText = msg;
+
+    // Style it
+    Object.assign(messageBox.style, {
+      position: "fixed",
+      top: "20px",
+      right: "20px",
+      padding: "12px 20px",
+      backgroundColor: color,
+      color: "white",
+      borderRadius: "8px",
+      boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
+      zIndex: 1000,
+      fontSize: "16px",
+      fontFamily: "Arial, sans-serif",
+      transition: "opacity 0.5s ease",
+      opacity: "1",
+    });
+
+    document.body.appendChild(messageBox);
+
+    // Automatically fade out after 3 seconds
+    setTimeout(() => {
+      messageBox.style.opacity = "0";
+      setTimeout(() => {
+        messageBox.remove();
+      }, 500); // match transition time
+    }, 3000);
   }
 
   updateNavbar();
