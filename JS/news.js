@@ -12,6 +12,7 @@ window.onload = () => {
 };
 
 renderNews = (newsArr) => {
+  newsArr.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
   // console.log("entered here");
   console.log(newsArr);
   for (let news of newsArr) {
@@ -23,6 +24,7 @@ renderNews = (newsArr) => {
     newDiv.innerHTML = `
     <section class="text">
         <h2>${news.title}</h2>
+        <h6>${formatDateTime(news.created_at)}</h6>
         <p>${news.description}</p>
     </section>
     <section class="news-img-container">
@@ -35,8 +37,19 @@ renderNews = (newsArr) => {
   }
 };
 
-
 function getRandomBackgroundColor() {
-    const randInt = Math.random() * 255;
-    return randInt;
+  const randInt = Math.random() * 255;
+  return randInt;
+}
+
+function formatDateTime(originalDate) {
+  const date = new Date(originalDate);
+  const day = String(date.getDate()).padStart(2, "0");
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const year = date.getFullYear();
+
+  const hours = String(date.getHours()).padStart(2, "0");
+  const minutes = String(date.getMinutes()).padStart(2, "0");
+
+  return `${day}/${month}/${year} ${hours}:${minutes}`;
 }
