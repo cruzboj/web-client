@@ -17,7 +17,7 @@ renderNews = (newsArr) => {
   for (let news of newsArr) {
     const newDiv = document.createElement("section");
     newDiv.classList.add("news-container");
-    const imgDir = API_BASE + "/" + news.img_path;
+    const imgDir = API_BASE + news.img_path;
     console.log(news.img_path);
     console.log(imgDir);
     newDiv.innerHTML = `
