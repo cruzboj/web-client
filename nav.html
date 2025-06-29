@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" defer></script>
+  
+    <!-- Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Gruppo&display=swap" rel="stylesheet">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+     crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <title>nav</title>
+    
+    <style>
+        body {
+            background-image: url('https://media.istockphoto.com/id/913062134/photo/empty-gray-studio-room-used-as-background-for-display-your-products.jpg?s=612x612&w=0&k=20&c=X89oU-9NrA7rkcwwIXH0nJ0Y-ymnTxe1uJVNdVBEGhI=');
+            background-repeat: no-repeat;
+            background-size: cover;
+            margin: 0;
+            padding: 0;
+        }
+
+
+        .toolbar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+    
+        .toolbar a {
+            font-family: 'Gruppo', cursive;
+            font-size: 18px;
+            font-weight: bold;
+            text-decoration: none;
+            color: inherit;
+            z-index: 10;
+        }
+
+    </style>
+
+    <script>
+        const local = "http://localhost:8081";
+        const serverNet = "https://web-server-q7kx.onrender.com";
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const userName = "Guest";
+            const imgUser = "https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg?semt=ais_hybrid&w=740";
+
+            const navbar = document.querySelector(".toolbar");
+            navbar.innerHTML = `
+            <div class="container text-center p-4">
+                
+                <ul class="row align-items-center">
+                    <li class="col"><a href="/client/index.html">HOME</a></li>
+                    <li class="col"><a href="#">SHOP</a></li>
+                    <li class="col"><a href="/client/news.html">NEWS</a></li>
+                    <li class="col"><a href="#">BATTLE</a></li>
+                    <li class="col"><a href="#">TRADE</a></li>
+                    <li class="col"><a href="#">CARDS</a></li>
+                    <li class="col"><a href="/client/contact.html">CONTACT</a></li>
+                    <li class="col d-flex align-items-center gap-2">
+                        <img src="${imgUser}" alt="Profile" class="rounded-circle mt-1 mx-auto" width="50" height="50">
+                        <div class="btn-group">
+                            <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">${userName}</button>
+                            <ul class="dropdown-menu">
+                            <li><button type="button" class="btn btn-light w-100" data-bs-toggle="modal" data-bs-target="#loginform">Login</button></li>
+                            <li><button type="button" class="btn btn-light w-100" data-bs-toggle="modal" data-bs-target="#Register">Register</button></li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+                <section class="formContainer slide-up"></section>
+            <div>
+
+
+            <!-- Login Form -->
+            <div class="modal fade" id="loginform" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+
+                    <form class="mainForm" id="loginForm">
+                        <h1>Login information</h1>
+                        <i class="fa-solid fa-user"></i>
+                        <input type="text" id="loginUsername" placeholder="User" required autocomplete="username"/>
+                        <i class="fa-solid fa-lock"></i>
+                        <input type="password" id="loginPass" placeholder="Password" required autocomplete="current-password" />
+                        
+                        <div class="modal-footer">
+                            <input type="submit" value="Login" />
+                        </div>
+                    </form>
+
+                    </div>
+                </div>
+                </div>
+            </div>
+
+            <!-- Register Form -->
+            <div class="modal fade" id="Register" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                    
+                    <form id="registerForm" class="mainForm">
+                        <h1>Create Account</h1>
+                        <div class="row align-items-center">
+                            <i class="fa-solid fa-user"></i>
+                            <input type="text" id="regUsername" placeholder="User" required autocomplete="username"/>
+                            <i class="fa-solid fa-envelope"></i>
+                            <input type="email" id="regEmail" placeholder="Email" required autocomplete="email"/>
+                            <i class="fa-solid fa-lock"></i>
+                            <input type="password" id="regPassword" placeholder="Password" required autocomplete="new-password" />
+                            <i class="fa-solid fa-key"></i>
+                            <input type="password" id="regConfirmPassword" placeholder="Confirm Password" required autocomplete="new-password" />
+                        </div>
+
+                        <div class="modal-footer">
+                            <input type="submit" value="Register" />
+                        </div>
+
+                    </form>
+
+                    </div>
+                </div>
+                </div>
+            </div>
+            `;
+            
+            //register
+            const registerForm = document.getElementById("registerForm");
+            if (registerForm) {
+                registerForm.addEventListener("submit", (e) => {
+                    e.preventDefault(); //default disable submit 
+                    handleRegister();
+                });
+            }
+            //register - logic
+            function handleRegister() {
+                const username = document.getElementById("regUsername").value.trim();
+                const email = document.getElementById("regEmail").value.trim();
+                const password = document.getElementById("regPassword").value;
+                const confirmPassword = document.getElementById("regConfirmPassword").value;
+                // console.log(username, email, password , confirmPassword);
+
+                if (password !== confirmPassword) {
+                    alert("Passwords do not match!");
+                    return;
+                }
+
+                fetch(serverNet + '/db', {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ username, password, email }),
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("Registration failed");
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    alert("Registration successful!");
+                    document.getElementById("registerForm").reset();
+                })
+                .catch(error => {
+                    alert("Error: " + error.message);
+                    console.error(error);
+                });
+            }
+
+            
+            //login
+            const loginForm = document.getElementById("loginForm");
+            if (loginForm) {
+                loginForm.addEventListener("submit", (e) => {
+                    e.preventDefault(); //default disable submit 
+                    handleLogin();
+                });
+            }
+
+            //login - logic
+            function handleLogin(){
+                const username = document.getElementById("loginUsername").value.trim();
+                const password = document.getElementById("loginPass").value;
+                // console.log(username, password);
+            }
+
+        });
+    </script>
+
+</head>
+
+<body>
+    <header class="toolbar shadow-lg p-3 mb-5 bg-body-tertiary rounded"></header>
+
+
+  
+</body>
+</html>

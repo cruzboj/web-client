@@ -2,20 +2,74 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <title>Fullscreen Scroll Sections</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TEST</title>
+
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      scroll-behavior: smooth;
+    }
+
+    main {
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .section {
+      height: 100vh;
+      width: 100vw;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 4rem;
+      color: white;
+    }
+
+    .section:nth-child(1) { background-color: #e74c3c; }
+    .section:nth-child(2) { background-color: #3498db; }
+    .section:nth-child(3) { background-color: #2ecc71; }
+  </style>
 </head>
-<style>
-  body {
-    background-image: url('https://media.istockphoto.com/id/913062134/photo/empty-gray-studio-room-used-as-background-for-display-your-products.jpg?s=612x612&w=0&k=20&c=X89oU-9NrA7rkcwwIXH0nJ0Y-ymnTxe1uJVNdVBEGhI=');
-    background-repeat: no-repeat;
-    background-size: cover;
-  
-  }
-</style>
-<link rel="stylesheet" href="CSS/Packs.css"/>
-<script src="JS/fetchPacks.js"></script>
 <body>
-  <section class="packs"></section>
+
+  <main>
+    <div class="section">Slide 1</div>
+    <div class="section">Slide 2</div>
+    <div class="section">Slide 3</div>
+  </main>
+
+  <script>
+    const sections = document.querySelectorAll('.section');
+    let current = 0;
+    let isScrolling = false;
+
+    const scrollToSection = (index) => {
+      if (isScrolling || index < 0 || index >= sections.length) return;
+      isScrolling = true;
+      window.scrollTo({
+        top: window.innerHeight * index,
+        behavior: "smooth"
+      });
+      current = index;
+      setTimeout(() => {
+        isScrolling = false;
+      }, 1000);
+    };
+
+    window.addEventListener("wheel", (e) => {
+      e.preventDefault();
+      if (e.deltaY > 0) {
+        scrollToSection(current + 1);
+      } else if (e.deltaY < 0) {
+        scrollToSection(current - 1);
+      }
+    }, { passive: false });
+
+    window.addEventListener('beforeunload', () => window.scrollTo(0, 0));
+  </script>
+
 </body>
 </html>
