@@ -50,7 +50,14 @@
         const serverNet = "https://web-server-q7kx.onrender.com";
 
         document.addEventListener("DOMContentLoaded", () => {
-            const userName = "Guest";
+            const loggedUser = localStorage.getItem("loggedInUser");
+            let userName = "";
+            if (loggedUser) {
+                userName = loggedUser;
+            } else {
+                userName = "guest";
+            }
+
             const imgUser = "https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg?semt=ais_hybrid&w=740";
 
             const navbar = document.querySelector(".toolbar");
@@ -70,7 +77,7 @@
                         <div class="btn-group">
                             <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">${userName}</button>
                             <ul class="dropdown-menu">
-                            <li><button type="button" class="btn btn-light w-100" data-bs-toggle="modal" data-bs-target="#loginform">Login</button></li>
+                            <li><button type="button" class="btn btn-light w-100" data-bs-toggle="modal" data-bs-target="#login">Login</button></li>
                             <li><button type="button" class="btn btn-light w-100" data-bs-toggle="modal" data-bs-target="#Register">Register</button></li>
                             </ul>
                         </div>
@@ -81,7 +88,7 @@
 
 
             <!-- Login Form -->
-            <div class="modal fade" id="loginform" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal fade" id="login" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -198,10 +205,73 @@
 
             //login - logic
             function handleLogin(){
+                const loginForm = document.getElementById("loginForm");
+                if (!loginForm) return;
+
                 const username = document.getElementById("loginUsername").value.trim();
                 const password = document.getElementById("loginPass").value;
                 // console.log(username, password);
+
+                fetch(serverNet+'/login', {
+                    method: "POST",
+                    headers: {
+                    "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                    username: username,
+                    password: password,
+                    }),
+                })
+                .then((response) => {
+                    if (response.ok) {
+                        onLogin(username);
+                    } else {
+                        invalidLogin();
+                    }
+                })
+                .catch((error) => {
+                    alert(`Username ${username} or Password are incorrect, ${error}`);
+                });
             }
+
+            function invalidLogin() {
+                document.getElementById("loginUsername").value = "";
+                document.getElementById("loginPass").value = "";
+                console.log("Invalid login");
+            }
+
+            function onLogin(username) {
+            localStorage.setItem("loggedInUser", username);
+            console.log("login success");
+
+            const dropdownBtn = document.querySelector(".dropdown-toggle");
+            if (dropdownBtn) {
+                dropdownBtn.textContent = username;
+            }
+
+            //close the form
+            const modal = bootstrap.Modal.getInstance(document.getElementById("login"));
+            if (modal) modal.hide();
+
+
+            const dropdownMenu = document.querySelector(".dropdown-menu");
+            if (dropdownMenu) {
+                dropdownMenu.innerHTML = `
+                    <li><button type="button" class="btn btn-light w-100" data-bs-toggle="modal" data-bs-target="#Settings">Settings</button></li>
+                    <li><button type="button" class="btn btn-light w-100" id="logoutBtn">Logout</button></li>
+                `;
+
+                const logoutBtn = document.getElementById("logoutBtn");
+                if (logoutBtn) {
+                    logoutBtn.addEventListener("click", onLogout);
+                }
+            }
+        }
+
+        function onLogout() {
+            localStorage.removeItem("loggedInUser");
+            location.reload();
+        }
 
         });
     </script>
