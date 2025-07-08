@@ -1,3 +1,4 @@
+const ImagePath = "https://web-server-q7kx.onrender.com";
 let packs = [];
 let cards = [];
 
@@ -40,8 +41,8 @@ function createPacks(data){
 
         packElement.innerHTML = `
             <section class="pack-inner">
-                <section class="pack-header" style="background-image: url('${serverNet}/${pack.header}')"></section>
-                <section class="pack-body" style="background-image: url('${serverNet}/${pack.body}')"></section>
+                <section class="pack-header" style="background-image: url('${ImagePath}/${pack.header}')"></section>
+                <section class="pack-body" style="background-image: url('${ImagePath}/${pack.body}')"></section>
             </section>
             <section class="cards">
                     <section class="card-border"></section>

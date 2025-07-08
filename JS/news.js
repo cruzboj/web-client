@@ -1,4 +1,4 @@
-const API_BASE = "https://web-server-q7kx.onrender.com";
+const API_BASE = "https://web-server-q7kx.onrender.com/api";
 let newsContainer;
 
 window.onload = () => {

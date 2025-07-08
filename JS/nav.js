@@ -1,5 +1,5 @@
 const local = "http://localhost:8081";
-const serverNet = "https://web-server-q7kx.onrender.com";
+const serverNet = "https://web-server-q7kx.onrender.com/api";
 
 document.addEventListener("DOMContentLoaded", () => {
   const loggedUser = localStorage.getItem("loggedInUser");
