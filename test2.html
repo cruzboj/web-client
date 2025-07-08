@@ -49,39 +49,98 @@
   </style>
 
 <script>
+
     document.addEventListener("DOMContentLoaded", () => {
 
-        // createTablePacks();
-        // createTableCards();
         // gifsearch();
+        
+        createPacksTable();
     });
 
-    const cardsByPack = {
-        1: [
-            { id: 1, name: "Fire Cat", description: "A burning feline", url: "https://example.com/cat.gif" },
-            { id: 2, name: "Ice Dog", description: "A chilling pup", url: "https://example.com/dog.gif" },
-            { id: 3, name: "Ice Dog", description: "A chilling pup", url: "https://example.com/dog.gif" },
-            { id: 1, name: "Fire Cat", description: "A burning feline", url: "https://example.com/cat.gif" },
-            { id: 2, name: "Ice Dog", description: "A chilling pup", url: "https://example.com/dog.gif" },
-            { id: 3, name: "Ice Dog", description: "A chilling pup", url: "https://example.com/dog.gif" }
-        ],
-        2: [
-            { id: 3, name: "Pikachu", description: "Electric mouse", url: "https://example.com/pika.gif" }
-        ],
-        3: [
-            { id: 4, name: "Goku", description: "Super Saiyan", url: "https://example.com/goku.gif" }
-        ]
-    };
+    function handleAddpack(e) {
+        e.preventDefault();
+        const packName = document.getElementById("packName").value;
+        const packPrice = document.getElementById("packPrice").value;
+
+        console.log(e);
+
+        fetch(servernet + '/admin/createPack', {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ name: packName, cost: packPrice }),
+        }).then(async (res) => {
+            const data = await res.json();
+            if (res.ok) {
+                console.log("Pack added:", data);
+                createPacksTable();
+            } else {
+                console.error("Failed:", data);
+            }
+        }).catch((err) => {
+            console.log("fetch error:" + err);
+        })
+        
+    }
+
+    function createPacksTable(){
+        const packTable = document.querySelector(".packsTable");
+        packTable.innerHTML = "";
+
+        let html = `
+            <table class="table table-bordered table-striped mt-3">
+            <thead>
+                <tr>
+                    <th scope="col">#id</th>
+                    <th scope="col">pack name</th>
+                    <th scope="col">show</th>
+                </tr>
+            </thead>
+            <tbody>
+        `;
+
+        fetch(servernet + '/admin/packs')
+        .then(response => response.json())
+        .then(data =>
+            {
+                for(const pack of data){
+                    // console.log(pack);
+                     html += `
+                        <tr>
+                        <td>${pack.packid}</td>
+                        <td>${pack.name}</td>
+                        <td>${pack.cost}</td>
+                        <td><button class="btn" onclick="showpack(${pack.packid})">🔍</button></td>
+                        </tr>
+                    `;
+                }
+                html += `
+                <form id="addpack" onsubmit="handleAddpack(event)"></form>
+                <tr>
+                <td>NEW</td>
+                <td>
+                    <input type="text" id="packName" class="form-control form-control-sm" placeholder="name" required />
+                </td>
+                <td>
+                    <input type="text" id="packPrice" class="form-control form-control-sm" placeholder="cost" required />
+                </td>
+                <td>
+                    <button type="submit" class="btn btn-primary btn-sm" form="addpack">
+                    <i class="fa-solid fa-plus text-white"></i>
+                    </button>
+                </td>
+                </tr>
+                `;
+                html += `</tbody></table>`;
+                packTable.innerHTML = html;
+                // eventListeners();
+            });
+    }
+
+    const servernet = "https://web-server-q7kx.onrender.com/api";
 
     function showpack(packId) {
-        const cards = cardsByPack[packId];
-        const container = document.getElementById("packCards");
-        container.innerHTML = ""; // נקה קודם
-
-        if (!cards || cards.length === 0) {
-            container.innerHTML = "<p>No cards found.</p>";
-            return;
-        }
+        const cardTable = document.getElementById("packCards");
+        cardTable.innerHTML = ""; //reset html 
 
         let html = `
             <table class="table table-bordered table-striped mt-3">
@@ -89,7 +148,8 @@
                 <tr>
                     <th>#id</th>
                     <th>card name</th>
-                    <th>description</th>
+                    <th>pack_id</th>
+                    <th>rarity</th>
                     <th>image/gif</th>
                     <th></th>
                 </tr>
@@ -97,41 +157,50 @@
             <tbody>
         `;
 
-        for (const card of cards) {
-    html += `
-    <tr>
-        <td>${card.id}</td>
-        <td>${card.name}</td>
-        <td>${card.description}</td>
-        <td>
-            <div class="input-group input-group-sm mb-3">
-                <span class="input-group-text" id="inputGroup-sizing-sm">url</span>
-                <input type="text" class="form-control" value="${card.url}" aria-label="URL input" aria-describedby="inputGroup-sizing-sm">
-            </div>
-        </td>
-        <td><button class="btn bg-danger"><i class="fa-solid fa-minus text-white"></i></button></td>
-    </tr>
-    `;
-}
+        fetch(servernet + "/admin/cards/" + packId)
+        .then(response => response.json())
+        .then(data => {
+            for(const card of data){
+                console.log(card);
+                html += `
+                <tr>
+                    <td>${card.id}</td>
+                    <td>${card.name}</td>
+                    <td>${card.packid}</td>
+                    <td>${card.color_id}</td>
+                    <td>
+                        <div class="input-group input-group-sm mb-3">
+                            <span class="input-group-text" id="inputGroup-sizing-sm">url</span>
+                            <input type="text" class="form-control" value="${card.image_url}" aria-label="URL input" aria-describedby="inputGroup-sizing-sm">
+                        </div>
+                    </td>
+                    <td><button class="btn bg-danger"><i class="fa-solid fa-minus text-white"></i></button></td>
+                </tr>
+                `;
+            }
+            html += `
+            <tr>
+                <td>new</td>
+                <td><input type="text" class="form-control" placeholder="place name" aria-label="Place Name"></td>
+                <td><input type="text" class="form-control" placeholder="place pack des" aria-label="Pack number"></td>
+                <td><input type="text" class="form-control" placeholder="place pack des" aria-label="color id"></td>
+                <td>
+                    <div class="input-group input-group-sm mb-3">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">url</span>
+                        <input type="text" class="form-control" placeholder="place url" aria-label="Place URL">
+                    </div>
+                </td>
+                <td><button class="btn bg-primary"><i class="fa-solid fa-plus text-white"></i></button></td>
+            </tr>
+            `;
 
-html += `
-<tr>
-    <td>new</td>
-    <td><input type="text" class="form-control" placeholder="place name" aria-label="Place Name"></td>
-    <td><input type="text" class="form-control" placeholder="place pack des" aria-label="Place Description"></td>
-    <td>
-        <div class="input-group input-group-sm mb-3">
-            <span class="input-group-text" id="inputGroup-sizing-sm">url</span>
-            <input type="text" class="form-control" placeholder="place url" aria-label="Place URL">
-        </div>
-    </td>
-    <td><button class="btn bg-primary"><i class="fa-solid fa-plus text-white"></i></button></td>
-</tr>
-`;
-        html += `</tbody></table>`;
-        container.innerHTML = html;
+            html += `</tbody></table>`;
+            cardTable.innerHTML = html;
+        });
+        
+        
     }
-
+    
 </script>
 
 </head>
@@ -140,7 +209,7 @@ html += `
   <!-- Sidebar -->
   <div class="sidebar">
     <h4 class="text-center">
-        <img src="{url}" alt="Profile" class="rounded-circle mb-3" width="80" height="80">
+        <!-- <img src="{url}" alt="Profile" class="rounded-circle mb-3" width="80" height="80"> -->
     </h4>
     <a href="admin.html">Dashboard</a>
     <a href="adminData.html">User Data</a>
@@ -163,46 +232,7 @@ html += `
             <div class="row">
               <div class="col">
                 <h1>Packs</h1>
-                <section class="packs">
-                    <table class="table table-bordered table-striped mt-3">
-                        <thead>
-                        <tr>
-                            <th scope="col">#id</th>
-                            <th scope="col">pack name</th>
-                            <th scope="col">show</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>gifphy</td>
-                            <td><button class="btn" onclick="showpack(1)">🔍</button></td>
-                        </tr>
-                        <tr>
-                            <th scope="row">2</th>
-                            <td>pokemon</td>
-                            <td><button class="btn" onclick="showpack(2)">🔍</button></td>
-                        </tr>
-                        <tr>
-                            <th scope="row">3</th>
-                            <td>dragon ball</td>
-                            <td><button class="btn" onclick="showpack(3)">🔍</button></td>
-                        </tr>
-                        <tr>
-                            <form>
-                                <th scope="row">new</th>
-                                <td>
-                                    <div class="input-group input-group-sm mb-3">
-                                        <input type="text" class="form-control" placeholder="name a pack" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
-                                    </div>
-                                </td>
-                                <td><button class="btn bg-primary"><i class="fa-solid fa-plus text-white"></i></button></td>
-                            </form>
-                        </tr>
-                        </tbody>
-                    </table>
-                    
-                </section>
+                <section class="packsTable"></section>
               </div>
               <div class="col-md-6">
                 <h1>Pack > Cards</h1>
