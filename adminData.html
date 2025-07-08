@@ -67,6 +67,7 @@
         })
         .then(response => response.json())
         .then(users => {
+          users.sort((a,b) => a.id - b.id);
         const table = document.querySelector(".table");
 
         // התחלה של תוכן הטבלה
