@@ -15,7 +15,10 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
   integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
    crossorigin="anonymous" referrerpolicy="no-referrer" />
-   
+  
+   <!-- NAVBAR -->
+  <script src="JS/adminNav.js"></script>
+  
   <style>
     /* body {
       font-family: 'Gruppo', sans-serif;
@@ -62,6 +65,7 @@
         const packName = document.getElementById("packName").value;
         const packPrice = document.getElementById("packPrice").value;
 
+
         console.log(e);
 
         fetch(servernet + '/admin/createPack', {
@@ -82,6 +86,31 @@
         
     }
 
+    function handleAddcard(e){
+        e.preventDefault();
+        const cardName = document.getElementById("packName").value;
+        const packID = document.getElementById("cardPack_id").value;
+        const colorID = document.getElementById("color_id").value;
+        const url = document.getElementById("card_url").value;
+
+
+        fetch(servernet + '/admin/createCard', {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ name: cardName, packid: packID, color_id: colorID, image_url: url}),
+        }).then(async (res) => {
+            const data = await res.json();
+            if (res.ok) {
+                console.log("Card added:", data);
+                createPacksTable();
+            } else {
+                console.error("Failed:", data);
+            }
+        }).catch((err) => {
+            console.log("fetch error:" + err);
+        })
+    }
+
     function createPacksTable(){
         const packTable = document.querySelector(".packsTable");
         packTable.innerHTML = "";
@@ -92,7 +121,9 @@
                 <tr>
                     <th scope="col">#id</th>
                     <th scope="col">pack name</th>
+                    <th scope="col">cost</th>
                     <th scope="col">show</th>
+                    <th scope="col">delete</th>
                 </tr>
             </thead>
             <tbody>
@@ -110,6 +141,7 @@
                         <td>${pack.name}</td>
                         <td>${pack.cost}</td>
                         <td><button class="btn" onclick="showpack(${pack.packid})">🔍</button></td>
+                        <th><button class="btn bg-danger"><i class="fa-solid fa-minus text-white"></i></button></th>
                         </tr>
                     `;
                 }
@@ -132,7 +164,6 @@
                 `;
                 html += `</tbody></table>`;
                 packTable.innerHTML = html;
-                // eventListeners();
             });
     }
 
@@ -179,18 +210,23 @@
                 `;
             }
             html += `
+            <form id="addcard" onsubmit="handleAddcard(event)"></form>
             <tr>
                 <td>new</td>
-                <td><input type="text" class="form-control" placeholder="place name" aria-label="Place Name"></td>
-                <td><input type="text" class="form-control" placeholder="place pack des" aria-label="Pack number"></td>
-                <td><input type="text" class="form-control" placeholder="place pack des" aria-label="color id"></td>
+                <td><input type="text" class="form-control" id="cardName" placeholder="Name" aria-label="Place Name"></td>
+                <td><input type="text" class="form-control" id="cardPack_id" placeholder="Pack id" aria-label="Pack number"></td>
+                <td><input type="text" class="form-control" id="color_id" placeholder="Color id" aria-label="color id"></td>
                 <td>
                     <div class="input-group input-group-sm mb-3">
                         <span class="input-group-text" id="inputGroup-sizing-sm">url</span>
-                        <input type="text" class="form-control" placeholder="place url" aria-label="Place URL">
+                        <input type="text" class="form-control" id="card_url" placeholder="place_url" aria-label="Place URL">
                     </div>
                 </td>
-                <td><button class="btn bg-primary"><i class="fa-solid fa-plus text-white"></i></button></td>
+                <td>
+                    <button type="submit" class="btn btn-primary btn-sm" form="addcard">
+                    <i class="fa-solid fa-plus text-white"></i>
+                    </button>
+                </td>
             </tr>
             `;
 
@@ -205,22 +241,7 @@
 
 </head>
 <body>
-
-  <!-- Sidebar -->
-  <div class="sidebar">
-    <h4 class="text-center">
-        <!-- <img src="{url}" alt="Profile" class="rounded-circle mb-3" width="80" height="80"> -->
-    </h4>
-    <a href="admin.html">Dashboard</a>
-    <a href="adminData.html">User Data</a>
-    <a href="#">Manage Packs</a>
-    <a href="index.html">Back to Site</a>
-
-    <hr class="bg-light">
-    <a href="#">Settings</a>
-    <a href="#">Logout</a>
-  </div>
-
+    <header class="toolbar"></header>
   <!-- Main Content -->
   <div class="main-content">
     <div class="container-fluid">
