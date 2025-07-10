@@ -73,12 +73,12 @@
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ name: packName, cost: packPrice }),
         }).then(async (res) => {
-            const data = await res.json();
+            // const data = await res.json();
             if (res.ok) {
-                console.log("Pack added:", data);
+                console.log("Pack added:", packName);
                 createPacksTable();
             } else {
-                console.error("Failed:", data);
+                console.error("Failed:", packName);
             }
         }).catch((err) => {
             console.log("fetch error:" + err);
@@ -88,7 +88,7 @@
 
     function handleAddcard(e){
         e.preventDefault();
-        const cardName = document.getElementById("packName").value;
+        const cardName = document.getElementById("cardName").value;
         const packID = document.getElementById("cardPack_id").value;
         const colorID = document.getElementById("color_id").value;
         const url = document.getElementById("card_url").value;
@@ -99,15 +99,16 @@
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ name: cardName, packid: packID, color_id: colorID, image_url: url}),
         }).then(async (res) => {
-            const data = await res.json();
+            // const data = await res.json();
             if (res.ok) {
-                console.log("Card added:", data);
-                createPacksTable();
+                console.log("Card added:",cardName);
+                // createPacksTable();
+                showpack(packID);
             } else {
-                console.error("Failed:", data);
+                console.error("Failed:",cardName);
             }
         }).catch((err) => {
-            console.log("fetch error:" + err);
+            console.log("fetch error:",err);
         })
     }
 
@@ -232,6 +233,10 @@
 
             html += `</tbody></table>`;
             cardTable.innerHTML = html;
+        })
+        .catch((error) => {
+            console.log("no cards for this pack\n", error);
+            cardTable.innerHTML = "No cards for this pack";
         });
         
         
