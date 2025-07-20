@@ -25,7 +25,53 @@
   <!-- Pack JS -->
   <link rel="stylesheet" href="CSS/Packs.css">
   <script src="JS/fetchPacks.js"></script>
+  
+  <style>
+     .darkmode--activated{
+      color: #ff0000;
+      
+    }
+
+    .darkmode-background{
+      background-image: url('./image/background.png') !important;
+      
+      background-repeat: no-repeat !important;
+      background-size: cover !important;
+      background-position: center !important;
+      background-attachment: fixed !important;
+      margin: 0;
+      padding: 0;
+    }
+
+  </style>
+
+  <script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.7/lib/darkmode-js.min.js"></script>
+  <script>
+    function addDarkmodeWidget() {
+
+      const options = {
+        bottom: '64px', // default: '32px'
+        right: 'unset', // default: '32px'
+        left: '32px', // default: 'unset'
+        time: '0.5s', // default: '0.3s'
+        mixColor: '#fff', // default: '#fff'
+        backgroundColor: '#fff',  // default: '#fff'
+        buttonColorDark: '#100f2c',  // default: '#100f2c'
+        buttonColorLight: '#fff', // default: '#fff'
+        saveInCookies: false, // default: true,
+        label: '🌓', // default: ''
+        autoMatchOsTheme: true // default: true
+      }
+
+      const darkmode = new Darkmode(options);
+      darkmode.showWidget();
+    }
+
+    window.addEventListener('load', addDarkmodeWidget);
     
+    
+  </script>
+
 </head>
 
 <body>

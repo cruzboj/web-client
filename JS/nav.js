@@ -66,7 +66,7 @@ function loadHtml(){
           <li class="col"><a href="#">TRADE</a></li>
           <li class="col"><a href="#">CARDS</a></li>
           <li class="col"><a href="/client/contact.html">CONTACT</a></li>
-          <li class="col d-flex align-items-center gap-2">
+          <li class="col d-flex align-items-center gap-2"> 
               <img src="${imgUser}" alt="Profile" class="rounded-circle mt-1 mx-auto" width="50" height="50">
               <div class="btn-group">
                   <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">${userName}</button>
