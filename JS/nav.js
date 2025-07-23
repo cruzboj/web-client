@@ -55,28 +55,29 @@ function loadHtml(){
 
   const navbar = document.querySelector(".toolbar");
   
-  navbar.innerHTML = `
-  <div class="container text-center p-4">
+    navbar.innerHTML = `
+    <section class="profile">
+        <img src="${imgUser}" alt="Profile" class="rounded-circle mt-1 mx-auto" width="50" height="50">
+        <div class="btn-group">
+            <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">${userName}</button>
+            <ul class="dropdown-menu">
+                ${getUserMenu()}
+            </ul>
+        </div>
+    </section>
+    <div class="container text-center p-2">
       
-      <ul class="row align-items-center">
-          <li class="col"><a href="/client/index.html">HOME</a></li>
-          <li class="col"><a href="#">SHOP</a></li>
-          <li class="col"><a href="/client/news.html">NEWS</a></li>
-          <li class="col"><a href="#">BATTLE</a></li>
-          <li class="col"><a href="#">TRADE</a></li>
-          <li class="col"><a href="#">CARDS</a></li>
-          <li class="col"><a href="/client/contact.html">CONTACT</a></li>
-          <li class="col d-flex align-items-center gap-2"> 
-              <img src="${imgUser}" alt="Profile" class="rounded-circle mt-1 mx-auto" width="50" height="50">
-              <div class="btn-group">
-                  <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">${userName}</button>
-                  <ul class="dropdown-menu">
-                      ${getUserMenu()}
-                  </ul>
-              </div>
-          </li>
-      </ul>
-  <div>
+        <div class="container text-center">
+            <div class="row flex-nowrap">
+                <div class="col col-lg-6"><a href="/client/index.html">HOME</a></div>
+                <div class="col-md-auto d-flex justify-content-center align-items-center"><a href="/client/index.html">SHOP<br><i class="fa-solid fa-bag-shopping"></i></a></div>
+                <div class="col-md-auto d-flex justify-content-center align-items-center"><a href="/client/news.html">NEWS<br><i class="fa-solid fa-newspaper"></i></a></div>
+                <div class="col-md-auto d-flex justify-content-center align-items-center"><a href="/client/#.html">BATTLE<br><i class="fa-solid fa-trophy"></i></a></div>
+                <div class="col-md-auto d-flex justify-content-center align-items-center"><a href="/client/#.html">TRADE<br><i class="fa-solid fa-arrows-rotate"></i></a></div>
+                <div class="col-md-auto d-flex justify-content-center align-items-center"><a href="/client/#.html">CARDS<br><i class="fa-solid fa-rug"></i></a></div>
+                <div class="col-md-auto d-flex justify-content-center align-items-center"><a href="/client/contact.html">CONTACT<br><i class="fa-solid fa-headset"></i></a></div>
+            </div>
+        </div>
 
   ${registerFormHTML()}
   ${loginformHTML()}
@@ -293,7 +294,7 @@ function mobileNav(navbar){
   navbar.innerHTML = `
       <div>
           <button id="mobileMenuBtn" class="btn" aria-expanded="false" aria-controls="mobileMenu">
-              <i class="fa-solid fa-bars"></i>
+            <img src="./src/burger_icon.png" alt="Logo" class="logo" width="50" height="50">
           </button>
           <ul id="mobileMenu" class="list-unstyled m-0 collapse">
               <li><a href="/client/index.html" class="btn btn-link">HOME</a></li>

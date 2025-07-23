@@ -1,4 +1,5 @@
-body {
+/* DELETE */
+/* body {
   background-image: url('https://w.wallhaven.cc/full/nk/wallhaven-nkmrz7.jpg');
   background-repeat: no-repeat;
   background-repeat: no-repeat;
@@ -7,6 +8,10 @@ body {
   background-attachment: fixed;
   margin: 0;
   padding: 0;
+} */
+
+#mobileMenu li{
+  background-color: black;
 }
 
 .toolbar{
@@ -20,7 +25,9 @@ body {
 .modal {
   z-index: 1051 !important;
 }
-.toolbar ul {
+
+/* DELETE */
+/* .toolbar ul {
   list-style: none;
   padding: 0;
   margin: 0;
@@ -28,18 +35,68 @@ body {
 
 .toolbar ul li {
   transition: transform 0.2s ease;
+} */
+
+.toolbar > .container .text-center{
+    margin-top: -100px;
 }
 
-.toolbar ul li:hover {
-  transform: translateY(-5px);
-  color: rgb(88, 88, 141);
+@font-face {
+    font-family: 'webfont';
+    src: url('../src/webFont.ttf') format('truetype');
 }
-
 .toolbar a {
-  font-family: 'Gruppo', cursive;
-  font-size: 18px;
-  font-weight: bold;
-  text-decoration: none;
-  color: inherit;
-  z-index: 10;
+    font-family: 'webfont', sans-serif;
+    color: rgb(255, 255, 255);
+    /* transform: rotate(-15deg); */
+    text-shadow:
+        -1px -1px 0 black,
+        1px -1px 0 black,
+        -1px  1px 0 black,
+        1px  1px 0 black;
+    font-size: 23px;
+    text-decoration: none;
+    display: inline-block; 
+    z-index: 10;
+    transition: transform 0.5s ease, color 0.3s ease;
+    /* background-color: rgb(120, 190, 255);; */
+    
+    /* transform: translate(0px, 30px); */
+    
 }
+
+.toolbar .row > div:nth-child(1) a {
+    font-size: 170px;
+}
+.toolbar .row > div:nth-child(1) a::first-letter {
+    color: rgb(255, 58, 58);
+}
+.toolbar .row > div:not(:first-child) a {
+    color: rgb(255, 255, 255);
+    margin-bottom: 50px;
+    transition: font-size 0.2s ease, color 0.3s ease;
+}
+
+.toolbar .row > div:not(:first-child) a:hover {
+    font-size: 30px;
+    transform: scale(1.1);
+}
+
+.toolbar .row > div a i {
+  color: rgb(255, 58, 58);
+  font-size: 50px;
+  text-shadow: none;
+}
+.profile {
+  transform: translate(0px, 20px);
+  margin-left: 20px;
+}
+/* .profile button{
+  font-family: 'webfont', sans-serif;
+  color: rgb(255, 255, 255);
+  text-shadow:
+    -1px -1px 0 black,
+    1px -1px 0 black,
+    -1px  1px 0 black,
+    1px  1px 0 black;
+} */
