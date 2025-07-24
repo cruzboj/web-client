@@ -1,14 +1,21 @@
 /* DELETE */
-/* body {
-  background-image: url('https://w.wallhaven.cc/full/nk/wallhaven-nkmrz7.jpg');
+body {
+  /* background-image: url('https://w.wallhaven.cc/full/nk/wallhaven-nkmrz7.jpg');
   background-repeat: no-repeat;
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
   margin: 0;
-  padding: 0;
-} */
+  padding: 0; */
+  color: white;
+}
+
+html, body {
+  height: 100%;
+  min-height: 100%;
+  overflow-y: auto;
+}
 
 #mobileMenu li{
   background-color: black;
@@ -17,6 +24,7 @@
 .toolbar{
   position: relative;
   z-index: 10;
+  box-shadow: 0 0 20px rgb(0, 0, 0);
 }
 .modal-backdrop {
   z-index: 1 !important;
@@ -37,8 +45,9 @@
   transition: transform 0.2s ease;
 } */
 
+
 .toolbar > .container .text-center{
-    margin-top: -100px;
+    /* margin-top: -150px; */
 }
 
 @font-face {
@@ -59,6 +68,9 @@
     display: inline-block; 
     z-index: 10;
     transition: transform 0.5s ease, color 0.3s ease;
+
+    margin-top: 80px;
+    margin-bottom: 50px;
     /* background-color: rgb(120, 190, 255);; */
     
     /* transform: translate(0px, 30px); */
@@ -68,9 +80,9 @@
 .toolbar .row > div:nth-child(1) a {
     font-size: 170px;
 }
-.toolbar .row > div:nth-child(1) a::first-letter {
-    color: rgb(255, 58, 58);
-}
+/* .toolbar .row > div:nth-child(1) a::first-letter {
+    color: rgb(58, 255, 68);
+} */
 .toolbar .row > div:not(:first-child) a {
     color: rgb(255, 255, 255);
     margin-bottom: 50px;
@@ -83,13 +95,15 @@
 }
 
 .toolbar .row > div a i {
-  color: rgb(255, 58, 58);
+  color: rgb(119, 178, 255);
   font-size: 50px;
   text-shadow: none;
 }
 .profile {
-  transform: translate(0px, 20px);
+  /* transform: translate(0px, 20px); */
+  position: absolute;
   margin-left: 20px;
+  margin-top: 10px;
 }
 /* .profile button{
   font-family: 'webfont', sans-serif;
@@ -100,3 +114,20 @@
     -1px  1px 0 black,
     1px  1px 0 black;
 } */
+
+.coinsUI {
+  position: absolute;
+  margin-left: 30px;
+  margin-top: 80px;
+  background-color: rgb(41, 41, 41);
+}
+
+@media (max-width: 1200px) {
+  .coinsUI {
+    margin-top: 50px;
+    margin-left: 0;
+  }
+  .toolbar a{
+    margin: 0;
+  }
+}

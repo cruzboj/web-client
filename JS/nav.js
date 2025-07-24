@@ -43,14 +43,15 @@ function setupDynamicListeners() {
   });
 }
 
-function loadHtml(){
+function getUserInfo() {
   const loggedUser = localStorage.getItem("loggedInUser");
-  let userName = "";
-  if (loggedUser) {
-      userName = loggedUser;
-  } else {
-      userName = "guest";
-  }
+  const userName = loggedUser || "guest";
+  const coins = parseInt(localStorage.getItem("coins") || "0");
+  return { userName, coins };
+}
+
+function loadHtml(){
+  const { userName, coins } = getUserInfo();
   const imgUser = "https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg?semt=ais_hybrid&w=740";
 
   const navbar = document.querySelector(".toolbar");
@@ -65,12 +66,18 @@ function loadHtml(){
             </ul>
         </div>
     </section>
+
+    <section class="coinsUI rounded-pill d-inline-flex align-items-center px-5 py-1" style="height: 30px;">
+      <i class="fa-solid fa-coins text-warning me-2"></i>
+      <p class="text-light m-0 ">${coins}</p>
+    </section>
+
     <div class="container text-center p-2">
       
         <div class="container text-center">
             <div class="row flex-nowrap">
                 <div class="col col-lg-6"><a href="/client/index.html">HOME</a></div>
-                <div class="col-md-auto d-flex justify-content-center align-items-center"><a href="/client/index.html">SHOP<br><i class="fa-solid fa-bag-shopping"></i></a></div>
+                <div class="col-md-auto d-flex justify-content-center align-items-center"><a href="/client/shop.html">SHOP<br><i class="fa-solid fa-bag-shopping"></i></a></div>
                 <div class="col-md-auto d-flex justify-content-center align-items-center"><a href="/client/news.html">NEWS<br><i class="fa-solid fa-newspaper"></i></a></div>
                 <div class="col-md-auto d-flex justify-content-center align-items-center"><a href="/client/#.html">BATTLE<br><i class="fa-solid fa-trophy"></i></a></div>
                 <div class="col-md-auto d-flex justify-content-center align-items-center"><a href="/client/#.html">TRADE<br><i class="fa-solid fa-arrows-rotate"></i></a></div>
@@ -270,7 +277,7 @@ function loginformHTML(){
 //resolution logic = pc/mobile
 //--------------------------------------------------------------------------------------------
 function updateNavbar(navbar){
-  const isMobile = window.innerWidth <= 1000;
+  const isMobile = window.innerWidth <= 1200;
 
   if ((isMobile && currentView === "mobile") || (!isMobile && currentView === "pc")) {
       return;
@@ -290,12 +297,20 @@ function pcNav(navbar){
   loadHtml();
 }
 
-function mobileNav(navbar){
+function mobileNav(navbar) {
+  const { userName, coins } = getUserInfo();
+    
   navbar.innerHTML = `
       <div>
           <button id="mobileMenuBtn" class="btn" aria-expanded="false" aria-controls="mobileMenu">
-            <img src="./src/burger_icon.png" alt="Logo" class="logo" width="50" height="50">
+            <img src="./src/burger_icon.png" alt="Logo" class="logo" width="100" height="100">
           </button>
+
+          <section class="coinsUI rounded-pill d-inline-flex align-items-center px-3 py-1 position-absolute top-0 start-50 translate-middle" style="height: 30px;">
+              <i class="fa-solid fa-coins text-warning me-2"></i>
+              <p class="text-light m-0 ">${coins}</p>
+          </section>
+          
           <ul id="mobileMenu" class="list-unstyled m-0 collapse">
               <li><a href="/client/index.html" class="btn btn-link">HOME</a></li>
               <li><a href="#" class="btn btn-link">SHOP</a></li>

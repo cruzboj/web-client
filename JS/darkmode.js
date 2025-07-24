@@ -32,12 +32,11 @@ const css = `
     }
 
     .darkmode-background{
-        background-image: url('./src/background2.png') !important;
+        background-image: url('./src/background.png') !important;
         /* background-image: url('https://w.wallhaven.cc/full/1j/wallhaven-1jqqjw.jpg') !important; */
         background-repeat: no-repeat !important;
         background-size: cover !important;
-        background-position: center !important;
-        background-attachment: fixed !important;
+
         margin: 0;
         padding: 0;
     }
@@ -58,10 +57,10 @@ const css = `
     time: '0.5s',
     mixColor: '#fff',
     backgroundColor: '#ffffffff',
-    buttonColorDark: '#000000ff',
-    buttonColorLight: '#ff0000ff',
+    buttonColorDark: '#292828ff',
+    buttonColorLight: '#707070ff',
     saveInCookies: false,
-    label: '<i class="fa-solid fa-moon text-light"></i></i>',
+    label: '<i class="fa-solid fa-circle-half-stroke text-light"></i>',
     autoMatchOsTheme: true
   };
 
