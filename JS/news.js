@@ -1,4 +1,5 @@
 const API_BASE = "https://web-server-q7kx.onrender.com/api";
+const IMG_BASE = "https://web-server-q7kx.onrender.com";
 let newsContainer;
 
 window.onload = () => {
@@ -18,7 +19,7 @@ renderNews = (newsArr) => {
   for (let news of newsArr) {
     const newDiv = document.createElement("section");
     newDiv.classList.add("news-container");
-    const imgDir = API_BASE + news.img_path;
+    const imgDir = IMG_BASE + news.img_path;
     console.log(news.img_path);
     console.log(imgDir);
     newDiv.innerHTML = `
