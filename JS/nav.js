@@ -71,32 +71,76 @@ async function getUserInfo() {
     return null;
   }
 }
+
 function loadProfile() {
 let _username;
-let _coins;
-  const { username, coins } = await getUserInfo();
-  const profile = `<section class="profile">
-        <img src="${imgUser}" alt="Profile" class="rounded-circle mt-1 mx-auto" width="50" height="50">
-        <div class="btn-group">
-            <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">${username}</button>
-            <ul class="dropdown-menu">
-                ${userMenu}
-            </ul>
-        </div>
-    </section>`;
+    let _coins;
+    
+    getUserInfo().then((data) => {
+        const imgUser = "https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg?semt=ais_hybrid&w=740";
+
+        if (data.username !== "guest") {
+            document.querySelector(".profile_container").innerHTML = `
+                <section class="profile_container">
+                <section class="profile">
+                    <img src="${imgUser}" alt="Profile" class="rounded-circle mt-1 mx-auto" width="50" height="50">
+                    <div class="btn-group">
+                        <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">${data.username}</button>
+                        <ul class="dropdown-menu">
+                            <li><button type="button" class="btn btn-light w-100" data-bs-toggle="modal" data-bs-target="#Settings">Settings</button></li>
+                            <li><button type="button" class="btn btn-light w-100" id="logoutBtn">Logout</button></li>
+                        </ul>
+                    </div>
+                </section>
+                <section class="coinsUI rounded-pill d-inline-flex align-items-center px-5 py-1" style="height: 30px;">
+                <i class="fa-solid fa-coins text-warning me-2"></i>
+                <p class="text-light m-0 ">${data.coins}</p>
+                </section>
+            </section>
+            `;
+        }
+    });
+//   const { username, coins } = await getUserInfo();
+//     const profile = `
+//     <section class="profile">
+//         <img src="${imgUser}" alt="Profile" class="rounded-circle mt-1 mx-auto" width="50" height="50">
+//         <div class="btn-group">
+//             <button type="button" class="profile btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">${username}</button>
+//             <ul class="dropdown-menu">
+//                 ${userMenu}
+//             </ul>
+//         </div>
+//     </section>
+//     <section class="coinsUI rounded-pill d-inline-flex align-items-center px-5 py-1" style="height: 30px;">
+//       <i class="fa-solid fa-coins text-warning me-2"></i>
+//       <p class="text-light m-0 ">${coins}</p>
+//     </section>
+//     `;
+
+//     return profile;
 }
 
 function loadHtml() {
-  const imgUser =
-    "https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg?semt=ais_hybrid&w=740";
-
+  const imgUser = "https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg?semt=ais_hybrid&w=740";
+  
   const navbar = document.querySelector(".toolbar");
 
-  navbar.innerHTML = `
-  ${loadProfile()}
-    <section class="coinsUI rounded-pill d-inline-flex align-items-center px-5 py-1" style="height: 30px;">
-      <i class="fa-solid fa-coins text-warning me-2"></i>
-      <p class="text-light m-0 ">${coins}</p>
+    navbar.innerHTML = `
+    <section class="profile_container">
+        <section class="profile">
+            <img src="${imgUser}" alt="Profile" class="rounded-circle mt-1 mx-auto" width="50" height="50">
+            <div class="btn-group">
+                <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">guest</button>
+                <ul class="dropdown-menu">
+                        <li><button type="button" class="btn btn-light w-100" data-bs-toggle="modal" data-bs-target="#login">Login</button></li>
+                        <li><button type="button" class="btn btn-light w-100" data-bs-toggle="modal" data-bs-target="#Register">Register</button></li>
+                </ul>
+            </div>
+        </section>
+        <section class="coinsUI rounded-pill d-inline-flex align-items-center px-5 py-1" style="height: 30px;">
+        <i class="fa-solid fa-coins text-warning me-2"></i>
+        <p class="text-light m-0 ">0</p>
+        </section>
     </section>
 
     <div class="container text-center p-2">
@@ -117,6 +161,7 @@ function loadHtml() {
   ${loginformHTML()}
   `;
 
+  loadProfile();
   setupDynamicListeners();
   return navbar;
 }

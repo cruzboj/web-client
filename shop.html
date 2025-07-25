@@ -22,12 +22,64 @@
   <script src="JS/nav.js"></script>
 
   <!-- Pack JS -->
-  <link rel="stylesheet" href="CSS/Packs.css">
-  <script src="JS/fetchPacks.js"></script>
+  <!-- <link rel="stylesheet" href="CSS/Packs.css">
+  <script src="JS/fetchPacks.js"></script> -->
   
   <!-- Dark Mode JS -->
   <script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.7/lib/darkmode-js.min.js"></script>
   <script src="JS/darkmode.js"></script>
+
+<style>
+
+.packPlaceholder{
+  height: 100px;
+}
+
+</style>
+
+<script>
+const ImagePath = "https://web-server-q7kx.onrender.com";
+let packs = [];
+let cards = [];
+
+let packChoose = null;
+let wasOpened = false;
+
+document.addEventListener("DOMContentLoaded", () => {
+  createComponent();
+  // fetchPack();
+});
+
+function createComponent() {
+  let Load = `
+    <div class="container text-center">
+      <div class="row">
+
+        <div class="col">
+          <p class="placeholder-glow">
+            <span class="packPlaceholder placeholder col-12">loading
+            </span>
+          </p>
+          
+
+        </div>
+      </div>
+  `;
+  document.querySelector(".Packs").innerHTML = Load;
+}
+
+function fetchPack() {
+  fetch(serverNet +"/packs")
+    .then(response => response.json())
+    .then(data => {
+      packs = data;
+      CreatePacks();
+    })
+}
+
+
+
+</script>
 
 </head>
 
@@ -36,8 +88,22 @@
   <!-- <div class="position-absolute top-50 start-50 translate-middle">
     <img src="./src/logo.png" alt="Logo" class="logo" width="550" height="500">
     </div> -->
-    <p style="font-family: 'webfont', sans-serif;">test</p>
-     <section class="packs"></section>
-     <section id="errorContainer" class="text-center text-danger mb-4"></section>
+    <!-- <p style="font-family: 'webfont', sans-serif;">test</p> -->
+    <main class="bg-dark">
+      <div class="container text-center">
+            <div class="row bg-danger">
+                  <div class="col-md-6 mx-auto bg-primary">
+                    
+                    <section class="Packs">
+
+                    </section>
+                  </div>
+            </div>
+      </div>
+      <!-- <section class="packs"></section> -->
+      <!-- <section id="errorContainer" class="text-center text-danger mb-4"></section> -->
+       
+    </main>
+
 </body>
 </html>
