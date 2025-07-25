@@ -71,17 +71,11 @@ async function getUserInfo() {
     return null;
   }
 }
-
-async function loadHtml() {
+function loadProfile() {
+let _username;
+let _coins;
   const { username, coins } = await getUserInfo();
-  const imgUser =
-    "https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg?semt=ais_hybrid&w=740";
-
-  const navbar = document.querySelector(".toolbar");
-  const userMenu = await getUserMenu();
-
-  navbar.innerHTML = `
-    <section class="profile">
+  const profile = `<section class="profile">
         <img src="${imgUser}" alt="Profile" class="rounded-circle mt-1 mx-auto" width="50" height="50">
         <div class="btn-group">
             <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">${username}</button>
@@ -89,8 +83,17 @@ async function loadHtml() {
                 ${userMenu}
             </ul>
         </div>
-    </section>
+    </section>`;
+}
 
+function loadHtml() {
+  const imgUser =
+    "https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg?semt=ais_hybrid&w=740";
+
+  const navbar = document.querySelector(".toolbar");
+
+  navbar.innerHTML = `
+  ${loadProfile()}
     <section class="coinsUI rounded-pill d-inline-flex align-items-center px-5 py-1" style="height: 30px;">
       <i class="fa-solid fa-coins text-warning me-2"></i>
       <p class="text-light m-0 ">${coins}</p>
