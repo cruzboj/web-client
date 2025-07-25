@@ -10,8 +10,10 @@ style.textContent = `
     position: relative;
     width: 150px;
     height: 270px;
+    margin: 0 auto; /* מרכז אופקית */
     transform-style: preserve-3d;
-    animation: rotate 120s linear infinite;
+    animation: rotate 10s linear infinite;
+    transform-origin: center center;
   }
   @keyframes rotate {
     from {
