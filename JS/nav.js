@@ -43,15 +43,59 @@ function setupDynamicListeners() {
   });
 }
 
-function getUserInfo() {
-  const loggedUser = localStorage.getItem("loggedInUser");
-  const userName = loggedUser || "guest";
-  const coins = parseInt(localStorage.getItem("coins") || "0");
-  return { userName, coins };
+async function getUserInfo() {
+    const token = localStorage.getItem("token");
+    try{
+        const response = await fetch(serverNet + "/user",{
+            headers: {
+                "Authorization": token
+            }
+        });
+    if (!response.ok){
+        console.log("No user info");
+        return null;
+    }
+    const data = await response.json();
+    console.log(data);
+
+    const username = data.username || "guest";
+    const coins = data.coins || "0";
+    isadmin = data.isadmin;
+
+    console.log(username,coins);
+    return {username,coins};
+    }
+    catch(error){
+        console.error("Error fetching user info: ",error);
+        return null;
+    }
+    // let username;
+    // let _coins;
+    // fetch(serverNet + "/user",{
+    //     headers: {
+    //         "Authorization":token 
+    //     }})
+    // .then((response) => {
+    //     if (!response.ok){
+    //         console.log("No user info");
+    //         return;
+    //     }
+    //     response.json()
+    //     .then(data => {
+    //         console.log(data);
+    //         username = data.username;
+    //         _coins = data.coins;
+    //         isadmin = data.isadmin;
+    //         const userName = username || "guest";
+    //         const coins = (_coins || "0");
+    //         console.log(userName,coins);
+    //         return { userName, coins };
+    //     })
+    // })
 }
 
-function loadHtml(){
-  const { userName, coins } = getUserInfo();
+async function loadHtml(){
+  const { username, coins } = await getUserInfo();
   const imgUser = "https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg?semt=ais_hybrid&w=740";
 
   const navbar = document.querySelector(".toolbar");
@@ -60,7 +104,7 @@ function loadHtml(){
     <section class="profile">
         <img src="${imgUser}" alt="Profile" class="rounded-circle mt-1 mx-auto" width="50" height="50">
         <div class="btn-group">
-            <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">${userName}</button>
+            <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">${username}</button>
             <ul class="dropdown-menu">
                 ${getUserMenu()}
             </ul>
@@ -206,7 +250,10 @@ function handleLogin(){
       })
       .then((response) => {
           if (response.ok) {
-              onLogin(username);
+            response.json().then(data => {
+                const token = data.token;
+                onLogin(token);
+            })
           } else {
               invalidLogin();
           }
@@ -222,9 +269,9 @@ function invalidLogin() {
   console.log("Invalid login");
 }
 
-function onLogin(username) {
-  localStorage.setItem("loggedInUser", username);
-  console.log("login success");
+function onLogin(token) {
+  localStorage.setItem("token", token);
+  console.log("login success",token);
   loadHtml();  // טען מחדש את הניווט, שהוא מתבסס על localStorage
   
   // סגור את המודל
@@ -238,7 +285,7 @@ function onLogin(username) {
 }
 
 function onLogout() {
-  localStorage.removeItem("loggedInUser");
+  localStorage.removeItem("token");
   console.log("Logged out");
   location.reload();
 }
