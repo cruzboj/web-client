@@ -418,3 +418,11 @@ function mobileNav(navbar) {
     btn.setAttribute("aria-expanded", String(!expanded));
   });
 }
+
+function openLoginModal(){
+  const loginModalEl = document.getElementById("login");
+  if (loginModalEl) {
+    const loginModal = new bootstrap.Modal(loginModalEl);
+    loginModal.show();
+  }
+}
