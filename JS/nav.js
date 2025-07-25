@@ -45,6 +45,11 @@ function setupDynamicListeners() {
 
 async function getUserInfo() {
     const token = localStorage.getItem("token");
+    if (!token){
+        username = "guest";
+        coins = "0";
+        return {username,coins};
+    }
     try{
         const response = await fetch(serverNet + "/user",{
             headers: {
@@ -69,29 +74,6 @@ async function getUserInfo() {
         console.error("Error fetching user info: ",error);
         return null;
     }
-    // let username;
-    // let _coins;
-    // fetch(serverNet + "/user",{
-    //     headers: {
-    //         "Authorization":token 
-    //     }})
-    // .then((response) => {
-    //     if (!response.ok){
-    //         console.log("No user info");
-    //         return;
-    //     }
-    //     response.json()
-    //     .then(data => {
-    //         console.log(data);
-    //         username = data.username;
-    //         _coins = data.coins;
-    //         isadmin = data.isadmin;
-    //         const userName = username || "guest";
-    //         const coins = (_coins || "0");
-    //         console.log(userName,coins);
-    //         return { userName, coins };
-    //     })
-    // })
 }
 
 async function loadHtml(){
