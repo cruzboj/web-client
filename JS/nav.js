@@ -111,24 +111,6 @@ let _username;
         }
       }
     });
-//   const { username, coins } = await getUserInfo();
-//     const profile = `
-//     <section class="profile">
-//         <img src="${imgUser}" alt="Profile" class="rounded-circle mt-1 mx-auto" width="50" height="50">
-//         <div class="btn-group">
-//             <button type="button" class="profile btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">${username}</button>
-//             <ul class="dropdown-menu">
-//                 ${userMenu}
-//             </ul>
-//         </div>
-//     </section>
-//     <section class="coinsUI rounded-pill d-inline-flex align-items-center px-5 py-1" style="height: 30px;">
-//       <i class="fa-solid fa-coins text-warning me-2"></i>
-//       <p class="text-light m-0 ">${coins}</p>
-//     </section>
-//     `;
-
-//     return profile;
 }
 
 function loadHtml() {
@@ -244,13 +226,13 @@ function registerFormHTML() {
           <form id="registerForm" class="mainForm">
               <h1>Create Account</h1>
               <div class="row align-items-center">
-                  <i class="fa-solid fa-user"></i>
+                  <i class="fa-solid fa-user text-warning"></i>
                   <input type="text" id="regUsername" placeholder="User" required autocomplete="username"/>
-                  <i class="fa-solid fa-envelope"></i>
+                  <i class="fa-solid fa-envelope text-warning"></i>
                   <input type="email" id="regEmail" placeholder="Email" required autocomplete="email"/>
-                  <i class="fa-solid fa-lock"></i>
+                  <i class="fa-solid fa-lock text-warning"></i>
                   <input type="password" id="regPassword" placeholder="Password" required autocomplete="new-password" />
-                  <i class="fa-solid fa-key"></i>
+                  <i class="fa-solid fa-key text-warning"></i>
                   <input type="password" id="regConfirmPassword" placeholder="Confirm Password" required autocomplete="new-password" />
               </div>
 
@@ -343,12 +325,13 @@ function loginformHTML() {
 
           <form class="mainForm" id="loginForm">
               <h1>Login information</h1>
-              <i class="fa-solid fa-user"></i>
+              <i class="fa-solid fa-user text-info"></i>
               <input type="text" id="loginUsername" placeholder="User" required autocomplete="username"/>
-              <i class="fa-solid fa-lock"></i>
+              <i class="fa-solid fa-lock text-warning"></i>
               <input type="password" id="loginPass" placeholder="Password" required autocomplete="current-password" />
               
               <div class="modal-footer">
+              <div class="g-recaptcha" data-sitekey="6LcZVpArAAAAAGgkHJbdQqrMTQ5ECEsJADJjHwqZ"></div>
                   <input type="submit" value="Login" />
               </div>
           </form>
