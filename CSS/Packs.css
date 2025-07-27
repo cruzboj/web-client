@@ -93,7 +93,7 @@
     
   }
   .card{
-     width: 200px;
+     width: 300px; /*was 200*/
   }
 }
 
