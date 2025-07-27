@@ -79,8 +79,10 @@ let _username;
     getUserInfo().then((data) => {
         const imgUser = "https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg?semt=ais_hybrid&w=740";
 
-        if (data.username !== "guest") {
-            document.querySelector(".profile_container").innerHTML = `
+      if (data.username !== "guest") {
+        
+        if (currentView === "pc") {
+          document.querySelector(".profile_container").innerHTML = `
                 <section class="profile_container">
                 <section class="profile">
                     <img src="${imgUser}" alt="Profile" class="rounded-circle mt-1 mx-auto" width="50" height="50">
@@ -99,6 +101,15 @@ let _username;
             </section>
             `;
         }
+        else if( currentView === "mobile") {
+          document.querySelector(".coinsUI").innerHTML = ` 
+          <section class="coinsUI rounded-pill d-inline-flex align-items-center px-3 py-1 position-absolute top-0 start-50 translate-middle" style="height: 30px;">
+              <i class="fa-solid fa-coins text-warning me-2"></i>
+              <p class="text-light m-0 ">${coins}</p>
+          </section>
+          `;
+        }
+      }
     });
 //   const { username, coins } = await getUserInfo();
 //     const profile = `
@@ -375,17 +386,16 @@ function pcNav(navbar) {
 }
 
 function mobileNav(navbar) {
-  const { userName, coins } = getUserInfo();
-
-  navbar.innerHTML = `
+  getUserMenu().then(userMenu => {
+    navbar.innerHTML = `
       <div>
           <button id="mobileMenuBtn" class="btn" aria-expanded="false" aria-controls="mobileMenu">
             <img src="./src/burger_icon.png" alt="Logo" class="logo" width="100" height="100">
           </button>
-
+          
           <section class="coinsUI rounded-pill d-inline-flex align-items-center px-3 py-1 position-absolute top-0 start-50 translate-middle" style="height: 30px;">
               <i class="fa-solid fa-coins text-warning me-2"></i>
-              <p class="text-light m-0 ">${coins}</p>
+              <p class="text-light m-0 ">0</p>
           </section>
           
           <ul id="mobileMenu" class="list-unstyled m-0 collapse">
@@ -397,25 +407,25 @@ function mobileNav(navbar) {
               <li><a href="#" class="btn btn-link">CARDS</a></li>
               <li><a href="/client/contact.html" class="btn btn-link">CONTACT</a></li>
               <li><hr></li>
-              ${getUserMenu()}
+              ${userMenu}
           </ul>
       </div>
 
       ${registerFormHTML()}
       ${loginformHTML()}
-  `;
+    `;
 
-  // הוספת מאזין לאירוע לחיצה שיפתח/יסגור את התפריט
-  const btn = document.getElementById("mobileMenuBtn");
-  const menu = document.getElementById("mobileMenu");
+    // מאזין לתפריט מובייל
+    const btn = document.getElementById("mobileMenuBtn");
+    const menu = document.getElementById("mobileMenu");
+    btn.addEventListener("click", () => {
+      menu.classList.toggle("show");
+      const expanded = btn.getAttribute("aria-expanded") === "true";
+      btn.setAttribute("aria-expanded", String(!expanded));
+    });
 
-  btn.addEventListener("click", () => {
-    // Toggle bootstrap collapse class
-    menu.classList.toggle("show");
-
-    // לשנות את aria-expanded כדי לעמוד בנגישות
-    const expanded = btn.getAttribute("aria-expanded") === "true";
-    btn.setAttribute("aria-expanded", String(!expanded));
+    setupDynamicListeners();
+    loadProfile();  // טען פרופיל אחרי העדכון
   });
 }
 

@@ -1,4 +1,5 @@
-const ImagePath = "https://web-server-q7kx.onrender.com";
+const imagePath = "https://web-server-q7kx.onrender.com";
+
 let packs = [];
 let cards = [];
 
@@ -6,61 +7,100 @@ let packChoose = null;
 let wasOpened = false;
 
 document.addEventListener("DOMContentLoaded", () => {
-// fetch the packs from the server
-    fetch(serverNet +"/packs")
-        .then(response => response.json())
-        .then(data => {
-            packs = data;
-            createPacks(data);
-        })
-        .catch(error => {
-            console.error("Error loading JSON:", error);
-            document.getElementById("errorContainer").textContent = "Failed to load items. Please try again later";
-        });
+  createComponent();
+  fetchPack();
+  openPack();
+  nextcard();
 });
-        
-function createPacks(data){
-    const packsContainer = document.querySelector(".packs");
-    const wrapper = document.createElement("section");
-    wrapper.id = "wrapper";
 
-    const container = document.createElement("section");
-    container.classList.add("packs-container");
+function createComponent() {
+    document.querySelector(".packComponent").innerHTML = `
+        <div class="container text-center">
+              <div class="pack_container row">
+                    <div class="pack_container_width col-md-8 mx-auto">
+                      <audio id="tearSound" src="https://www.myinstants.com/media/sounds/sparklee.mp3" preload="auto"></audio>
+                      <audio id="nextcard" src="https://www.myinstants.com/media/sounds/card-flip.mp3" preload="auto"></audio>
+                      <section class="Packs">
+                        
+                      </section>
+                    </div>
+              </div>
+        </div>
+    `;
 
-    data.forEach((pack, index) => {
-        // console.log(`Pack #${index + 1}:`);
-        // console.log('Header Image:', pack.header);
-        // console.log('Body Image:', pack.body);
-        // console.log('Search Query:', pack.query);
+  let Load = `
+    <div class="container text-center">
+      <div class="row">
 
-        const packElement = document.createElement("section");
-        packElement.classList.add("pack");
+        <div class="pack1 col">
+          <p class="placeholder-glow"><span class="packPlaceholder placeholder col-12"></span></p>
+        </div>
 
-        //for card fetch
-        packElement.packData = pack;
+        <div class="pack2 col">
+          <p class="placeholder-glow"><span class="packPlaceholder placeholder col-12"></span></p>
+        </div>
 
-        packElement.innerHTML = `
-            <section class="pack-inner">
-                <section class="pack-header" style="background-image: url('${ImagePath}/${pack.header}')"></section>
-                <section class="pack-body" style="background-image: url('${ImagePath}/${pack.body}')"></section>
+        <div class="pack3 col">
+          <p class="placeholder-glow"><span class="packPlaceholder placeholder col-12"></span></p>
+        </div>
+
+      </div>
+
+      <div class="spinner-border" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+  `;
+  document.querySelector(".Packs").innerHTML = Load;
+}
+
+function fetchPack() {
+  const packsElement = document.querySelector(".Packs");
+
+  const row = document.createElement("section");
+  row.className = "row";
+
+  fetch(serverNet + '/user/packs')
+    .then((res) => res.json())
+    .then(data => {
+      console.log("Packs from server:", data);
+      packs = data;
+
+      packsElement.innerHTML = ""; //delete after loading
+
+      packs.forEach((packData, index) => {
+        const col = document.createElement("section");
+        col.className = `col pack${index + 1}`;
+
+        const header = imagePath + `/image/Pack${packData.packid}-Header.png`;
+        const body = imagePath + `/image/Pack${packData.packid}-Body.png`;
+
+        const pack = `
+          <section class="pack" data-packid="${packData.packid}">
+            <section class="pack-inner" style="cursor: pointer;">
+              <section class="pack-header" style="background-image: url('${header}');"></section>
+              <section class="pack-body" style="background-image: url('${body}');"></section>
             </section>
-            <section class="cards">
-                    <section class="card-border"></section>
-                    
-            </section>
+            <section class="cards"></section> <!-- MOVE OUTSIDE pack-inner -->
+          </section>
         `;
 
-        container.appendChild(packElement);
+        col.innerHTML = pack;
+        row.appendChild(col);
+      });
+
+      packsElement.appendChild(row);
+
+      effect3d();
+      openPack(); // רק אחרי שהדף נטען
+    })
+    .catch(err => {
+      console.error("Error fetching packs:", err);
+      packsElement.innerHTML = `<p class="text-danger">error in loading packs</p>`;
     });
+}
 
-    wrapper.appendChild(container);
-    packsContainer.innerHTML = '';
-    packsContainer.appendChild(wrapper);
-
-    scaleToFit();
-    
-    // 3d effect on hover
-    document.querySelectorAll(".pack").forEach((pack) => {
+function effect3d(){
+  document.querySelectorAll(".pack").forEach((pack) => {
         const inner = pack.querySelector(".pack-inner");
 
         pack.addEventListener("mousemove", (e) => {
@@ -80,118 +120,140 @@ function createPacks(data){
             inner.style.transform = "rotateX(0deg) rotateY(0deg)";
             });
     });
+}
 
-    // open packs with animation
-    let packChoose = null;
-    const packs = document.querySelectorAll(".pack");
-    packs.forEach((pack) => {
-        let wasChosen = false;
-        let wasOpened = false;
+function openPack(){
+  // let packChoose = null;
+  let wasChosen = false;
+  // let wasOpened = false;
+  const token = localStorage.getItem("token");
 
-        pack.addEventListener("click", () => {
-            if (!packChoose) {
-                packChoose = pack;
-                wasChosen = true;
+  const packs = document.querySelectorAll(".pack");
 
-                //fetch for the pack cards
-                const query = pack.packData.query.replace("&q=", ""); // "brainrot"
+  packs.forEach((pack) => {
+    pack.addEventListener("click", () => {
 
-                fetch(serverNet + "/cards?q=" + encodeURIComponent(query))
-                    .then((res) => res.json())
-                    .then((cardsData) => {
-                        console.log("Cards loaded:", cardsData);
-                        const cardsContainer = pack.querySelector(".cards");
-                        cardsContainer.innerHTML = ''; // נקה אם כבר היו קלפים קודם
-                        cardsContainer.style.display = "flex"; // תראה את המיכל
-                        
-                        //add cards to html
-                        cardsData.forEach((card) => {
-                            const cardBorder = document.createElement("section");
-                            cardBorder.classList.add("card-border");
-                        
-                            const cardElement = document.createElement("img");
-                            cardElement.src = card.image;
-                            cardElement.classList.add("card");
-                        
-                            cardBorder.appendChild(cardElement);
-                            cardsContainer.appendChild(cardBorder);
-                        
-                            // קליק לעוף החוצה
-                            cardBorder.style.cursor = "pointer";
-                            cardBorder.addEventListener("click", () => {
-                                cardBorder.style.transition = "transform 1s ease, opacity 1s ease";
-                                cardBorder.style.transform = "translateY(-200vh) scale(1.2)";
-                                cardBorder.style.opacity = "0";
-                        
-                                setTimeout(() => {
-                                    cardBorder.style.display = "none";
-                                }, 500);
-                            });
-                        });
-                    })
-                    .catch((err) => {
-                        console.error("Failed to fetch cards:", err);
-                    });
-                
-                //animation delete othere packs
-                packs.forEach((otherPack) => {
-                    if (otherPack !== packChoose) {
-                        otherPack.classList.add("hide-with-animation");
+      //chcek if user is logged in
+      const token = localStorage.getItem("token");
+      if (!token) {
+          openLoginModal();
+          return;
+      }
 
-                        otherPack.addEventListener("animationend", () => {
-                                otherPack.style.display = "none";
-                            },
-                            { once: true }
-                            );
-                    }   
-                });
+      if (!packChoose) {
+        packChoose = pack;
+        wasChosen = true;
+        packChoose.classList.add("pack-chosen");
 
-            return;
-            }
+        //log
+        const packId = pack.dataset.packid;
+        console.log("pack chosen:", packId);
 
-            if (pack === packChoose && wasChosen && !wasOpened) {
-                wasOpened = true;
+        // מציאת האלמנט של col שעוטף את ה-pack
+        const chosenCol = pack.closest("section.col");
+        // remove all col's
+        const allCols = document.querySelectorAll(".Packs .row > section.col");
 
-                const header = pack.querySelector(".pack-header");
+        allCols.forEach((col) => {
+          if (col !== chosenCol) {
+            col.classList.add("hide-with-animation");
 
-                header.classList.remove("tear-top");
-                void header.offsetWidth;
-                header.classList.add("tear-top");
+            col.addEventListener("animationend", () => {
+              col.remove(); //
+              // col.style.visibility = "hidden";
+              // col.style.pointerEvents = "none";
 
-                header.addEventListener("animationend",() => {
-                    const body = pack.querySelector(".pack-body");
 
-                    setTimeout(() => {
-                    body.classList.add("fadeout");
-                    }, 1000);
-
-                    //show cards
-                    const cards = pack.querySelector(".cards");
-                    
-                    cards.classList.add("show");
-                    setTimeout(() => {
-                    cards.style.zIndex = "5";
-                    }, 2000);
-                },
-                { once: true }
-                );
-            }
+            }, { once: true });
+          }
         });
+
+        return;
+      }
+
+      // פתיחה בפועל (אם כבר בחרנו חבילה ולא פתחנו אותה עדיין)
+      if (pack === packChoose && wasChosen && !wasOpened) {
+        wasOpened = true;
+        
+        createCards(pack.dataset.packid).then(() => {
+          playTearSound();
+          nextcard(pack);
+        });
+
+        const header = pack.querySelector(".pack-header");
+        header.classList.add("tear-top");
+
+        header.addEventListener("animationend", () => {
+          const body = pack.querySelector(".pack-body");
+
+          setTimeout(() => {
+          body.classList.add("fadeout");
+          }, 1000);
+
+        }, { once: true });
+      }
     });
+  });
 }
 
-// size the warper to fit the screen size
-function scaleToFit() {
-    const wrapper = document.getElementById("wrapper"); 
-    if (!wrapper) return;
-            
-    const scaleX = window.innerWidth / 1920;
-    const scaleY = window.innerHeight / 1080;
-    const scale = Math.min(scaleX, scaleY);
-            
-    wrapper.style.transform = `translate(-50%, -50%) scale(${scale})`;
+function playTearSound() {
+    const audio = document.getElementById("tearSound");
+    audio.volume = 0.1;
+    audio.currentTime = 0;
+    audio.play();
 }
 
-window.addEventListener("resize", scaleToFit);
+function playNextCardsound() {
+    const audio = document.getElementById("nextcard");
+    audio.volume = 0.2;
+    audio.currentTime = 0;
+    audio.play();
+
+setTimeout(() => {
+    audio.pause();
+    audio.currentTime = 0;
+    }, 500); 
+}
 
 
+async function createCards(packId) {
+  try {
+    const res = await fetch(serverNet + `/user/packs/${packId}`);
+    const data = await res.json();
+    const cards = document.querySelector(".cards");  // זה ה-container שלך
+
+    cards.innerHTML = ""; // מנקים קודם כל
+
+    data.forEach(card => {  // forEach, לא foreach
+      const cardHtml = `
+        <section class="card rare_${card.color_id}">
+          <img src="${card.image_url}" alt="${card.name}">
+        </section>
+      `;
+      cards.insertAdjacentHTML("beforeend", cardHtml); // cards ולא cardsContainer
+    });
+  } catch (err) {
+    console.error("Error loading cards:", err);
+    return false;
+  }
+}
+
+function nextcard(pack) {
+  console.log("packid :" + pack.dataset.packid);
+  // מציבים את כל הקלפים במערך (NodeList => Array)
+  let cards = Array.from(pack.querySelectorAll(".card"));
+
+  pack.addEventListener("click", () => {
+    if (cards.length === 0) return; // אין קלפים להוציא
+
+    const card = cards.pop(); // מוציאים קלף אחד מהסוף
+
+    card.classList.add("fly-up");
+    
+    playNextCardsound();
+    
+    card.addEventListener("animationend", () => {
+      card.remove();
+    }, { once: true });
+  });
+}
