@@ -20,6 +20,8 @@ function createComponent() {
                     <div class="pack_container_width col-md-8 mx-auto">
                       <audio id="tearSound" src="https://www.myinstants.com/media/sounds/sparklee.mp3" preload="auto"></audio>
                       <audio id="nextcard" src="https://www.myinstants.com/media/sounds/card-flip.mp3" preload="auto"></audio>
+                      <audio id="rareSound" src="https://www.myinstants.com/media/sounds/undertale-sfx-rare-to-find.mp3" preload="auto"></audio>
+                      
                       <section class="Packs">
                         
                       </section>
@@ -196,6 +198,7 @@ function openPack(){
   });
 }
 
+//sound effects
 function playTearSound() {
     const audio = document.getElementById("tearSound");
     audio.volume = 0.1;
@@ -215,6 +218,12 @@ setTimeout(() => {
     }, 500); 
 }
 
+function playRareSound() {
+    const audio = document.getElementById("rareSound");
+    audio.volume = 0.1;
+    audio.currentTime = 0;
+    audio.play();
+}
 
 async function createCards(packId) {
   try {
@@ -250,8 +259,12 @@ function nextcard(pack) {
 
     card.classList.add("fly-up");
     
-    playNextCardsound();
-    
+    if (card.classList.contains("rare_2")) {
+      playRareSound(); // קול של rare
+    } else {
+      playNextCardsound(); // קול רגיל
+    }
+      
     card.addEventListener("animationend", () => {
       card.remove();
     }, { once: true });
