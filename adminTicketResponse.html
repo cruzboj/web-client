@@ -51,16 +51,25 @@
 <body>
     <header class="toolbar"></header>
     <div class="main-content">
-    <div class="container-fluid">
+        <div class="container-fluid">
             <table class="table">
                 <thead>
                     <tr>
                         <th scope="col">Ticket ID</th>
-                        <th scope="col">Date</th>
+                        <th scope="col">Created At</th>
                         <th scope="col">UserName</th>
+                        <th scope="col">Updated At</th>
                         <th scope="col">Status</th>
                     </tr>
                 </thead>
+                <tbody id="tableBody">
+                </tbody>
+            </table>
+            <section id="description_box">
+                <h3>Ticket Description</h3>
+                <section id="ticket_description"  class="border border-5 border-danger my-4 mx-0 p-2 fs-6 rounded">
+                </section>
+            </section>
 </body>
 
 </html>

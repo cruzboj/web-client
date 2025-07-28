@@ -1,5 +1,6 @@
 addEventListener("DOMContentLoaded", () => {
   const tableContainer = document.querySelector("#tableBody");
+  const descriptionBox = document.querySelector("#description_box");
   let TempText = "";
   if (!tableContainer) {
     console.log("Error loading table body");
