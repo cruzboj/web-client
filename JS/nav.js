@@ -144,7 +144,7 @@ function loadHtml() {
                 <div class="col-md-auto d-flex justify-content-center align-items-center"><a href="/client/shop.html">SHOP<br><i class="fa-solid fa-bag-shopping"></i></a></div>
                 <div class="col-md-auto d-flex justify-content-center align-items-center"><a href="/client/news.html">NEWS<br><i class="fa-solid fa-newspaper"></i></a></div>
                 <div class="col-md-auto d-flex justify-content-center align-items-center"><a href="/client/#.html">BATTLE<br><i class="fa-solid fa-trophy"></i></a></div>
-                <div class="col-md-auto d-flex justify-content-center align-items-center"><a href="/client/#.html">TRADE<br><i class="fa-solid fa-arrows-rotate"></i></a></div>
+                <div class="col-md-auto d-flex justify-content-center align-items-center"><a href="/client/trade.html">TRADE<br><i class="fa-solid fa-arrows-rotate"></i></a></div>
                 <div class="col-md-auto d-flex justify-content-center align-items-center"><a href="/client/#.html">CARDS<br><i class="fa-solid fa-rug"></i></a></div>
                 <div class="col-md-auto d-flex justify-content-center align-items-center"><a href="/client/contact.html">CONTACT<br><i class="fa-solid fa-headset"></i></a></div>
             </div>
@@ -383,11 +383,10 @@ function mobileNav(navbar) {
           
           <ul id="mobileMenu" class="list-unstyled m-0 collapse">
               <li><a href="/client/index.html" class="btn btn-link">HOME</a></li>
-              <li><a href="#" class="btn btn-link">SHOP</a></li>
+              <li><a href="/client/shop.html" class="btn btn-link">SHOP</a></li>
               <li><a href="/client/news.html" class="btn btn-link">NEWS</a></li>
               <li><a href="#" class="btn btn-link">BATTLE</a></li>
-              <li><a href="#" class="btn btn-link">TRADE</a></li>
-              <li><a href="#" class="btn btn-link">CARDS</a></li>
+              <li><a href="/client/trade.html" class="btn btn-link">TRADE</a></li>
               <li><a href="/client/contact.html" class="btn btn-link">CONTACT</a></li>
               <li><hr></li>
               ${userMenu}
