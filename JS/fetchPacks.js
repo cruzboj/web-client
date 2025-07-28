@@ -141,18 +141,25 @@ function openPack(){
           return;
       }
       
-      
+      //check if user have coins
       if(wasOpened === false && wasChosen === true){
         getUserInfo().then(data => {
           const user_coins = data.coins;
           console.log("user coins :" + user_coins);
 
-          if (user_coins < 12)
-          {
+          if (user_coins < 12) {
             console.log("not enough coins");
             return;
           }
-
+          else {
+            fetch(serverNet + `/user/coin/${user_coins - 12}`, {
+              method: "PUT",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ username: data.username, coins: data.coins }),
+            }
+              
+            )
+          }
         })
       }
       
