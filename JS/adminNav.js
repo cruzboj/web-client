@@ -1,3 +1,5 @@
+const serverNet = "https://web-server-q7kx.onrender.com/api";
+
 document.addEventListener("DOMContentLoaded", () => {
     createNav();
   });

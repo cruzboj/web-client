@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -13,6 +14,7 @@
 
   <!-- NAVBAR -->
   <script src="JS/adminNav.js"></script>
+  <script src="JS/adminTickets.js"></script>
   <style>
     /* body {
       font-family: 'Gruppo', sans-serif;
@@ -43,38 +45,39 @@
       margin-left: 220px;
       padding: 20px;
     }
-  </style>  
+  </style>
 </head>
+
 <body>
   <header class="toolbar"></header>
 
   <!-- Main Content -->
   <div class="main-content">
     <div class="container-fluid">
-    
-        <h1>Admin Panel</h1>
-        <form class="row g-4 mb-1 align-items-center" role="search">
-            <div class="col-md-2">
-                <input type="search" class="form-control" placeholder="Search Ticket ID" aria-label="Search by date">
-              </div>
-            <div class="col-md-2">
-              <input type="date" class="form-control" placeholder="Search by date" aria-label="Search by date">
-            </div>
-            <div class="col-md-3">
-              <input type="text" class="form-control" placeholder="Search by name" aria-label="Search by name">
-            </div>
-            <div class="col-md-2">
-              <select class="form-select" aria-label="Search by status">
-                <option selected disabled>Search by status</option>
-                <option value="pending">Pending</option>
-                <option value="approved">Approved</option>
-                <option value="rejected">Rejected</option>
-              </select>
-            </div>
-            <div class="col-md-1">
-              <button class="btn btn-success w-100" type="submit">Search</button>
-            </div>
-          </form>
+
+      <h1>Admin Panel</h1>
+      <form class="row g-4 mb-1 align-items-center" role="search">
+        <div class="col-md-2">
+          <input type="search" class="form-control" placeholder="Search Ticket ID" aria-label="Search by date">
+        </div>
+        <div class="col-md-2">
+          <input type="date" class="form-control" placeholder="Search by date" aria-label="Search by date">
+        </div>
+        <div class="col-md-3">
+          <input type="text" class="form-control" placeholder="Search by name" aria-label="Search by name">
+        </div>
+        <div class="col-md-2">
+          <select class="form-select" aria-label="Search by status">
+            <option selected disabled>Search by status</option>
+            <option value="pending">Pending</option>
+            <option value="approved">Approved</option>
+            <option value="rejected">Rejected</option>
+          </select>
+        </div>
+        <div class="col-md-1">
+          <button class="btn btn-success w-100" type="submit">Search</button>
+        </div>
+      </form>
 
       <table class="table">
         <thead>
@@ -85,25 +88,7 @@
             <th scope="col">Status</th>
           </tr>
         </thead>
-        <tbody>
-          <tr>
-            <th scope="row">1</th>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-          </tr>
-          <tr>
-            <th scope="row">2</th>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>@fat</td>
-          </tr>
-          <tr>
-            <th scope="row">3</th>
-            <td>John</td>
-            <td>Doe</td>
-            <td>@social</td>
-          </tr>
+        <tbody id="tableBody">
         </tbody>
       </table>
 
@@ -111,4 +96,5 @@
   </div>
 
 </body>
+
 </html>
