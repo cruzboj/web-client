@@ -2,7 +2,6 @@
 body {
   /* background-image: url('https://w.wallhaven.cc/full/nk/wallhaven-nkmrz7.jpg');
   background-repeat: no-repeat;
-  background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
@@ -24,7 +23,7 @@ html, body {
 .toolbar{
   position: relative;
   z-index: 10;
-  box-shadow: 0 0 20px rgb(0, 0, 0);
+  /* box-shadow: 0 0 20px rgb(0, 0, 0); */
 }
 .modal-backdrop {
   z-index: 1 !important;
@@ -95,7 +94,7 @@ html, body {
 }
 
 .toolbar .row > div a i {
-  color: rgb(119, 178, 255);
+  color: rgb(117, 177, 255);
   font-size: 50px;
   text-shadow: none;
 }
@@ -127,7 +126,40 @@ html, body {
     margin-top: 50px;
     margin-left: 0;
   }
+  .toolbar{
+    height: 300px;
+  }
   .toolbar a{
     margin: 0;
   }
+}
+
+/* FORM STYLE */
+.modal-content{
+  background-color: rgba(0, 0, 0, 0);
+  background-image: url('../src/form.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: top;
+  background-size: 100% 100%;
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+.mainForm h1{
+  font-family: 'webfont', sans-serif;
+  color: rgb(255, 255, 255)
+}
+.modal-header,
+.modal-footer {
+  border: none !important;
+  position: relative;
+}
+
+
+.btn-close {
+  position: absolute;
+  top: 15px;
+  left: 75%;
+  /* filter: invert(18%) sepia(98%) saturate(7489%) hue-rotate(1deg) brightness(96%) contrast(122%); */
 }

@@ -188,7 +188,7 @@ function loadHtml() {
                 <div class="col-md-auto d-flex justify-content-center align-items-center"><a href="/client/shop.html">SHOP<br><i class="fa-solid fa-bag-shopping"></i></a></div>
                 <div class="col-md-auto d-flex justify-content-center align-items-center"><a href="/client/news.html">NEWS<br><i class="fa-solid fa-newspaper"></i></a></div>
                 <div class="col-md-auto d-flex justify-content-center align-items-center"><a href="/client/#.html">BATTLE<br><i class="fa-solid fa-trophy"></i></a></div>
-                <div class="col-md-auto d-flex justify-content-center align-items-center"><a href="/client/#.html">TRADE<br><i class="fa-solid fa-arrows-rotate"></i></a></div>
+                <div class="col-md-auto d-flex justify-content-center align-items-center"><a href="/client/trade.html">TRADE<br><i class="fa-solid fa-arrows-rotate"></i></a></div>
                 <div class="col-md-auto d-flex justify-content-center align-items-center"><a href="/client/#.html">CARDS<br><i class="fa-solid fa-rug"></i></a></div>
                 <div class="col-md-auto d-flex justify-content-center align-items-center"><a href="/client/contact.html">CONTACT<br><i class="fa-solid fa-headset"></i></a></div>
             </div>
@@ -270,13 +270,13 @@ function registerFormHTML() {
           <form id="registerForm" class="mainForm">
               <h1>Create Account</h1>
               <div class="row align-items-center">
-                  <i class="fa-solid fa-user"></i>
+                  <i class="fa-solid fa-user text-warning"></i>
                   <input type="text" id="regUsername" placeholder="User" required autocomplete="username"/>
-                  <i class="fa-solid fa-envelope"></i>
+                  <i class="fa-solid fa-envelope text-warning"></i>
                   <input type="email" id="regEmail" placeholder="Email" required autocomplete="email"/>
-                  <i class="fa-solid fa-lock"></i>
+                  <i class="fa-solid fa-lock text-warning"></i>
                   <input type="password" id="regPassword" placeholder="Password" required autocomplete="new-password" />
-                  <i class="fa-solid fa-key"></i>
+                  <i class="fa-solid fa-key text-warning"></i>
                   <input type="password" id="regConfirmPassword" placeholder="Confirm Password" required autocomplete="new-password" />
               </div>
 
@@ -369,12 +369,13 @@ function loginformHTML() {
 
           <form class="mainForm" id="loginForm">
               <h1>Login information</h1>
-              <i class="fa-solid fa-user"></i>
+              <i class="fa-solid fa-user text-info"></i>
               <input type="text" id="loginUsername" placeholder="User" required autocomplete="username"/>
-              <i class="fa-solid fa-lock"></i>
+              <i class="fa-solid fa-lock text-warning"></i>
               <input type="password" id="loginPass" placeholder="Password" required autocomplete="current-password" />
               
               <div class="modal-footer">
+              <div class="g-recaptcha" data-sitekey="6LcZVpArAAAAAGgkHJbdQqrMTQ5ECEsJADJjHwqZ"></div>
                   <input type="submit" value="Login" />
               </div>
           </form>
@@ -426,11 +427,10 @@ function mobileNav(navbar) {
           
           <ul id="mobileMenu" class="list-unstyled m-0 collapse">
               <li><a href="/client/index.html" class="btn btn-link">HOME</a></li>
-              <li><a href="#" class="btn btn-link">SHOP</a></li>
+              <li><a href="/client/shop.html" class="btn btn-link">SHOP</a></li>
               <li><a href="/client/news.html" class="btn btn-link">NEWS</a></li>
               <li><a href="#" class="btn btn-link">BATTLE</a></li>
-              <li><a href="#" class="btn btn-link">TRADE</a></li>
-              <li><a href="#" class="btn btn-link">CARDS</a></li>
+              <li><a href="/client/trade.html" class="btn btn-link">TRADE</a></li>
               <li><a href="/client/contact.html" class="btn btn-link">CONTACT</a></li>
               <li><hr></li>
               ${userMenu}
