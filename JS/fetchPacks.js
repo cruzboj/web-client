@@ -10,13 +10,12 @@ document.addEventListener("DOMContentLoaded", () => {
   createComponent();
   fetchPack();
   openPack();
-  nextcard();
 });
 
 function createComponent() {
     document.querySelector(".packComponent").innerHTML = `
         <div class="container text-center">
-              <div class="pack_container row">
+              <div class="pack_container row" style="margin-top: -100px">
                     <div class="pack_container_width col-md-8 mx-auto">
                       <audio id="tearSound" src="https://www.myinstants.com/media/sounds/sparklee.mp3" preload="auto"></audio>
                       <audio id="nextcard" src="https://www.myinstants.com/media/sounds/card-flip.mp3" preload="auto"></audio>
@@ -141,6 +140,22 @@ function openPack(){
           openLoginModal();
           return;
       }
+      
+      
+      if(wasOpened === false && wasChosen === true){
+        getUserInfo().then(data => {
+          const user_coins = data.coins;
+          console.log("user coins :" + user_coins);
+
+          if (user_coins < 12)
+          {
+            console.log("not enough coins");
+            return;
+          }
+
+        })
+      }
+      
 
       if (!packChoose) {
         packChoose = pack;
@@ -253,8 +268,13 @@ function nextcard(pack) {
   let cards = Array.from(pack.querySelectorAll(".card"));
 
   pack.addEventListener("click", () => {
-    if (cards.length === 0) return; // אין קלפים להוציא
 
+    //reload page
+    if (cards.length === 1) {
+      setTimeout(() => { 
+        location.reload();
+      }, 1500);
+    }
     const card = cards.pop(); // מוציאים קלף אחד מהסוף
 
     card.classList.add("fly-up");

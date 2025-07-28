@@ -23,7 +23,7 @@ html, body {
 .toolbar{
   position: relative;
   z-index: 10;
-  box-shadow: 0 0 20px rgb(0, 0, 0);
+  /* box-shadow: 0 0 20px rgb(0, 0, 0); */
 }
 .modal-backdrop {
   z-index: 1 !important;
@@ -125,6 +125,9 @@ html, body {
   .coinsUI {
     margin-top: 50px;
     margin-left: 0;
+  }
+  .toolbar{
+    height: 300px;
   }
   .toolbar a{
     margin: 0;
