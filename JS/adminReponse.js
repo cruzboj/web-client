@@ -39,32 +39,44 @@ addEventListener("DOMContentLoaded", () => {
             <span class="input-group-text">Admin Response</span>
             <textarea id="adminResponse" class="form-control" aria-label="adminResponse"></textarea>
         </div>
-        
-        <button id="submitResponse" class="btn btn-primary mt-2 mx-auto d-block">Submit Reply</button>
+        <div class="d-flex justify-content-center align-items-center gap-3 mt-3 flex-wrap">
+        <div class="btn-group" role="group" aria-label="Radio options">
+            <input type="radio" class="btn-check" name="options" id="option1" value="In-progress" autocomplete="off" checked>
+            <label class="btn btn-secondary" for="option1">In-progress</label>
+
+            <input type="radio" class="btn-check" name="options" id="option2" value="Closed" autocomplete="off">
+            <label class="btn btn-secondary" for="option2">Closed</label>
+        </div>
+
+        <button id="submitResponse" class="btn btn-primary">Submit</button>
+        </div>
+
         `;
-        if(response.response != null){
-            document.querySelector("#adminResponse").value = response.response;
-        }
-        document.querySelector("#submitResponse").addEventListener("click", () =>{
-            const responseText = document.querySelector("#adminResponse").value;
-            const token = localStorage.getItem("token");
-            fetch(serverNet + "/adminTickets",{
-                method:"PATCH",
-                headers: {
-                    Authorization:token
-                },
-                body:JSON.stringify({
-                    "ticketid":ticketID,
-                    "adminResponse":responseText
-                })
-                }
-            )
-            .then((response) => {
-                if (response.ok){
-                    window.location.href="./admin.html"
-                }
-            })
-        })
+      if (response.response != null) {
+        document.querySelector("#adminResponse").value = response.response;
+      }
+      document
+        .querySelector("#submitResponse")
+        .addEventListener("click", () => {
+          const responseText = document.querySelector("#adminResponse").value;
+          const selectedStatus = document.querySelector('input[name="options"]:checked').value;
+          const token = localStorage.getItem("token");
+          fetch(serverNet + "/adminTickets", {
+            method: "PATCH",
+            headers: {
+              Authorization: token,
+            },
+            body: JSON.stringify({
+              ticketid: ticketID,
+              adminResponse: responseText,
+              status:selectedStatus
+            }),
+          }).then((response) => {
+            if (response.ok) {
+              window.location.href = "./admin.html";
+            }
+          });
+        });
     });
 });
 
