@@ -64,8 +64,8 @@ async function getUserInfo() {
 
     const username = data.username || "guest";
     const coins = data.coins || "0";
-    isadmin = data.isadmin;
-    return { username, coins };
+    const isadmin = data.isadmin;
+    return { username, coins, isadmin };
   } catch (error) {
     console.error("Error fetching user info: ", error);
     return null;
@@ -73,15 +73,13 @@ async function getUserInfo() {
 }
 
 function loadProfile() {
-let _username;
-    let _coins;
-    
-    getUserInfo().then((data) => {
-        const imgUser = "https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg?semt=ais_hybrid&w=740";
+  getUserInfo().then((data) => {
+    const imgUser =
+      "https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg?semt=ais_hybrid&w=740";
 
-      if (data.username !== "guest") {
-        
-        if (currentView === "pc") {
+    if (data.username !== "guest") {
+      if (currentView === "pc") {
+        if (data.isadmin === false) {
           document.querySelector(".profile_container").innerHTML = `
                 <section class="profile_container">
                 <section class="profile">
@@ -100,25 +98,71 @@ let _username;
                 </section>
             </section>
             `;
+        } 
+        else {
+          document.querySelector(".profile_container").innerHTML = `
+                <section class="profile_container">
+                <section class="profile">
+                    <img src="${imgUser}" alt="Profile" class="rounded-circle mt-1 mx-auto" width="50" height="50">
+                    <div class="btn-group">
+                        <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">${data.username}</button>
+                        <ul class="dropdown-menu">
+                            <li><button type="button" class="btn btn-light w-100" data-bs-toggle="modal" data-bs-target="#Settings">Settings</button></li>
+                            <li><button type="button" class="btn btn-light w-100" id="logoutBtn">Logout</button></li>
+                            <li><button type="button" class="btn btn-light w-100" id="adminBtn">Admin Panel</button></li>
+                        </ul>
+                    </div>
+                </section>
+                <section class="coinsUI rounded-pill d-inline-flex align-items-center px-5 py-1" style="height: 30px;">
+                <i class="fa-solid fa-coins text-warning me-2"></i>
+                <p class="text-light m-0 ">${data.coins}</p>
+                </section>
+            </section>
+            `;
         }
-        else if( currentView === "mobile") {
-          document.querySelector(".coinsUI").innerHTML = ` 
+      } else if (currentView === "mobile") {
+        document.querySelector(".coinsUI").innerHTML = ` 
           <section class="coinsUI rounded-pill d-inline-flex align-items-center px-3 py-1 position-absolute top-0 start-50 translate-middle" style="height: 30px;">
               <i class="fa-solid fa-coins text-warning me-2"></i>
               <p class="text-light m-0 ">${coins}</p>
           </section>
           `;
-        }
       }
-    });
+    }
+    const adminBtn = document.querySelector("#adminBtn");
+    if (adminBtn) {
+      adminBtn.addEventListener("click", () => {
+        window.location.href = "./admin.html";
+      });
+    }
+  });
+  //   const { username, coins } = await getUserInfo();
+  //     const profile = `
+  //     <section class="profile">
+  //         <img src="${imgUser}" alt="Profile" class="rounded-circle mt-1 mx-auto" width="50" height="50">
+  //         <div class="btn-group">
+  //             <button type="button" class="profile btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">${username}</button>
+  //             <ul class="dropdown-menu">
+  //                 ${userMenu}
+  //             </ul>
+  //         </div>
+  //     </section>
+  //     <section class="coinsUI rounded-pill d-inline-flex align-items-center px-5 py-1" style="height: 30px;">
+  //       <i class="fa-solid fa-coins text-warning me-2"></i>
+  //       <p class="text-light m-0 ">${coins}</p>
+  //     </section>
+  //     `;
+
+  //     return profile;
 }
 
 function loadHtml() {
-  const imgUser = "https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg?semt=ais_hybrid&w=740";
-  
+  const imgUser =
+    "https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg?semt=ais_hybrid&w=740";
+
   const navbar = document.querySelector(".toolbar");
 
-    navbar.innerHTML = `
+  navbar.innerHTML = `
     <section class="profile_container">
         <section class="profile">
             <img src="${imgUser}" alt="Profile" class="rounded-circle mt-1 mx-auto" width="50" height="50">
@@ -368,7 +412,7 @@ function pcNav(navbar) {
 }
 
 function mobileNav(navbar) {
-  getUserMenu().then(userMenu => {
+  getUserMenu().then((userMenu) => {
     navbar.innerHTML = `
       <div>
           <button id="mobileMenuBtn" class="btn" aria-expanded="false" aria-controls="mobileMenu">
@@ -405,11 +449,11 @@ function mobileNav(navbar) {
     });
 
     setupDynamicListeners();
-    loadProfile();  // טען פרופיל אחרי העדכון
+    loadProfile(); // טען פרופיל אחרי העדכון
   });
 }
 
-function openLoginModal(){
+function openLoginModal() {
   const loginModalEl = document.getElementById("login");
   if (loginModalEl) {
     const loginModal = new bootstrap.Modal(loginModalEl);
