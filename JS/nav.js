@@ -2,6 +2,7 @@ const local = "http://localhost:8082";
 const serverNet = "https://web-server-q7kx.onrender.com/api";
 
 const socket = io("https://web-server-q7kx.onrender.com");
+let tradeData;
 
 socket.on("connect", () => {
   console.log("Socket connected, id: ", socket.id);
@@ -16,6 +17,8 @@ socket.on("connect", () => {
   });
   socket.on("trade_offer", (trade_details) => {
     console.log(trade_details);
+    tradeData = trade_details;
+    tradeAlert(trade_details,"warning");
   });
 });
 
@@ -344,7 +347,7 @@ function registerFormHTML() {
 //--------------------------------------------------------------------------------------------
 //login - logic
 //--------------------------------------------------------------------------------------------
-function handleLogin() {
+function handleLogin(trade_details) {
   const loginForm = document.getElementById("loginForm");
   if (!loginForm) return;
 
@@ -534,9 +537,134 @@ function appendAlert(message, type) {
   const alertElement = wrapper.firstElementChild;
   alertPlaceholder.append(alertElement);
 
-  // הסרה אוטומטית אחרי 60 שניות (60000 מ״ש)
+
   setTimeout(() => {
     alertElement.classList.remove("show"); // אפקט fade out
     alertElement.addEventListener("transitionend", () => alertElement.remove());
   }, 9000);
+}
+
+async function tradeAlert(trade_details,type) {
+  const alertPlaceholder = document.getElementById('liveAlertPlaceholder');
+  if (!alertPlaceholder) return;
+
+  const player2 = await getnameformid(trade_details.p1_id);
+  console.log(player2);
+  if (!player2) {
+    return;
+  }
+
+  const card_p2 = await getCardformid(trade_details.p1_card);
+  console.log(card_p2);
+  if (!card_p2) {
+    return;
+  }
+
+  const card_p1 = await getCardformid(trade_details.p2_card);
+  if (!card_p1) {
+    return;
+  }
+
+  const wrapper = document.createElement('section');
+  wrapper.innerHTML = `
+    <section class="alert alert-${type} alert-dismissible fade show" role="alert" style="padding: 30px; Width:100%;">
+      <div class="container-fluid text-center">
+        <div class="row flex-nowrap align-items-center justify-content-center gx-3">
+
+          <div class="col-auto">
+            <span>${player2} wants to trade their:</span>
+          </div>
+
+          <div class="col-auto">
+            <div class="card_holder card rare_${card_p2.color_id}" style="padding: 3px;">
+              <img src="${card_p2.image_url}" width="100" height="180" style="margin: 10px; border-radius: 5px;">
+            </div>
+          </div>
+
+          <div class="col-auto">
+            <span>for your:</span>
+          </div>
+
+          <div class="col-auto">
+            <div class="card_holder card rare_${card_p1.color_id}" style="padding: 5px; padding-right:1px">
+              <img src="${card_p1.image_url}" width="120" height="180" style="margin: 10px; border-radius: 5px;">
+            </div>
+          </div>
+
+          <div class="col-auto">
+            <button type="button" class="btn btn-success" onclick="acceptTrade()">
+              <i class="fas fa-check"></i>
+            </button>
+          </div>
+
+          <div class="col-auto">
+            <button type="button" class="btn btn-danger" data-bs-dismiss="alert" aria-label="Close">
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+          </div>
+
+
+        </div>
+      </div>
+    </section>
+  `;
+
+  const alertElement = wrapper.firstElementChild;
+  alertPlaceholder.append(alertElement);
+}
+
+async function getnameformid(id) {
+  const token = localStorage.getItem("token");
+  try {
+    const res = await fetch(serverNet + `/user/searchID/${id}`, {
+      headers: { Authorization: token },
+    });
+    const data = await res.json();
+    console.log("ID USER NAME ", data);
+    return data.username; // או data["username"]
+  } catch (error) {
+    console.error("Failed to fetch username:", error);
+    return null;
+  }
+}
+
+async function getCardformid(id) {
+  const token = localStorage.getItem("token");
+  try {
+    const res = await fetch(serverNet + `/cards/search/${id}`, {
+      headers: { Authorization: token },
+    });
+    const data = await res.json();
+    console.log("CARD ", data);
+    return data; // תוודא שזה השם של השדה שאתה רוצה
+  } catch (error) {
+    console.error("Failed to fetch card:", error);
+    return null;
+  }
+}
+
+function acceptTrade() {
+  const token = localStorage.getItem("token");
+
+  fetch(serverNet + `/trade/accept`, {
+    headers: {
+            
+            Authorization: token,
+            "Content-Type" : "application/json",
+        },
+        body: JSON.stringify({
+            user1_id: tradeData.p1_id,
+            user2_id: tradeData.p2_id,
+            user1_card: tradeData.p1_card,
+            user2_card: tradeData.p2_card,
+        }),
+        method : "POST"
+  }).then(data => {
+    if (data.ok)
+      console.log("ok");
+  })
+  .catch((error) => {
+    console.error("Failed to fetch trade", error);
+    return null;
+  })
 }

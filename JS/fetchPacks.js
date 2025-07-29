@@ -133,7 +133,7 @@ function openPack(){
 
   packs.forEach((pack) => {
     pack.addEventListener("click", () => {
-
+      
       //chcek if user is logged in
       const token = localStorage.getItem("token");
       if (!token) {
@@ -152,10 +152,12 @@ function openPack(){
             return;
           }
           else {
-            fetch(serverNet + `/user/coin/${user_coins - 12}`, {
-              method: "PUT",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ username: data.username, coins: data.coins }),
+            fetch(serverNet + `/pack/getPack/${pack.dataset.packid}`, {
+              method: "GET",
+              headers: {
+                Authorization: token,
+                "Content-Type": "application/json",
+              },
             }
               
             )
