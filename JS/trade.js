@@ -300,7 +300,7 @@ async function addToP2(cardElement, username) {
     const img = clone.querySelector("img");
     if (img) {
         img.style.margin = "10px";
-        img.style.height = "280px";
+        img.style.height = "180px";
         img.style.width = "89%";
         img.style.marginLeft = "3px";
         img.style.borderRadius = "5px";
@@ -348,7 +348,9 @@ function handleTrade() {
 
     fetch(serverNet + `/trade/create/`, {
         headers: {
+            
             Authorization: token,
+            "Content-Type" : "application/json",
         },
         body: JSON.stringify({
             user1_id: usernameP1,
