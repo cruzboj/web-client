@@ -1,0 +1,81 @@
+
+.card_holder {
+  height: 200px;
+  background-color: rgba(0, 0, 255, 0);
+  border: none;
+}
+.placeholder_card {
+  margin: 0;
+  padding: 0;
+  display: block;
+  width: 100%;
+  height: 200px;
+  border-radius: 10px;
+}
+
+/* .card > .container .row .col img {
+    height: 100px;
+} */
+
+.scrollable-cards {
+  max-height: 500px; /* אתה יכול לשנות את הגובה לפי הצורך */
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.card {
+  cursor: pointer;
+  position: relative;
+  z-index: 0;
+  border-radius: 10px;
+  overflow: visible;
+}
+
+.card::after,
+.card::before{
+    content: '';
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    z-index: -1;
+    padding: 0;
+    border-radius: 5px;
+    /* background-color: #ffe550; */
+    background-image: conic-gradient(from var(--angle), #fdffe3,#ffee00, #ffe550,#fffccc);
+    animation: 3s spin linear infinite;
+    perspective: 1000px;
+    transform-style: preserve-3d;
+}
+
+.rare_2::before,
+.rare_2::after {
+background-image: conic-gradient(from var(--angle),  #ff4545, #00ff99, #006aff, #ff0095, #ff4545);
+}
+@property --angle{
+      syntax: "<angle>";
+      initial-value: 0deg;
+      inherits: false;
+} 
+@keyframes spin{
+    from{
+        --angle: 0deg;
+    }
+    to{
+        --angle: 360deg;
+    }
+}
+
+.card_quantity{
+    font-family: 'webfont', sans-serif;
+    position: absolute;
+    z-index: 2;
+}
+
+.card_name{
+    /* font-family: 'webfont', sans-serif; */
+    position: absolute;
+    z-index: 3;
+    font-size: 17px;
+    margin-left: 10px;
+    margin-top: 120px;
+    /* color:aliceblue */
+}

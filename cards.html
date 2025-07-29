@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- title icon -->
+    <link rel="icon" type="image/png" href="./src/icon1.png" />
+    <title>DEX-shop</title>
+
+    <!-- Bootstrap -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
+      defer
+    ></script>
+
+    <!-- Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+      integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
+    <!-- Nav Component -->
+    <link rel="stylesheet" href="CSS/styles.css" />
+    <script src="JS/nav.js"></script>
+
+    <!-- Dark Mode JS -->
+    <script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.7/lib/darkmode-js.min.js"></script>
+    <script src="JS/darkmode.js"></script>
+
+    <!-- Cards Component -->
+    <link rel="stylesheet" href="CSS/trade.css"/>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
+    <title>DEX - trade</title>
+
+<style>
+.card_holder {
+  height: 300px;
+  background-color: rgba(0, 0, 255, 0);
+  border: none;
+}
+.placeholder_card {
+  margin: 0;
+  padding: 0;
+  display: block;
+  width: 100%;
+  height: 300px;
+  border-radius: 10px;
+}
+</style>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    loadCards();
+    fetch_user_cards();
+});
+
+function loadCards(){
+    document.querySelector(".cardsComponent").innerHTML = `
+        <div class="container text-center">
+            <div class="row">
+                <div class="col">
+                    <form class="d-flex gap-2 my-2">
+                    <input
+                        class="form-control"
+                        type="search"
+                        placeholder="Search"
+                        aria-label="Search"
+                    />
+                    <button class="btn btn-outline-success" type="submit">
+                        Search
+                    </button>
+                    </form>
+
+                    <div class="container text-center">
+                        <div class="show_userCards row row-cols-5 gx-4 gy-4">
+                        </div>
+                    </div>
+                </div>
+            </div>    
+        </div>
+    `;
+    
+    cards_placeholder = document.querySelector(".show_userCards");
+    for(let i = 0 ; i < 15 ; i++){
+        cards_placeholder.innerHTML +=`
+            <div class="col">
+                <div class="card_holder m-2">
+                    <span class="placeholder_card placeholder col-12 "></span>
+                </div>
+            </div>
+        `
+    }
+
+}
+
+async function fetch_user_cards() {
+    const token = localStorage.getItem("token");
+    if (!token) {
+        openLoginModal();
+        return;
+    }
+
+    const username = getUsernameFromToken();
+    const user_id = await getid(username);
+
+    if (!user_id) {
+        console.error("User ID not found");
+        return;
+    }
+
+    try {
+        const res = await fetch(`${serverNet}/user/cards/${user_id}`, {
+            headers: {
+                Authorization: token,
+            },
+        });
+
+        const data = await res.json();
+        const user = document.querySelector(".show_userCards");
+        user.innerHTML = "";
+
+        data.forEach(card => {
+            const colWrapper = document.createElement("div");
+            colWrapper.className = "col"; // זה מה שמפעיל את הרווחים
+
+            const cardElement = document.createElement("div");
+            cardElement.className = `card_holder card rare_${card.color_id} p-2`;
+            cardElement.dataset.cardid = card.cardid;
+
+            cardElement.innerHTML = `
+                <div>
+                    <p class="card_quantity rounded-pill text-bg-light">${card.quantity}X</p>
+                    <img src="${card.image_url}" alt="${card.name}" class="img-fluid" style="margin:10px; height:180px; border-radius: 5px;"/>
+                </div>
+            `;
+
+            cardElement.addEventListener("click", () => {
+                addToP1(cardElement.cloneNode(true));
+            });
+
+            colWrapper.appendChild(cardElement);
+            user.appendChild(colWrapper);
+        });
+    } catch (error) {
+        console.error("Failed to fetch user cards:", error);
+    }
+}
+
+function getUsernameFromToken() {
+    const token = localStorage.getItem("token");
+    if (!token) return null;
+    try {
+        const payload = token.split('.')[1];
+        const decoded = atob(payload);
+        const parsed = JSON.parse(decoded);
+        return parsed.username || null;
+    } catch (err) {
+        console.error("Failed to decode token:", err);
+        return null;
+    }
+}
+
+async function getid(string) {
+    try {
+        const res = await fetch(`${serverNet}/user/search/${string}`);
+        const data = await res.json();
+        console.log("userid:", data);
+        return data;
+    } catch (err) {
+        console.error("Error fetching user ID:", err);
+        return null;
+    }
+}
+
+</script>
+
+  </head>
+
+  <body>
+    <header class="toolbar"></header>
+    <main class="bg-dark py-2">
+      <section class="cardsComponent"></section>
+        
+    </main>
+  </body>
+</html>
