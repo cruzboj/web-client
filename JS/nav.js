@@ -370,7 +370,6 @@ function handleLogin(trade_details) {
         response.json().then((data) => {
           const token = data.token;
           onLogin(token);
-          window.reload();
         });
       } else {
         invalidLogin();
@@ -401,6 +400,7 @@ function onLogin(token) {
   document.querySelectorAll(".modal-backdrop").forEach((el) => el.remove());
   document.body.classList.remove("modal-open");
   document.body.style = "";
+  location.reload();
 }
 
 function onLogout() {
