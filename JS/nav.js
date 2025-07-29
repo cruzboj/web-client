@@ -1,7 +1,7 @@
 const local = "http://localhost:8082";
 const serverNet = "https://web-server-q7kx.onrender.com/api";
 
-const socket = io(serverNet);
+const socket = io("https://web-server-q7kx.onrender.com");
 
 socket.on("connect", () => {
   console.log("Socket connected, id: ", socket.id);
