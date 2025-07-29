@@ -370,6 +370,7 @@ function handleLogin(trade_details) {
         response.json().then((data) => {
           const token = data.token;
           onLogin(token);
+          window.reload();
         });
       } else {
         invalidLogin();
