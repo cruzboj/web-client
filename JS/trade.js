@@ -320,6 +320,8 @@ async function addToP2(cardElement, username) {
 }
 
 function handleTrade() {
+    const token = localStorage.getItem("token");
+
     const usernameP1 = document.querySelector('input[name="username_p1"]').value;
     const cardidP1 = document.querySelector('input[name="cardid_p1"]').value;
     const usernameP2 = document.querySelector('input[name="username_p2"]').value;
@@ -343,6 +345,19 @@ function handleTrade() {
         cardid_p2: parseInt(cardidP2),
     };
     console.log("Sending trade data:", tradeData);
+
+    fetch(serverNet + `/trade/create/`, {
+        headers: {
+            Authorization: token,
+        },
+        body: JSON.stringify({
+            user1_id: usernameP1,
+            user2_id: usernameP2,
+            user1_card: cardidP1,
+            user2_card: cardidP2,
+        }),
+        method : "POST"
+    });
     // fetch(`${serverNet}/trade`, {
     //     method: "POST",
     //     headers: {
