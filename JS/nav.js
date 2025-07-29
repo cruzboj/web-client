@@ -1,5 +1,23 @@
-const local = "http://localhost:8081";
+const local = "http://localhost:8082";
 const serverNet = "https://web-server-q7kx.onrender.com/api";
+
+const socket = io(serverNet);
+
+socket.on("connect", () => {
+  console.log("Socket connected, id: ", socket.id);
+  const token = localStorage.getItem("token");
+  if (!token) {
+    return;
+  }
+  socket.emit("token", token);
+
+  socket.on("trade", (msg) => {
+    console.log("You Recieved a message: ", msg);
+  });
+  socket.on("trade_offer", (trade_details) => {
+    console.log(trade_details);
+  });
+});
 
 let currentView = ""; //change nav from pc/moblie
 
@@ -12,6 +30,24 @@ document.addEventListener("DOMContentLoaded", () => {
   //needes to be at the end line (navbar resize update)
   window.addEventListener("resize", () => {
     updateNavbar(navbar);
+  });
+
+  const token = localStorage.getItem("token");
+  const socketTest = document.querySelector("#testButton");
+  socketTest.addEventListener("click", () => {
+    fetch(serverNet + "/trade/create", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": token,
+      },
+      body: JSON.stringify({
+        user1_id: 1,
+        user2_id: 1,
+        user1_card: 5,
+        user2_card: 3,
+      }),
+    });
   });
 });
 
@@ -98,8 +134,7 @@ function loadProfile() {
                 </section>
             </section>
             `;
-        } 
-        else {
+        } else {
           document.querySelector(".profile_container").innerHTML = `
                 <section class="profile_container">
                 <section class="profile">
