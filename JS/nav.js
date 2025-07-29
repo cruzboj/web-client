@@ -664,6 +664,12 @@ function acceptTrade() {
   }).then(data => {
     if (data.ok)
       console.log("ok");
+
+        setTimeout(() => {
+          window.location.reload();
+      }, 3000);
+
+
   })
   .catch((error) => {
     console.error("Failed to fetch trade", error);
