@@ -402,7 +402,6 @@ function onLogin(token) {
   document.body.style = "";
 
   window.location.reload();
-  window.location.reload(true);
 }
 
 function onLogout() {
