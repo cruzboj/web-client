@@ -400,7 +400,9 @@ function onLogin(token) {
   document.querySelectorAll(".modal-backdrop").forEach((el) => el.remove());
   document.body.classList.remove("modal-open");
   document.body.style = "";
-  location.reload();
+
+  window.location.reload();
+  window.location.reload(true);
 }
 
 function onLogout() {
