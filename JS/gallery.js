@@ -12,7 +12,7 @@ style.textContent = `
     height: 270px;
     margin: 0 auto; /* מרכז אופקית */
     transform-style: preserve-3d;
-    animation: rotate 10s linear infinite;
+    animation: rotate 30s linear infinite;
     transform-origin: center center;
   }
   @keyframes rotate {
@@ -67,28 +67,28 @@ function showGallery() {
   const gallery = document.querySelector(".gallery");
 
   const frontImages = [
-    "./src/packfront.png",
-    "./src/packfront.png",
-    "./src/packfront.png",
-    "./src/packfront.png",
-    "./src/packfront.png",
-    "./src/packfront.png",
-    "./src/packfront.png",
-    "./src/packfront.png",
-    "./src/packfront.png",
-    "./src/packfront.png",
+    "./src/Packfront.png",
+    "./src/Packfront.png",
+    "./src/Packfront.png",
+    "./src/Packfront.png",
+    "./src/Packfront.png",
+    "./src/Packfront.png",
+    "./src/Packfront.png",
+    "./src/Packfront.png",
+    "./src/Packfront.png",
+    "./src/Packfront.png",
   ];
   const backImages = [
-    "./src/packback.png",
-    "./src/packback.png",
-    "./src/packback.png",
-    "./src/packback.png",
-    "./src/packback.png",
-    "./src/packback.png",
-    "./src/packback.png",
-    "./src/packback.png",
-    "./src/packback.png",
-    "./src/packback.png",
+    "./src/Packback.png",
+    "./src/Packback.png",
+    "./src/Packback.png",
+    "./src/Packback.png",
+    "./src/Packback.png",
+    "./src/Packback.png",
+    "./src/Packback.png",
+    "./src/Packback.png",
+    "./src/Packback.png",
+    "./src/Packback.png",
   ];
 
   const total = frontImages.length;
