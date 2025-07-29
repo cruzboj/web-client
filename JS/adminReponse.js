@@ -1,3 +1,5 @@
+import { formatDate } from "./dateFormatter.js";
+
 addEventListener("DOMContentLoaded", () => {
   const urlParams = new URLSearchParams(window.location.search);
   const ticketID = urlParams.get("ticketid");
@@ -5,6 +7,8 @@ addEventListener("DOMContentLoaded", () => {
   const tableBody = document.querySelector("#tableBody");
   const DescriptionContainer = document.querySelector("#description_box");
   const ticketDescription = document.querySelector("#ticket_description");
+
+
   if (!tableBody) {
     return;
   }
@@ -59,34 +63,28 @@ addEventListener("DOMContentLoaded", () => {
         .querySelector("#submitResponse")
         .addEventListener("click", () => {
           const responseText = document.querySelector("#adminResponse").value;
-          const selectedStatus = document.querySelector('input[name="options"]:checked').value;
+          const selectedStatus = document.querySelector(
+            'input[name="options"]:checked'
+          ).value;
+          const id = parseInt(ticketID);
           const token = localStorage.getItem("token");
+          console.log(id);
           fetch(serverNet + "/adminTickets", {
             method: "PATCH",
             headers: {
               Authorization: token,
+              "Content-Type": "application/json",
             },
             body: JSON.stringify({
-              ticketid: ticketID,
+              ticketid: id,
               adminResponse: responseText,
-              status:selectedStatus
+              status: selectedStatus,
             }),
           }).then((response) => {
             if (response.ok) {
-              window.location.href = "./admin.html";
+              window.location.href = "../admin.html";
             }
           });
         });
     });
 });
-
-function formatDate(myDate) {
-  const date = new Date(myDate);
-  const day = String(date.getDate()).padStart(2, "0");
-  const month = String(date.getMonth() + 1).padStart(2, "0"); // months are 0-based
-  const year = date.getFullYear();
-  const hours = String(date.getHours()).padStart(2, "0");
-  const minutes = String(date.getMinutes()).padStart(2, "0");
-  //   return `${day}/${month}/${year} ${hours}:${minutes}`;
-  return `${hours}:${minutes} ${day}/${month}/${year}`;
-}

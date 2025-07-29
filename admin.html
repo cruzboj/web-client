@@ -14,7 +14,7 @@
 
   <!-- NAVBAR -->
   <script src="JS/adminNav.js"></script>
-  <script src="JS/adminTickets.js"></script>
+  <script type="module" src="JS/adminTickets.js"></script>
   <style>
     /* body {
       font-family: 'Gruppo', sans-serif;
@@ -56,22 +56,22 @@
     <div class="container-fluid">
 
       <h1>Admin Panel</h1>
-      <form class="row g-4 mb-1 align-items-center" role="search">
+      <form id="filterForm" class="row g-4 mb-1 align-items-center" role="search">
         <div class="col-md-2">
-          <input type="search" class="form-control" placeholder="Search Ticket ID" aria-label="Search by date">
+          <input id="filterID" type="search" class="form-control" placeholder="Search Ticket ID" aria-label="Search by date">
         </div>
         <div class="col-md-2">
-          <input type="date" class="form-control" placeholder="Search by date" aria-label="Search by date">
+          <input id="filterDate" type="date" class="form-control" placeholder="Search by date" aria-label="Search by date">
         </div>
         <div class="col-md-3">
-          <input type="text" class="form-control" placeholder="Search by name" aria-label="Search by name">
+          <input id="filterUsername" type="text" class="form-control" placeholder="Search by name" aria-label="Search by name">
         </div>
         <div class="col-md-2">
-          <select class="form-select" aria-label="Search by status">
-            <option selected disabled>Search by status</option>
-            <option value="pending">Pending</option>
-            <option value="approved">Approved</option>
-            <option value="rejected">Rejected</option>
+          <select id="filterStatus" class="form-select" aria-label="Search by status">
+            <option selected>Search by status</option>
+            <option value="Open">Open</option>
+            <option value="In-progress">In-progress</option>
+            <option value="Closed">Closed</option>
           </select>
         </div>
         <div class="col-md-1">
