@@ -210,7 +210,7 @@ async function fetch_user_cards(){
             cardElement.innerHTML = `
                 <section>
                     <h1 class="card_name">${card.name}</h1>
-                    <p class="card_quantity rounded-pill text-bg-light">${card.quantity}X<p>
+                    <p class="card_quantity rounded-pill text-bg-light">${card.quantity}X</p>
                     <img src="${card.image_url}" alt="${card.name}" class="img-fluid" style="margin:10px; height:110px; border-radius: 5px;"/>
                 </section>
             `;
@@ -231,10 +231,13 @@ async function addToP1(cardElement) {
     const clone = cardElement.cloneNode(true);
     clone.style.height = "300px";
     // מוסיף סטייל ישירות לתמונה שבתוך הקלון
+    
+    clone.querySelectorAll("h1, p").forEach(el => el.remove());
     const img = clone.querySelector("img");
+    
     if (img) {
         img.style.margin = "10px";
-        img.style.height = "180px";
+        img.style.height = "280px";
         img.style.width = "89%";
         img.style.marginLeft = "3px";
         img.style.borderRadius = "5px";
@@ -277,7 +280,7 @@ async function fetch_user2_cards(string){
             cardElement.innerHTML = `
                 <section>
                     <h1 class="card_name">${card.name}</h1>
-                    <p class="card_quantity rounded-pill text-bg-light">${card.quantity}X<p>
+                    <p class="card_quantity rounded-pill text-bg-light">${card.quantity}X</p>
                     <img src="${card.image_url}" alt="${card.name}" class="img-fluid" style="margin:10px; height:110px; border-radius: 5px;"/>
                 </section>
             `;
@@ -298,9 +301,10 @@ async function addToP2(cardElement, username) {
     const clone = cardElement.cloneNode(true);
     clone.style.height = "300px";
     const img = clone.querySelector("img");
+    clone.querySelectorAll("h1, p").forEach(el => el.remove());
     if (img) {
         img.style.margin = "10px";
-        img.style.height = "180px";
+        img.style.height = "280px";
         img.style.width = "89%";
         img.style.marginLeft = "3px";
         img.style.borderRadius = "5px";

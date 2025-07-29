@@ -28,6 +28,7 @@
 
     <!-- Nav Component -->
     <link rel="stylesheet" href="CSS/styles.css" />
+    <script src="https://cdn.socket.io/4.7.1/socket.io.min.js"></script>
     <script src="JS/nav.js"></script>
 
     <!-- Dark Mode JS -->
@@ -136,14 +137,11 @@ async function fetch_user_cards() {
 
             cardElement.innerHTML = `
                 <div>
+                    <h1 class="card_name" style="margin-top: 200px;">${card.name}</h1>
                     <p class="card_quantity rounded-pill text-bg-light">${card.quantity}X</p>
                     <img src="${card.image_url}" alt="${card.name}" class="img-fluid" style="margin:10px; height:180px; border-radius: 5px;"/>
                 </div>
             `;
-
-            cardElement.addEventListener("click", () => {
-                addToP1(cardElement.cloneNode(true));
-            });
 
             colWrapper.appendChild(cardElement);
             user.appendChild(colWrapper);
@@ -184,6 +182,7 @@ async function getid(string) {
   </head>
 
   <body>
+    <div id="liveAlertPlaceholder" class="position-fixed top-0 start-50 translate-middle-x mt-3" style="z-index: 1050; max-width: 500px;"></div>
     <header class="toolbar"></header>
     <main class="bg-dark py-2">
       <section class="cardsComponent"></section>

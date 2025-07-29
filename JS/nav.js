@@ -238,7 +238,7 @@ function loadHtml() {
                 <div class="col-md-auto d-flex justify-content-center align-items-center"><a href="shop.html">SHOP<br><i class="fa-solid fa-bag-shopping"></i></a></div>
                 <div class="col-md-auto d-flex justify-content-center align-items-center"><a href="news.html">NEWS<br><i class="fa-solid fa-newspaper"></i></a></div>
                 <div class="col-md-auto d-flex justify-content-center align-items-center"><a href="trade.html">TRADE<br><i class="fa-solid fa-arrows-rotate"></i></a></div>
-                <div class="col-md-auto d-flex justify-content-center align-items-center"><a href="#.html">CARDS<br><i class="fa-solid fa-rug"></i></a></div>
+                <div class="col-md-auto d-flex justify-content-center align-items-center"><a href="cards.html">CARDS<br><i class="fa-solid fa-rug"></i></a></div>
                 <div class="col-md-auto d-flex justify-content-center align-items-center"><a href="contact.html">CONTACT<br><i class="fa-solid fa-headset"></i></a></div>
             </div>
         </div>
@@ -485,6 +485,7 @@ function mobileNav(navbar) {
               <li><a href="shop.html" class="btn btn-link">SHOP</a></li>
               <li><a href="news.html" class="btn btn-link">NEWS</a></li>
               <li><a href="trade.html" class="btn btn-link">TRADE</a></li>
+              <li><a href="cards.html" class="btn btn-link">CARDS</a></li>
               <li><a href="contact.html" class="btn btn-link">CONTACT</a></li>
               <li><hr></li>
               ${userMenu}
@@ -524,10 +525,18 @@ function appendAlert(message, type) {
 
   const wrapper = document.createElement('div');
   wrapper.innerHTML = `
-    <div class="alert alert-${type} alert-dismissible" role="alert">
+    <div class="alert alert-${type} alert-dismissible fade show" role="alert">
       <div>${message}</div>
       <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
   `;
-  alertPlaceholder.append(wrapper);
+  
+  const alertElement = wrapper.firstElementChild;
+  alertPlaceholder.append(alertElement);
+
+  // הסרה אוטומטית אחרי 60 שניות (60000 מ״ש)
+  setTimeout(() => {
+    alertElement.classList.remove("show"); // אפקט fade out
+    alertElement.addEventListener("transitionend", () => alertElement.remove());
+  }, 9000);
 }
