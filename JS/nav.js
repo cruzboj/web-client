@@ -594,7 +594,7 @@ async function tradeAlert(trade_details,type) {
           </div>
 
           <div class="col-auto">
-            <button type="button" class="btn btn-success" onclick="acceptTrade()">
+            <button type="button" class="btn btn-success" data-bs-dismiss="alert" onclick="acceptTrade()" aria-label="Close">
               <i class="fas fa-check"></i>
             </button>
           </div>
