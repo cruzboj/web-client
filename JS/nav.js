@@ -34,7 +34,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const token = localStorage.getItem("token");
   const socketTest = document.querySelector("#testButton");
-  if(!socketTest){return}
+  if(!socketTest)
+    {return}
   socketTest.addEventListener("click", () => {
     fetch(serverNet + "/trade/create", {
       method: "POST",
