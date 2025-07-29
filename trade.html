@@ -25,6 +25,9 @@
     <script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.7/lib/darkmode-js.min.js"></script>
     <script src="JS/darkmode.js"></script>
 
+    <!-- TRADE Component -->
+    <script src="JS/trade.js"></script>
+    <link rel="stylesheet" href="CSS/trade.css">
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 
     <title>DEX - trade</title>
@@ -45,44 +48,10 @@
     </style>
 </head>
 <body>
+    <div id="liveAlertPlaceholder" class="position-fixed top-0 start-50 translate-middle-x mt-3" style="z-index: 1050; max-width: 500px;"></div>
     <header class="toolbar"></header>
         <main class="bg-dark py-2">
-            <div class="container-fluid text-center ">
-                <div class="row">
-                    <div class="trade col col-6">
-                        <form class="d-flex gap-2 my-2">
-                            <input class="form-control" type="search" placeholder="Search" aria-label="Search">
-                            <button class="btn btn-outline-success" type="submit">Search</button>
-                        </form>
-                        <div class="container text-center">
-                            <div class="scrollable-cards">
-                                <div class="row row-cols-1 row-cols-sm-5 row-cols-md-4 gy-2 gx-4">
-                                    <div class="card_holder col bg-warning m-2">card</div>
-                                    <div class="card_holder col bg-warning m-2">card</div>
-                                    <div class="card_holder col bg-warning m-2">card</div>
-                                    <div class="card_holder col bg-warning m-2">card</div>
-
-                                    <div class="card_holder col bg-warning m-2">card</div>
-                                    <div class="card_holder col bg-warning m-2">card</div>
-                                    <div class="card_holder col bg-warning m-2">card</div>
-                                    <div class="card_holder col bg-warning m-2">card</div>
-
-                                    <div class="card_holder col bg-warning m-2 ">card</div>
-                                    <div class="card_holder col bg-warning m-2">card</div>
-                                    <div class="card_holder col bg-warning m-2">card</div>
-                                    <div class="card_holder col bg-warning m-2">card</div>
-                                </div> 
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col bg-light">
-                        <form class="d-flex gap-2 my-2">
-                            <input class="form-control" type="search" placeholder="Search" aria-label="Search">
-                            <button class="btn btn-outline-success" type="submit">Search</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
+            <section class="tradeComponent"></section>
         </main>
 </body>
 </html>

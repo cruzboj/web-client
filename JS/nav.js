@@ -51,6 +51,13 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
+function handleLogout(e) {
+  if (e.target && e.target.id === "logoutBtn") {
+    onLogout();
+    appendAlert("user logout", "info");
+  }
+}
+
 //events
 function setupDynamicListeners() {
   //register
@@ -71,13 +78,19 @@ function setupDynamicListeners() {
     });
   }
 
+  
   //logout
   document.body.addEventListener("click", (e) => {
+    
     if (e.target && e.target.id === "logoutBtn") {
       onLogout();
+
+
     }
   });
 }
+
+
 
 async function getUserInfo() {
   const token = localStorage.getItem("token");
@@ -371,6 +384,7 @@ function invalidLogin() {
 function onLogin(token) {
   localStorage.setItem("token", token);
   console.log("login success", token);
+  appendAlert("login success", "success")
   loadHtml(); // טען מחדש את הניווט, שהוא מתבסס על localStorage
 
   // סגור את המודל
@@ -386,7 +400,12 @@ function onLogin(token) {
 function onLogout() {
   localStorage.removeItem("token");
   console.log("Logged out");
-  location.reload();
+  appendAlert("user-logout", "info");
+  
+  setTimeout(() => {
+    location.reload();
+  }, 3000);
+
 }
 
 function loginformHTML() {
@@ -494,4 +513,19 @@ function openLoginModal() {
     const loginModal = new bootstrap.Modal(loginModalEl);
     loginModal.show();
   }
+}
+
+
+function appendAlert(message, type) {
+  const alertPlaceholder = document.getElementById('liveAlertPlaceholder');
+  if (!alertPlaceholder) return;
+
+  const wrapper = document.createElement('div');
+  wrapper.innerHTML = `
+    <div class="alert alert-${type} alert-dismissible" role="alert">
+      <div>${message}</div>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+  `;
+  alertPlaceholder.append(wrapper);
 }
