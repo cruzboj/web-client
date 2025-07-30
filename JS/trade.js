@@ -271,6 +271,7 @@ async function fetch_user2_cards(string){
     const user_id = await getid(string);
     if (!user_id) {
         console.error("User ID not found");
+        appendAlert(`error missing User`, "danger");
         return;
     }
     try {
@@ -310,6 +311,7 @@ async function fetch_user2_cards(string){
             });
     } catch (error) {
         console.error("Failed to fetch user cards:", error);
+        appendAlert(`error User dont exists`, "danger");
     }
 }
 
@@ -357,7 +359,7 @@ function handleTrade() {
         appendAlert(`error missing parameters`, "danger");
     }
     else {
-        appendAlert(`trade in prosses`, "info");
+        appendAlert(`Trade in progress`, "info");
     }
     const tradeData = {
         username_p1: usernameP1,

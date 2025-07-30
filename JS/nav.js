@@ -373,6 +373,7 @@ function invalidLogin() {
   document.getElementById("loginUsername").value = "";
   document.getElementById("loginPass").value = "";
   console.log("Invalid login");
+  appendAlert("Invalid login", "danger");
 }
 
 async function onLogin(token) {
