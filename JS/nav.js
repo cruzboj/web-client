@@ -88,12 +88,20 @@ function setupDynamicListeners() {
     });
   }
 
-  //logout
-  document.body.addEventListener("click", (e) => {
-    if (e.target && e.target.id === "logoutBtn") {
-      onLogout();
-    }
-  });
+  // //logout
+  document.body.removeEventListener("click", handleLogoutClick);
+  document.body.addEventListener("click", handleLogoutClick);
+  // document.body.addEventListener("click", (e) => {
+  //   if (e.target && e.target.id === "logoutBtn") {
+  //     onLogout();
+  //   }
+  // });
+}
+
+function handleLogoutClick(e) {
+  if (e.target && e.target.id === "logoutBtn") {
+    onLogout();
+  }
 }
 
 async function getUserInfo() {
@@ -328,7 +336,7 @@ function registerFormHTML() {
 //--------------------------------------------------------------------------------------------
 //login - logic
 //--------------------------------------------------------------------------------------------
-function handleLogin(trade_details) {
+function handleLogin() {
   const loginForm = document.getElementById("loginForm");
   if (!loginForm) return;
 
@@ -367,7 +375,7 @@ function invalidLogin() {
   console.log("Invalid login");
 }
 
-function onLogin(token) {
+async function onLogin(token) {
   localStorage.setItem("token", token);
   console.log("login success", token);
   appendAlert("login success", "success");
@@ -381,8 +389,9 @@ function onLogin(token) {
   document.querySelectorAll(".modal-backdrop").forEach((el) => el.remove());
   document.body.classList.remove("modal-open");
   document.body.style = "";
-
-  window.location.reload();
+  setTimeout(() => {
+    window.location.reload();
+  }, 1000);
 }
 
 function onLogout() {
@@ -392,7 +401,7 @@ function onLogout() {
 
   setTimeout(() => {
     location.reload();
-  }, 3000);
+  }, 1000);
 }
 
 function loginformHTML() {
@@ -509,7 +518,7 @@ function appendAlert(message, type) {
 
   const wrapper = document.createElement("div");
   wrapper.innerHTML = `
-    <div class="alert alert-${type} alert-dismissible fade show" role="alert">
+    <div class="alert alert-${type} alert-dismissible fade show text-center" role="alert">
       <div>${message}</div>
       <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
