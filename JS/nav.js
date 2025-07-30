@@ -167,7 +167,7 @@ function loadProfile() {
                     <div class="btn-group">
                         <button type="button" class="profile_Btn btn dropdown-toggle text-light" data-bs-toggle="dropdown" aria-expanded="false">${data.username}</button>
                         <ul class="dropdown-menu">
-                            <li><button type="button" class="btn btn-light w-100" data-bs-toggle="modal" data-bs-target="#Settings">Settings</button></li>
+                            <li><button type="button" class="btn btn-light w-100" data-bs-toggle="modal" data-bs-target="#Settings" id="settingsBtn">Settings</button></li>
                             <li><button type="button" class="btn btn-light w-100" id="logoutBtn">Logout</button></li>
                             <li><button type="button" class="btn btn-light w-100" id="adminBtn">Admin Panel</button></li>
                         </ul>
@@ -194,6 +194,12 @@ function loadProfile() {
       adminBtn.addEventListener("click", () => {
         window.location.href = "./admin.html";
       });
+    }
+    const settingBtn = document.querySelector("#settingsBtn");
+    if (settingBtn) {
+      settingBtn.addEventListener("click", () => {
+        window.location.href = "./settings.html";
+      })
     }
   });
 }
