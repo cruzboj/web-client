@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
     loadtrade(); //loading placeholder
     fetch_user_cards();
+    filtered();
     // getid("admin");
 });
 function handleSearch(event) {
@@ -216,9 +217,16 @@ function renderUserCards(cards) {
 
         cardElement.innerHTML = `
             <section>
-                <h1 class="card_name">${card.name}</h1>
+            <div class="container text-center xs" Style="position: absolute; bottom: 0px; z-index: 3;">
+                <div class="row justify-content-center">
+                    <div class="col">
+                        <h1 class="card_name">${card.name}</h1>
+                    </div>
+                </div>
+            </div>
+
                 <p class="card_quantity rounded-pill text-bg-light">${card.quantity}X</p>
-                <img src="${card.image_url}" alt="${card.name}" class="img-fluid" style="margin:10px; height:110px; border-radius: 5px;"/>
+                <img src="${card.image_url}" alt="${card.name}" class="img-fluid" style="margin:10px; height:180px; border-radius: 5px;"/>
             </section>
         `;
         cardElement.addEventListener("click", () => {
@@ -369,16 +377,15 @@ function handleTrade() {
 }
 
 
-
-document.addEventListener("DOMContentLoaded", () => {
-  const searchInput = document.getElementById('search_cards');
-  if (searchInput) {
-    searchInput.addEventListener('input', () => {
-      const searchText = searchInput.value.toLowerCase().trim();
-      const filtered = userCardList.filter(card => 
-        card.name.toLowerCase().includes(searchText)
-      );
-      renderUserCards(filtered);
-    });
-  }
-});
+function filtered() {
+    const searchInput = document.getElementById('search_cards');
+    if (searchInput) {
+        searchInput.addEventListener('input', () => {
+        const searchText = searchInput.value.toLowerCase().trim();
+        const filtered = userCardList.filter(card => 
+            card.name.toLowerCase().includes(searchText)
+        );
+        renderUserCards(filtered);
+        });
+    }
+}

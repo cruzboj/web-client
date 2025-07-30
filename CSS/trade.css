@@ -72,10 +72,12 @@ background-image: conic-gradient(from var(--angle),  #ff4545, #00ff99, #006aff, 
 
 .card_name{
     /* font-family: 'webfont', sans-serif; */
-    position: absolute;
+    /* position: absolute; */
     z-index: 3;
     font-size: 17px;
-    margin-left: 10px;
-    margin-top: 120px;
+    /* margin-left: 30px; */
+    /* margin-top: 0px; */
     /* color:aliceblue */
+    background-color: #ffffff67;
+    border-radius: 10px;
 }

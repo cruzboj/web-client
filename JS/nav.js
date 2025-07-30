@@ -23,6 +23,7 @@ socket.on("trade_offer", (trade_details) => {
 });
 socket.on("trade_accepted", (msg) => {
   console.log(msg);
+  appendAlert(msg , "success");
 });
 
 let currentView = ""; //change nav from pc/moblie
