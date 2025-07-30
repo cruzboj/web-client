@@ -1,13 +1,12 @@
 document.addEventListener("DOMContentLoaded", () => {
-    injectCardCSS();
-    loadCards();
-    fetch_user_cards();
-    handleSearch();
-    
+  injectCardCSS();
+  loadCards();
+  fetch_user_cards();
+  handleSearch();
 });
 
-function loadCards(){
-    document.querySelector(".cardsComponent").innerHTML = `
+function loadCards() {
+  document.querySelector(".cardsComponent").innerHTML = `
         <div class="container text-center">
             <div class="row">
                 <div class="col">
@@ -29,18 +28,17 @@ function loadCards(){
             </div>    
         </div>
     `;
-    
-    cards_placeholder = document.querySelector(".show_userCards");
-    for(let i = 0 ; i < 15 ; i++){
-        cards_placeholder.innerHTML +=`
+
+  cards_placeholder = document.querySelector(".show_userCards");
+  for (let i = 0; i < 15; i++) {
+    cards_placeholder.innerHTML += `
             <div class="col">
                 <div class="card_holder m-2">
                     <span class="placeholder_card placeholder col-12 "></span>
                 </div>
             </div>
-        `
-    }
-
+        `;
+  }
 }
 
 let allUserCards = []; // שמור את כל הקלפים כאן
@@ -60,8 +58,7 @@ async function fetch_user_cards() {
     return;
   }
 
-    try {
-      
+  try {
     const res = await fetch(`${serverNet}/user/cards/${user_id}`, {
       headers: {
         Authorization: token,
@@ -70,8 +67,7 @@ async function fetch_user_cards() {
 
     const data = await res.json();
     allUserCards = data; // שומר את כל הקלפים
-    console.log(allUserCards);
-    allUserCards.sort((a,b) => a.packid - b.packid);
+    allUserCards.sort((a, b) => a.packid - b.packid);
     renderUserCards(allUserCards);
   } catch (error) {
     console.error("Failed to fetch user cards:", error);
@@ -82,7 +78,7 @@ function renderUserCards(cards) {
   const user = document.querySelector(".show_userCards");
   user.innerHTML = "";
 
-  cards.forEach(card => {
+  cards.forEach((card) => {
     const colWrapper = document.createElement("div");
     colWrapper.className = "col";
 
@@ -111,41 +107,41 @@ function renderUserCards(cards) {
 }
 
 function getUsernameFromToken() {
-    const token = localStorage.getItem("token");
-    if (!token) return null;
-    try {
-        const payload = token.split('.')[1];
-        const decoded = atob(payload);
-        const parsed = JSON.parse(decoded);
-        return parsed.username || null;
-    } catch (err) {
-        console.error("Failed to decode token:", err);
-        return null;
-    }
+  const token = localStorage.getItem("token");
+  if (!token) return null;
+  try {
+    const payload = token.split(".")[1];
+    const decoded = atob(payload);
+    const parsed = JSON.parse(decoded);
+    return parsed.username || null;
+  } catch (err) {
+    console.error("Failed to decode token:", err);
+    return null;
+  }
 }
 
 async function getid(string) {
-    try {
-        const res = await fetch(`${serverNet}/user/search/${string}`);
-        const data = await res.json();
-        console.log("userid:", data);
-        return data;
-    } catch (err) {
-        console.error("Error fetching user ID:", err);
-        return null;
-    }
+  try {
+    const res = await fetch(`${serverNet}/user/search/${string}`);
+    const data = await res.json();
+    console.log("userid:", data);
+    return data;
+  } catch (err) {
+    console.error("Error fetching user ID:", err);
+    return null;
+  }
 }
 
-function handleSearch(){
-    document.addEventListener('input', (e) => {
-          if (e.target && e.target.id === "search_cards") {
-          const searchText = e.target.value.toLowerCase().trim();
-          const filtered = allUserCards.filter(card =>
-              card.name.toLowerCase().includes(searchText)
-          );
-          renderUserCards(filtered);
-          }
-      });
+function handleSearch() {
+  document.addEventListener("input", (e) => {
+    if (e.target && e.target.id === "search_cards") {
+      const searchText = e.target.value.toLowerCase().trim();
+      const filtered = allUserCards.filter((card) =>
+        card.name.toLowerCase().includes(searchText)
+      );
+      renderUserCards(filtered);
+    }
+  });
 }
 
 function injectCardCSS() {

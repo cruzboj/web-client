@@ -359,7 +359,7 @@ function handleTrade() {
         appendAlert(`error missing parameters`, "danger");
     }
     else {
-        appendAlert(`Trade in progress`, "info");
+        appendAlert(`Trade Request Sent`, "info");
     }
     const tradeData = {
         username_p1: usernameP1,

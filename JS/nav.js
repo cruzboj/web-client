@@ -23,7 +23,10 @@ socket.on("trade_offer", (trade_details) => {
 });
 socket.on("trade_accepted", (msg) => {
   console.log(msg);
-  appendAlert(msg , "success");
+  appendAlert(msg, "success");
+  setTimeout(() => {
+    location.reload();
+  }, 3000);
 });
 
 let currentView = ""; //change nav from pc/moblie
@@ -199,7 +202,7 @@ function loadProfile() {
     if (settingBtn) {
       settingBtn.addEventListener("click", () => {
         window.location.href = "./settings.html";
-      })
+      });
     }
   });
 }
@@ -644,29 +647,26 @@ function acceptTrade() {
 
   fetch(serverNet + `/trade/accept`, {
     headers: {
-            
-            Authorization: token,
-            "Content-Type" : "application/json",
-        },
-        body: JSON.stringify({
-            user1_id: tradeData.p1_id,
-            user2_id: tradeData.p2_id,
-            user1_card: tradeData.p1_card,
-            user2_card: tradeData.p2_card,
-        }),
-        method : "POST"
-  }).then(data => {
-    if (data.ok)
-      console.log("ok");
+      Authorization: token,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      user1_id: tradeData.p1_id,
+      user2_id: tradeData.p2_id,
+      user1_card: tradeData.p1_card,
+      user2_card: tradeData.p2_card,
+    }),
+    method: "POST",
+  })
+    .then((data) => {
+      if (data.ok) console.log("ok");
 
-        setTimeout(() => {
-          window.location.reload();
+      setTimeout(() => {
+        window.location.reload();
       }, 3000);
-
-
-  })
-  .catch((error) => {
-    console.error("Failed to fetch trade", error);
-    return null;
-  })
+    })
+    .catch((error) => {
+      console.error("Failed to fetch trade", error);
+      return null;
+    });
 }
