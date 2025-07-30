@@ -21,7 +21,7 @@ function createTable(news) {
             <th scope="row">${user.title}</th>
             <td>${new Date(user.created_at).toLocaleDateString()}</td>
             <td>${user.description}</td>
-            <td><img src=${imgPath}${user.img_path} style="max-width:300px;max-height:200px;"></td>
+            <td><img src=${user.img_path} style="max-width:300px;max-height:200px;"></td>
             <td><button data-id=${user.id} class="btn btn-sm btn-danger delete-btn">delete</button></td>
             </tr>
         `;
