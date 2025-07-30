@@ -82,7 +82,7 @@ addEventListener("DOMContentLoaded", () => {
             }),
           }).then((response) => {
             if (response.ok) {
-              window.location.href = "../admin.html";
+              window.location.href = "./admin.html";
             }
           });
         });
