@@ -119,8 +119,8 @@ function loadtrade(){
                         placeholder="Search USER"
                         aria-label="Search"
                     />
-                    <button class="btn btn-outline-success" type="submit">
-                        Find User
+                    <button class="btn btn-primary" type="submit">
+                        submit
                     </button>
                     </form>
                     <div class="container text-center">
