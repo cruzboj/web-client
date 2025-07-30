@@ -19,7 +19,6 @@ renderNews = (newsArr) => {
   for (let news of newsArr) {
     const newDiv = document.createElement("section");
     newDiv.classList.add("news-container");
-    const imgDir = IMG_BASE + news.img_path;
     newDiv.innerHTML = `
     <section class="text">
         <h2>${news.title}</h2>
@@ -27,7 +26,7 @@ renderNews = (newsArr) => {
         <p>${news.description}</p>
     </section>
     <section class="news-img-container">
-        <img src=${imgDir}>
+        <img src=${news.img_path}>
     </section>
     
     `;
