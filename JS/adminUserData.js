@@ -259,7 +259,7 @@ function loadAllCards(cards) {
                 </div>
             </div>
 
-                <p class="card_quantity rounded-pill text-bg-light">${1}X</p>
+                <p class="card_quantity rounded-pill text-bg-light">+1</p>
                 <img src="${card.image_url}" alt="${
       card.name
     }" class="img-fluid" style="margin:10px; height:280px; border-radius: 5px;"/>
@@ -295,7 +295,7 @@ function addCardToUser(cardID) {
             </div>`;
       setTimeout(() => {
         window.location.reload();
-      }, 2000);
+      }, 0);
     }
   });
 }
