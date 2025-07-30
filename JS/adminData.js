@@ -51,13 +51,21 @@ function createTable(users) {
             <td>${user.username}</td>
             <td>${user.email}</td>
             <td>${new Date(user.created_at).toLocaleDateString()}</td>
-            <td><button class="btn btn-sm btn-info">info</button></td>
+            <td><button data-id=${user.id} class="btn btn-sm btn-info infoBtn">info</button></td>
             </tr>
         `;
   });
 
   html += `</tbody>`;
   table.innerHTML = html;
+  const infoBtns = document.querySelectorAll(".infoBtn");
+  infoBtns.forEach((btn) => {
+    const userID = btn.getAttribute("data-id");
+    btn.addEventListener(("click"), () => {
+      window.location.href=`./adminUserData.html?userid=${userID}`;
+    })
+  })
+
 }
 
 function filterTickets(users) {

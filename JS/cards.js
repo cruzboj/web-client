@@ -70,6 +70,8 @@ async function fetch_user_cards() {
 
     const data = await res.json();
     allUserCards = data; // שומר את כל הקלפים
+    console.log(allUserCards);
+    allUserCards.sort((a,b) => a.packid - b.packid);
     renderUserCards(allUserCards);
   } catch (error) {
     console.error("Failed to fetch user cards:", error);
