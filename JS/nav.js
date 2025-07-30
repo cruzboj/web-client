@@ -589,7 +589,7 @@ async function tradeAlert(trade_details, type) {
           </div>
 
           <div class="col-auto">
-            <button type="button" class="btn btn-success" onclick="acceptTrade()">
+            <button type="button" class="btn btn-success" data-bs-dismiss="alert" onclick="acceptTrade()" aria-label="Close">
               <i class="fas fa-check"></i>
             </button>
           </div>
@@ -645,22 +645,29 @@ function acceptTrade() {
 
   fetch(serverNet + `/trade/accept`, {
     headers: {
-      Authorization: token,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      user1_id: tradeData.p1_id,
-      user2_id: tradeData.p2_id,
-      user1_card: tradeData.p1_card,
-      user2_card: tradeData.p2_card,
-    }),
-    method: "POST",
+            
+            Authorization: token,
+            "Content-Type" : "application/json",
+        },
+        body: JSON.stringify({
+            user1_id: tradeData.p1_id,
+            user2_id: tradeData.p2_id,
+            user1_card: tradeData.p1_card,
+            user2_card: tradeData.p2_card,
+        }),
+        method : "POST"
+  }).then(data => {
+    if (data.ok)
+      console.log("ok");
+
+        setTimeout(() => {
+          window.location.reload();
+      }, 3000);
+
+
   })
-    .then((data) => {
-      if (data.ok) console.log("ok");
-    })
-    .catch((error) => {
-      console.error("Failed to fetch trade", error);
-      return null;
-    });
+  .catch((error) => {
+    console.error("Failed to fetch trade", error);
+    return null;
+  })
 }
