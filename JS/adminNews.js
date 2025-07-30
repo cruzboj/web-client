@@ -38,5 +38,21 @@ function createTable(news) {
 }
 
 function deleteItem(id){
-
+    const token = localStorage.getItem("token");
+    fetch(serverNet+ "/news", {
+        method:"DELETE",
+        headers: {
+            Authorization:token
+        },
+        body: JSON.stringify({id:id})
+    })
+    .then((response) => {
+        console.log(response);
+        if (response.ok){
+            window.location.reload();
+        }
+        else{
+            console.log("Unable to delete news");
+        }
+    })
 }

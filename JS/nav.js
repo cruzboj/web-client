@@ -11,15 +11,18 @@ socket.on("connect", () => {
     return;
   }
   socket.emit("token", token);
+});
+socket.on("trade", (msg) => {
+  console.log("You Recieved a message: ", msg);
+});
 
-  socket.on("trade", (msg) => {
-    console.log("You Recieved a message: ", msg);
-  });
-  socket.on("trade_offer", (trade_details) => {
-    console.log(trade_details);
-    tradeData = trade_details;
-    tradeAlert(trade_details,"warning");
-  });
+socket.on("trade_offer", (trade_details) => {
+  console.log(trade_details);
+  tradeData = trade_details;
+  tradeAlert(trade_details, "warning");
+});
+socket.on("trade_accepted", (msg) => {
+  console.log(msg);
 });
 
 let currentView = ""; //change nav from pc/moblie
@@ -37,14 +40,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const token = localStorage.getItem("token");
   const socketTest = document.querySelector("#testButton");
-  if(!socketTest)
-    {return}
+  if (!socketTest) {
+    return;
+  }
   socketTest.addEventListener("click", () => {
     fetch(serverNet + "/trade/create", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": token,
+        Authorization: token,
       },
       body: JSON.stringify({
         user1_id: 1,
@@ -83,19 +87,13 @@ function setupDynamicListeners() {
     });
   }
 
-  
   //logout
   document.body.addEventListener("click", (e) => {
-    
     if (e.target && e.target.id === "logoutBtn") {
       onLogout();
-
-
     }
   });
 }
-
-
 
 async function getUserInfo() {
   const token = localStorage.getItem("token");
@@ -389,7 +387,7 @@ function invalidLogin() {
 function onLogin(token) {
   localStorage.setItem("token", token);
   console.log("login success", token);
-  appendAlert("login success", "success")
+  appendAlert("login success", "success");
   loadHtml(); // טען מחדש את הניווט, שהוא מתבסס על localStorage
 
   // סגור את המודל
@@ -408,11 +406,10 @@ function onLogout() {
   localStorage.removeItem("token");
   console.log("Logged out");
   appendAlert("user-logout", "info");
-  
+
   setTimeout(() => {
     location.reload();
   }, 3000);
-
 }
 
 function loginformHTML() {
@@ -523,22 +520,20 @@ function openLoginModal() {
   }
 }
 
-
 function appendAlert(message, type) {
-  const alertPlaceholder = document.getElementById('liveAlertPlaceholder');
+  const alertPlaceholder = document.getElementById("liveAlertPlaceholder");
   if (!alertPlaceholder) return;
 
-  const wrapper = document.createElement('div');
+  const wrapper = document.createElement("div");
   wrapper.innerHTML = `
     <div class="alert alert-${type} alert-dismissible fade show" role="alert">
       <div>${message}</div>
       <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
   `;
-  
+
   const alertElement = wrapper.firstElementChild;
   alertPlaceholder.append(alertElement);
-
 
   setTimeout(() => {
     alertElement.classList.remove("show"); // אפקט fade out
@@ -546,8 +541,8 @@ function appendAlert(message, type) {
   }, 9000);
 }
 
-async function tradeAlert(trade_details,type) {
-  const alertPlaceholder = document.getElementById('liveAlertPlaceholder');
+async function tradeAlert(trade_details, type) {
+  const alertPlaceholder = document.getElementById("liveAlertPlaceholder");
   if (!alertPlaceholder) return;
 
   const player2 = await getnameformid(trade_details.p1_id);
@@ -567,7 +562,7 @@ async function tradeAlert(trade_details,type) {
     return;
   }
 
-  const wrapper = document.createElement('section');
+  const wrapper = document.createElement("section");
   wrapper.innerHTML = `
     <section class="alert alert-${type} alert-dismissible fade show" role="alert" style="padding: 30px; Width:100%;">
       <div class="container-fluid text-center">
@@ -650,23 +645,22 @@ function acceptTrade() {
 
   fetch(serverNet + `/trade/accept`, {
     headers: {
-            
-            Authorization: token,
-            "Content-Type" : "application/json",
-        },
-        body: JSON.stringify({
-            user1_id: tradeData.p1_id,
-            user2_id: tradeData.p2_id,
-            user1_card: tradeData.p1_card,
-            user2_card: tradeData.p2_card,
-        }),
-        method : "POST"
-  }).then(data => {
-    if (data.ok)
-      console.log("ok");
+      Authorization: token,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      user1_id: tradeData.p1_id,
+      user2_id: tradeData.p2_id,
+      user1_card: tradeData.p1_card,
+      user2_card: tradeData.p2_card,
+    }),
+    method: "POST",
   })
-  .catch((error) => {
-    console.error("Failed to fetch trade", error);
-    return null;
-  })
+    .then((data) => {
+      if (data.ok) console.log("ok");
+    })
+    .catch((error) => {
+      console.error("Failed to fetch trade", error);
+      return null;
+    });
 }
