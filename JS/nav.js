@@ -167,7 +167,7 @@ function loadProfile() {
                     <div class="btn-group">
                         <button type="button" class="profile_Btn btn dropdown-toggle text-light" data-bs-toggle="dropdown" aria-expanded="false">${data.username}</button>
                         <ul class="dropdown-menu">
-                            <li><button type="button" class="btn btn-light w-100" data-bs-toggle="modal" data-bs-target="#Settings">Settings</button></li>
+                            <li><button type="button" class="btn btn-light w-100" data-bs-toggle="modal" data-bs-target="#Settings" id="settingsBtn">Settings</button></li>
                             <li><button type="button" class="btn btn-light w-100" id="logoutBtn">Logout</button></li>
                             <li><button type="button" class="btn btn-light w-100" id="adminBtn">Admin Panel</button></li>
                         </ul>
@@ -194,6 +194,12 @@ function loadProfile() {
       adminBtn.addEventListener("click", () => {
         window.location.href = "./admin.html";
       });
+    }
+    const settingBtn = document.querySelector("#settingsBtn");
+    if (settingBtn) {
+      settingBtn.addEventListener("click", () => {
+        window.location.href = "./settings.html";
+      })
     }
   });
 }
@@ -373,6 +379,7 @@ function invalidLogin() {
   document.getElementById("loginUsername").value = "";
   document.getElementById("loginPass").value = "";
   console.log("Invalid login");
+  appendAlert("Invalid login", "danger");
 }
 
 async function onLogin(token) {
@@ -556,7 +563,7 @@ async function tradeAlert(trade_details, type) {
 
   const wrapper = document.createElement("section");
   wrapper.innerHTML = `
-    <section class="alert alert-${type} alert-dismissible fade show" role="alert" style="padding: 30px; Width:100%;">
+    <section class="alert alert-${type} alert-dismissible fade show" role="alert" style="padding: 30px; Width:100%; background-color:rgba(20, 20, 20, 0.49); color: rgba(255, 238, 5, 1);">
       <div class="container-fluid text-center">
         <div class="row flex-nowrap align-items-center justify-content-center gx-3">
 
@@ -565,7 +572,7 @@ async function tradeAlert(trade_details, type) {
           </div>
 
           <div class="col-auto">
-            <div class="card_holder card rare_${card_p2.color_id}" style="padding: 3px;">
+            <div class="card rare_${card_p2.color_id}" style="padding: 3px; border: none; background-color: rgba(0, 0, 0, 0)">
               <img src="${card_p2.image_url}" width="100" height="180" style="margin: 10px; border-radius: 5px;">
             </div>
           </div>
@@ -575,8 +582,8 @@ async function tradeAlert(trade_details, type) {
           </div>
 
           <div class="col-auto">
-            <div class="card_holder card rare_${card_p1.color_id}" style="padding: 5px; padding-right:1px">
-              <img src="${card_p1.image_url}" width="120" height="180" style="margin: 10px; border-radius: 5px;">
+            <div class="card rare_${card_p1.color_id}" style="padding: 3px; border: none; background-color: rgba(0, 0, 0, 0)">
+              <img src="${card_p1.image_url}" width="100" height="180" style="margin: 10px; border-radius: 5px;">
             </div>
           </div>
 
