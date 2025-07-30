@@ -290,9 +290,16 @@ async function fetch_user2_cards(string){
             cardElement.dataset.cardid = card.cardid;
             cardElement.innerHTML = `
                 <section>
-                    <h1 class="card_name">${card.name}</h1>
+                    <div class="container text-center xs" Style="position: absolute; bottom: 0px; z-index: 3;">
+                        <div class="row justify-content-center">
+                            <div class="col">
+                                <h1 class="card_name">${card.name}</h1>
+                            </div>
+                        </div>
+                    </div>
+
                     <p class="card_quantity rounded-pill text-bg-light">${card.quantity}X</p>
-                    <img src="${card.image_url}" alt="${card.name}" class="img-fluid" style="margin:10px; height:110px; border-radius: 5px;"/>
+                    <img src="${card.image_url}" alt="${card.name}" class="img-fluid" style="margin:10px; height:180px; border-radius: 5px;"/>
                 </section>
             `;
             // 👇 כאן הלחיצה
