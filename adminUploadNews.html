@@ -10,6 +10,7 @@
     <!-- Custom Font -->
     <link href="https://fonts.googleapis.com/css2?family=Gruppo&display=swap" rel="stylesheet" />
     <script src="JS/adminNav.js"></script>
+    <script src="JS/adminUploadNews.js"></script>
     <style>
         /* body {
       font-family: 'Gruppo', sans-serif;
@@ -40,26 +41,45 @@
             margin-left: 220px;
             padding: 20px;
         }
+
+        #preview{
+            max-width: 300px;
+            max-height: 300px;
+            margin-top: 10px;
+            display: none;
+        }
     </style>
     <title>Manage News</title>
 </head>
 
-<body>
+<body class="bg-light">
     <header class="toolbar"></header>
 
     <div class="main-content">
         <div class="container-fluid">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th scope="col">Title</th>
-                        <th scope="col">Created At</th>
-                        <th scope="col">Description</th>
-                        <th scope="col">Img</th>
-                    </tr>
-                </thead>
-                <tbody id="tableBody">
-                </tbody>
+            <div class="container mt-5">
+                <h2 class="mb-4">Upload News</h2>
+                <form id="submitNews" role="submit" class="p-4 border rounded bg-white shadow-sm" enctype="multipart/form-data">
+
+                    <div class="mb-3">
+                        <label for="title" class="form-label">Title</label>
+                        <input type="text" class="form-control" id="title" name="title" autocomplete="off" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Description</label>
+                        <textarea class="form-control" id="description" name="description" rows="4" autocomplete="off" required></textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="file" class="form-label">Upload Image</label>
+                        <input class="form-control" type="file" id="file" name="file" accept="image/*" autocomplete="off" required>
+                        <img id="preview" class="img-fluid rounded" alt="Image preview">
+                    </div>
+                    <button id="submitBtn" type="submit" class="btn btn-primary">Submit</button>
+                    <button id="cancelBtn" class="btn btn-secondary">Cancel</button>
+                </form>
+            </div>
 </body>
 
 </html>

@@ -39,12 +39,12 @@ function createTable(news) {
 
 function deleteItem(id){
     const token = localStorage.getItem("token");
-    fetch(serverNet+ "/news", {
+    console.log(id);
+    fetch(serverNet+ `/news/${id}`, {
         method:"DELETE",
         headers: {
             Authorization:token
         },
-        body: JSON.stringify({id:id})
     })
     .then((response) => {
         console.log(response);
