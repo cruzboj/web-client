@@ -28,17 +28,17 @@ function loadtrade(){
             <div class="row flex-nowrap align-items-stretch">
             <!-- USER -->
             <div class="trade col col-4">
-                <form class="d-flex gap-2 my-2">
+
+                <form class="d-flex gap-2 my-2" onsubmit="return handleUserCardSearch(event)">
                 <input
+                    id="search_cards"
                     class="form-control"
                     type="search"
-                    placeholder="Search"
+                    placeholder="Search Cards"
                     aria-label="Search"
                 />
-                <button class="btn btn-outline-success" type="submit">
-                    Search
-                </button>
                 </form>
+                
                 <div class="container text-center">
                 <div class="scrollable-cards">
                     <div
@@ -115,11 +115,11 @@ function loadtrade(){
                         id="search_p2"
                         class="form-control"
                         type="search"
-                        placeholder="Search"
+                        placeholder="Search USER"
                         aria-label="Search"
                     />
                     <button class="btn btn-outline-success" type="submit">
-                        Search
+                        Find User
                     </button>
                     </form>
                     <div class="container text-center">
@@ -178,12 +178,13 @@ function getUsernameFromToken() {
     }
 }
 
+let userCardList = [];
+
 async function fetch_user_cards(){
     const token = localStorage.getItem("token");
     if (!token) {
         openLoginModal();
         return;
-        
     }
     const username = getUsernameFromToken();
     const user_id = await getid(username);
@@ -194,35 +195,37 @@ async function fetch_user_cards(){
     try {
         const res = await fetch(serverNet + `/user/cards/${user_id}`, {
             headers: {
-            Authorization: token,
-        },
-    });
-    const data = await res.json();
-    console.log(data);
-    
-    const user = document.querySelector(".show_userCards");
-    user.innerHTML = "";
-        data.forEach(card => {
-            const cardElement = document.createElement("section");
-            cardElement.className = `card_holder col m-3 card rare_${card.color_id}`;
-            cardElement.dataset.cardid = card.cardid;
-            
-            cardElement.innerHTML = `
-                <section>
-                    <h1 class="card_name">${card.name}</h1>
-                    <p class="card_quantity rounded-pill text-bg-light">${card.quantity}X</p>
-                    <img src="${card.image_url}" alt="${card.name}" class="img-fluid" style="margin:10px; height:110px; border-radius: 5px;"/>
-                </section>
-            `;
-            // 👇 כאן הלחיצה
-            cardElement.addEventListener("click", () => {
-                addToP1(cardElement.cloneNode(true));
-            });
-            user.appendChild(cardElement);
-            });
+                Authorization: token,
+            },
+        });
+        const data = await res.json();
+        userCardList = data; // שמור את כל הקלפים המקוריים
+        renderUserCards(userCardList);
     } catch (error) {
         console.error("Failed to fetch user cards:", error);
     }
+}
+
+function renderUserCards(cards) {
+    const user = document.querySelector(".show_userCards");
+    user.innerHTML = "";
+    cards.forEach(card => {
+        const cardElement = document.createElement("section");
+        cardElement.className = `card_holder col m-3 card rare_${card.color_id}`;
+        cardElement.dataset.cardid = card.cardid;
+
+        cardElement.innerHTML = `
+            <section>
+                <h1 class="card_name">${card.name}</h1>
+                <p class="card_quantity rounded-pill text-bg-light">${card.quantity}X</p>
+                <img src="${card.image_url}" alt="${card.name}" class="img-fluid" style="margin:10px; height:110px; border-radius: 5px;"/>
+            </section>
+        `;
+        cardElement.addEventListener("click", () => {
+            addToP1(cardElement.cloneNode(true));
+        });
+        user.appendChild(cardElement);
+    });
 } 
 
 async function addToP1(cardElement) {
@@ -335,11 +338,10 @@ function handleTrade() {
         cardidP1 === "0" ||
         usernameP2 === "0" ||
         cardidP2 === "0"
-        )
-    {
+    ) {
         appendAlert(`error missing parameters`, "danger");
     }
-    else{
+    else {
         appendAlert(`trade in prosses`, "info");
     }
     const tradeData = {
@@ -354,7 +356,7 @@ function handleTrade() {
         headers: {
             
             Authorization: token,
-            "Content-Type" : "application/json",
+            "Content-Type": "application/json",
         },
         body: JSON.stringify({
             user1_id: usernameP1,
@@ -362,23 +364,21 @@ function handleTrade() {
             user1_card: cardidP1,
             user2_card: cardidP2,
         }),
-        method : "POST"
+        method: "POST"
     });
-    // fetch(`${serverNet}/trade`, {
-    //     method: "POST",
-    //     headers: {
-    //     "Content-Type": "application/json",
-    //     Authorization: localStorage.getItem("token"),
-    //     },
-    //     body: JSON.stringify(tradeData),
-    // })
-    // .then(res => res.json())
-    // .then(data => {
-    //     console.log("Trade successful:", data);
-    //     alert("Trade completed!");
-    // })
-    // .catch(err => {
-    //     console.error("Trade failed:", err);
-    //     alert("Error processing trade.");
-    // });
 }
+
+
+
+document.addEventListener("DOMContentLoaded", () => {
+  const searchInput = document.getElementById('search_cards');
+  if (searchInput) {
+    searchInput.addEventListener('input', () => {
+      const searchText = searchInput.value.toLowerCase().trim();
+      const filtered = userCardList.filter(card => 
+        card.name.toLowerCase().includes(searchText)
+      );
+      renderUserCards(filtered);
+    });
+  }
+});

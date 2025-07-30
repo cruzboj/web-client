@@ -1,4 +1,3 @@
-// Singleton flag to prevent multiple widget creations
 let isDarkmodeWidgetAdded = false;
 
 function addDarkmodeWidget() {
@@ -9,14 +8,12 @@ function addDarkmodeWidget() {
     return;
   }
 
-  // Remove existing darkmode elements to prevent duplicates
   const existingElements = document.querySelectorAll('.darkmode-toggle, .darkmode-layer--button, .darkmode-layer');
   if (existingElements.length > 0) {
     console.log(`Found ${existingElements.length} existing darkmode elements, removing them.`);
     existingElements.forEach(el => el.remove());
   }
 
-  // הוספת CSS דינמית לראש הדוק:
 const css = `
     /* כפתור העליון מעל הכול */
     .darkmode-toggle, .darkmode-layer--button {
@@ -24,6 +21,10 @@ const css = `
         position: fixed !important;
         top: 10px !important;   
         right: 20px !important;
+        
+        .profile_Btn{
+          color: white;
+        }
     }
         
     /* השכבה שמטמיעה את מצב הלילה תישאר מאחור */
@@ -39,6 +40,10 @@ const css = `
 
         margin: 0;
         padding: 0;
+    }
+
+    body.darkmode--activated .profile_Btn {
+      color: black!important;
     }
 `;
   let styleTag = document.getElementById('darkmode-custom-style');
@@ -68,7 +73,6 @@ const css = `
   darkmode.showWidget();
   console.log('Darkmode widget added successfully.');
 
-  // Debug: בדיקה אם הכפתור נמצא
   const button = document.querySelector('.darkmode-toggle') || document.querySelector('.darkmode-layer--button');
   if (button) {
     console.log('Button element found:', button.outerHTML);
