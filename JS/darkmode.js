@@ -64,9 +64,9 @@ const css = `
     backgroundColor: '#ffffffff',
     buttonColorDark: '#292828ff',
     buttonColorLight: '#707070ff',
-    saveInCookies: false,
+    saveInCookies: true,
     label: '<i class="fa-solid fa-circle-half-stroke text-light"></i>',
-    autoMatchOsTheme: true
+    autoMatchOsTheme: false
   };
 
   const darkmode = new Darkmode(options);
