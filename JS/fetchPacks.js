@@ -2,6 +2,7 @@ const imagePath = "https://web-server-q7kx.onrender.com";
 
 let packs = [];
 let cards = [];
+let cards_data = [];
 
 let packChoose = null;
 let wasOpened = false;
@@ -151,18 +152,7 @@ function openPack(){
             console.log("not enough coins");
             return;
           }
-          else {
-            fetch(serverNet + `/pack/getPack/${pack.dataset.packid}`, {
-              method: "GET",
-              headers: {
-                Authorization: token,
-                "Content-Type": "application/json",
-              },
-            }
-              
-            )
-          }
-        })
+        });
       }
       
 
@@ -200,25 +190,39 @@ function openPack(){
       // פתיחה בפועל (אם כבר בחרנו חבילה ולא פתחנו אותה עדיין)
       if (pack === packChoose && wasChosen && !wasOpened) {
         wasOpened = true;
-        
-        createCards(pack.dataset.packid).then(() => {
-          playTearSound();
-          nextcard(pack);
-        });
 
-        const header = pack.querySelector(".pack-header");
-        header.classList.add("tear-top");
+        fetch(serverNet + `/pack/getPack/${pack.dataset.packid}`, {
+          method: "GET",
+          headers: {
+            Authorization: token,
+            "Content-Type": "application/json",
+          },
+        })
+          .then(res => res.json())
+          .then(data => {
+            console.log("cards from server:", data);
+            cards_data = data.cards;
 
-        header.addEventListener("animationend", () => {
-          const body = pack.querySelector(".pack-body");
+            createCards(); // ← עכשיו כן יש קלפים
+            playTearSound();
+            nextcard(pack);
 
-          setTimeout(() => {
-          body.classList.add("fadeout");
-          }, 1000);
+            const header = pack.querySelector(".pack-header");
+            header.classList.add("tear-top");
 
-        }, { once: true });
+            header.addEventListener("animationend", () => {
+              const body = pack.querySelector(".pack-body");
+              setTimeout(() => {
+                body.classList.add("fadeout");
+              }, 1000);
+            }, { once: true });
+          })
+          .catch(err => {
+            console.error("Error fetching cards:", err);
+          });
       }
     });
+    
   });
 }
 
@@ -249,15 +253,16 @@ function playRareSound() {
     audio.play();
 }
 
-async function createCards(packId) {
+function createCards() {
   try {
-    const res = await fetch(serverNet + `/user/packs/${packId}`);
-    const data = await res.json();
+    // const res = await fetch(serverNet + `/user/packs/${packId}`);
+    // const data = await res.json();
+
     const cards = document.querySelector(".cards");  // זה ה-container שלך
 
     cards.innerHTML = ""; // מנקים קודם כל
 
-    data.forEach(card => {  // forEach, לא foreach
+    cards_data.forEach(card => {  // forEach, לא foreach
       const cardHtml = `
         <section class="card rare_${card.color_id}">
           <img src="${card.image_url}" alt="${card.name}">
