@@ -7,12 +7,13 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function Init() {
+  const token = localStorage.getItem("token");
   fetch(serverNet + "/admin/db", {
     headers: {
       "Content-Type": "application/json",
+      Authorization:token
     },
-    body: JSON.stringify({}),
-  })
+    })
     .then((response) => response.json())
     .then((users) => {
       data = users;
