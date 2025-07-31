@@ -30,7 +30,7 @@ style.textContent = `
     transform-origin: center;
     transform-style: preserve-3d;
   }
-  .card {
+  .card_packs {
     background-color: transparent;
     border: none;
     position: relative;
@@ -39,7 +39,7 @@ style.textContent = `
     transform-style: preserve-3d;
     transition: transform 1s;
   }
-  .card:hover {
+  .card_packs:hover {
     transform: rotateY(180deg);
   }
   .front, .back {
@@ -100,7 +100,7 @@ function showGallery() {
     span.style.transform = `rotateY(${degPerImage * i}deg) translateZ(${distance}px)`;
 
     const card = document.createElement("div");
-    card.className = "card";
+    card.className = "card_packs";
 
     const front = document.createElement("div");
     front.className = "front";
