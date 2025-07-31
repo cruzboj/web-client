@@ -22,7 +22,6 @@ async function sendticket(description_ticket) {
     const token = localStorage.getItem("token");
 
   const data = await getUserInfo();
-  console.log("Data:", description_ticket);
   const ticket_username = data.username;
   fetch(serverNet + "/adminTickets", {
     method: "POST",
