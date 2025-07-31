@@ -620,7 +620,7 @@ async function getNameFromID(id) {
       headers: { Authorization: token },
     });
     const data = await res.json();
-    return data; // או data["username"]
+    return data.username; // או data["username"]
   } catch (error) {
     console.error("Failed to fetch username:", error);
     return null;
