@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("ticket");
-
+    loadmodel();
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
     const description_ticket = document.getElementById("description").value;
@@ -11,12 +11,16 @@ document.addEventListener("DOMContentLoaded", () => {
   getTickets();
 });
 
-async function sendticket(description_ticket) {
+function loadmodel() {
     const token = localStorage.getItem("token");
         if (!token) {
         openLoginModal();
         return;
     }
+}
+async function sendticket(description_ticket) {
+    const token = localStorage.getItem("token");
+
   const data = await getUserInfo();
   console.log("Data:", description_ticket);
   const ticket_username = data.username;
