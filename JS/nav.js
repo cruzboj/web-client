@@ -416,7 +416,7 @@ async function onLogin(token) {
 function onLogout() {
   localStorage.removeItem("token");
   console.log("Logged out");
-  appendAlert("user-logout", "info");
+  appendAlert("You Have Logged Out", "info");
 
   setTimeout(() => {
     location.reload();
