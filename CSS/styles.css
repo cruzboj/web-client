@@ -183,7 +183,7 @@ html, body {
 }
 
 footer {
-  background-image: url('./src/footer.png');
+  background-image: url('../src/footer.png');
   background-repeat: no-repeat;
   background-size: cover;
   min-height: 300px;

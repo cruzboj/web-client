@@ -27,6 +27,7 @@
     <script src="JS/darkmode.js"></script>
 
     <link rel="stylesheet" href="CSS/trade.css"/>
+    <script src="JS/ticket.js"></script>
     
     <title>DEX-Contact</title>
 </head>
@@ -35,17 +36,67 @@
     <div id="liveAlertPlaceholder" class="position-fixed top-0 start-50 translate-middle-x mt-3" style="z-index: 100; width: 750px;"></div>
     <header class="toolbar"></header>
 
-    <section id="errorContainer" class="text-center text-danger mb-4"></section>
-    <section id="contact-section" class="text-center">
-        <section id="contact-container">
-            <h1> Contact Us:</h1>
-            <h3>Contact Email: pleasedont@gmail.com <br>
-                Contact Phone: +972 00 000 0000 <br>
-                Location: 123 Shenkar, Ramat Gan, Israel <br>
-                Have a problem? Submit a ticket <a href="#"><i>Here</i></a>
-            </h3>
-        </section>
-    </section>
+    <main>
+        <div class="container-fluid">
+            <div class="container mt-5">
+                <h2 class="mb-4">Have a problem? Submit a ticket</h2>
+                <form id="ticket" role="submit" class="p-4 border rounded bg-white shadow-sm" enctype="multipart/form-data">
+                    
+                    <div class="mb-3">
+                        <label for="description" class="form-label text-black">Description</label>
+                        <textarea class="form-control" id="description" name="description" rows="4" autocomplete="off"
+                            required></textarea>
+                    </div>
+
+                    <button id="submitBtn" type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+    </main>
+    
+    <footer class="text-light py-5 mt-5">
+      <div class="footer-inner py-5">
+            <div class="container">
+                  <div class="row">
+                        <!-- Logo or Name -->
+                        <div class="col-md-4 mb-4">
+                        <h4>DEX</h4>
+                        <p>Your ultimate destination for card packs, trading, and collecting.</p>
+                        </div>
+
+                        <!-- Quick Links -->
+                        <div class="col-md-4 mb-4">
+                        <h5>Quick Links</h5>
+                        <ul class="list-unstyled">
+                        <li><a href="./shop.html" class="text-light text-decoration-none">Shop</a></li>
+                        <li><a href="./news.html" class="text-light text-decoration-none">News</a></li>
+                        <li><a href="./trade.html" class="text-light text-decoration-none">Trade</a></li>
+                        <li><a href="./cards.html" class="text-light text-decoration-none">My Cards</a></li>
+                        <li><a href="./contact.html" class="text-light text-decoration-none">Contact</a></li>
+                        </ul>
+                        </div>
+
+                        <!-- Contact / Social -->
+                        <div class="col-md-4 mb-4">
+                        <h5>Stay Connected</h5>
+                        <p><i class="fa-solid fa-envelope me-2"></i> support@dexcards.com</p>
+                        <p><i class="fa-solid fa-phone me-2"></i> +1-800-DEX-CARD</p>
+                        <div class="mt-3">
+                        <a href="#" class="text-light me-3"><i class="fab fa-facebook fa-lg"></i></a>
+                        <a href="#" class="text-light me-3"><i class="fab fa-twitter fa-lg"></i></a>
+                        <a href="#" class="text-light"><i class="fab fa-instagram fa-lg"></i></a>
+                        </div>
+                        </div>
+                  </div>
+
+                  <hr class="border-light" />
+
+                  <div class="text-center mt-3">
+                        <small>&copy; 2025 DEX. All rights reserved.</small>
+                  </div>
+            </div>
+      </div>
+</footer>
+
 </body>
 
 </html>
