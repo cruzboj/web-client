@@ -39,7 +39,6 @@ function createTable(news) {
 
 function deleteItem(id){
     const token = localStorage.getItem("token");
-    console.log(id);
     fetch(serverNet+ `/news/${id}`, {
         method:"DELETE",
         headers: {
@@ -47,7 +46,6 @@ function deleteItem(id){
         },
     })
     .then((response) => {
-        console.log(response);
         if (response.ok){
             window.location.reload();
         }

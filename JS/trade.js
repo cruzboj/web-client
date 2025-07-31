@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
 function handleSearch(event) {
     event.preventDefault();
     const inputValue = document.getElementById('search_p2').value;
-    console.log(inputValue);
+    // console.log(inputValue);
     fetch_user2_cards(inputValue)
     // alert("חיפשת: " + inputValue);
     return false;
@@ -16,7 +16,6 @@ async function getid(string) {
     try {
         const res = await fetch(`${serverNet}/user/search/${string}`);
         const data = await res.json();
-        console.log("userid:", data);
         return data;
     } catch (err) {
         console.error("Error fetching user ID:", err);
@@ -281,7 +280,6 @@ async function fetch_user2_cards(string){
         },
     });
     const data = await res.json();
-    console.log(data);
     
     const user = document.querySelector(".show_tradeCards");
     user.innerHTML = "";
@@ -310,8 +308,8 @@ async function fetch_user2_cards(string){
             user.appendChild(cardElement);
             });
     } catch (error) {
-        console.error("Failed to fetch user cards:", error);
-        appendAlert(`error User dont exists`, "danger");
+        // console.error("Failed to fetch user cards:", error);
+        appendAlert(`User dont exists`, "danger");
     }
 }
 
@@ -367,7 +365,6 @@ function handleTrade() {
         username_p2: usernameP2,
         cardid_p2: parseInt(cardidP2),
     };
-    console.log("Sending trade data:", tradeData);
 
     fetch(serverNet + `/trade/create/`, {
         headers: {

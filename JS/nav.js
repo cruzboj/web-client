@@ -11,17 +11,11 @@ socket.on("connect", () => {
   }
   socket.emit("token", token);
 });
-socket.on("trade", (msg) => {
-  console.log("You Recieved a message: ", msg);
-});
-
 socket.on("trade_offer", (trade_details) => {
-  console.log(trade_details);
   tradeData = trade_details;
   tradeAlert(trade_details, "warning");
 });
 socket.on("trade_accepted", (msg) => {
-  console.log(msg);
   appendAlert(msg, "success");
   setTimeout(() => {
     location.reload();
@@ -557,13 +551,11 @@ async function tradeAlert(trade_details, type) {
   if (!alertPlaceholder) return;
 
   const player2 = await getNameFromID(trade_details.p1_id);
-  console.log(player2);
   if (!player2) {
     return;
   }
 
   const card_p2 = await getCardformid(trade_details.p1_card);
-  console.log(card_p2);
   if (!card_p2) {
     return;
   }
@@ -628,7 +620,6 @@ async function getNameFromID(id) {
       headers: { Authorization: token },
     });
     const data = await res.json();
-    console.log("ID USER NAME ", data);
     return data; // או data["username"]
   } catch (error) {
     console.error("Failed to fetch username:", error);
@@ -643,10 +634,10 @@ async function getCardformid(id) {
       headers: { Authorization: token },
     });
     const data = await res.json();
-    console.log("CARD ", data);
     return data; // תוודא שזה השם של השדה שאתה רוצה
   } catch (error) {
     console.error("Failed to fetch card:", error);
+    appendAlert("Failed to fetch card:", "danger");
     return null;
   }
 }
@@ -676,6 +667,7 @@ function acceptTrade() {
     })
     .catch((error) => {
       console.error("Failed to fetch trade", error);
+      appendAlert("Failed to fetch trade","danger");
       return null;
     });
 }
