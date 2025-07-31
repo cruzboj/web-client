@@ -41,7 +41,7 @@ function loadCards() {
   }
 }
 
-let allUserCards = []; // שמור את כל הקלפים כאן
+let allUserCards = []; 
 
 async function fetch_user_cards() {
   const token = localStorage.getItem("token");
@@ -54,7 +54,6 @@ async function fetch_user_cards() {
   const user_id = await getid(username);
 
   if (!user_id) {
-    console.error("User ID not found");
     return;
   }
 
@@ -70,7 +69,7 @@ async function fetch_user_cards() {
     allUserCards.sort((a, b) => a.packid - b.packid);
     renderUserCards(allUserCards);
   } catch (error) {
-    console.error("Failed to fetch user cards:", error);
+    appendAlert("Failed to fetch user cards", "danger");
   }
 }
 
@@ -115,7 +114,7 @@ function getUsernameFromToken() {
     const parsed = JSON.parse(decoded);
     return parsed.username || null;
   } catch (err) {
-    console.error("Failed to decode token:", err);
+    
     return null;
   }
 }
@@ -124,10 +123,9 @@ async function getid(string) {
   try {
     const res = await fetch(`${serverNet}/user/search/${string}`);
     const data = await res.json();
-    console.log("userid:", data);
     return data;
   } catch (err) {
-    console.error("Error fetching user ID:", err);
+    
     return null;
   }
 }
