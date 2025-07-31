@@ -557,7 +557,7 @@ async function tradeAlert(trade_details, type) {
   const alertPlaceholder = document.getElementById("liveAlertPlaceholder");
   if (!alertPlaceholder) return;
 
-  const player2 = await getnameformid(trade_details.p1_id);
+  const player2 = await getNameFromID(trade_details.p1_id);
   console.log(player2);
   if (!player2) {
     return;
@@ -622,7 +622,7 @@ async function tradeAlert(trade_details, type) {
   alertPlaceholder.append(alertElement);
 }
 
-async function getnameformid(id) {
+async function getNameFromID(id) {
   const token = localStorage.getItem("token");
   try {
     const res = await fetch(serverNet + `/user/searchID/${id}`, {
@@ -630,7 +630,7 @@ async function getnameformid(id) {
     });
     const data = await res.json();
     console.log("ID USER NAME ", data);
-    return data.username; // או data["username"]
+    return data; // או data["username"]
   } catch (error) {
     console.error("Failed to fetch username:", error);
     return null;

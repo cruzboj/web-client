@@ -116,7 +116,7 @@ function loadtrade(){
                         id="search_p2"
                         class="form-control"
                         type="search"
-                        placeholder="Search USER"
+                        placeholder="Search User"
                         aria-label="Search"
                     />
                     <button class="btn btn-primary" type="submit">
