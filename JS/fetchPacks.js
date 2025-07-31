@@ -64,7 +64,6 @@ function fetchPack() {
   fetch(serverNet + '/user/packs')
     .then((res) => res.json())
     .then(data => {
-      console.log("Packs from server:", data);
       packs = data;
 
       packsElement.innerHTML = ""; //delete after loading
@@ -146,8 +145,6 @@ function openPack(){
       if(wasOpened === false && wasChosen === true){
         getUserInfo().then(data => {
           const user_coins = data.coins;
-          console.log("user coins :" + user_coins);
-
           if (user_coins < 12) {
             console.log("not enough coins");
             return;
@@ -161,9 +158,6 @@ function openPack(){
         wasChosen = true;
         packChoose.classList.add("pack-chosen");
 
-        //log
-        const packId = pack.dataset.packid;
-        console.log("pack chosen:", packId);
 
         // מציאת האלמנט של col שעוטף את ה-pack
         const chosenCol = pack.closest("section.col");
@@ -200,7 +194,6 @@ function openPack(){
         })
           .then(res => res.json())
           .then(data => {
-            console.log("cards from server:", data);
             cards_data = data.cards;
 
             createCards(); // ← עכשיו כן יש קלפים
@@ -277,7 +270,6 @@ function createCards() {
 }
 
 function nextcard(pack) {
-  console.log("packid :" + pack.dataset.packid);
   // מציבים את כל הקלפים במערך (NodeList => Array)
   let cards = Array.from(pack.querySelectorAll(".card"));
 

@@ -1,16 +1,13 @@
 let isDarkmodeWidgetAdded = false;
 
 function addDarkmodeWidget() {
-  console.log('Attempting to add darkmode widget...');
 
   if (isDarkmodeWidgetAdded) {
-    console.log('Darkmode widget already added, skipping.');
     return;
   }
 
   const existingElements = document.querySelectorAll('.darkmode-toggle, .darkmode-layer--button, .darkmode-layer');
   if (existingElements.length > 0) {
-    console.log(`Found ${existingElements.length} existing darkmode elements, removing them.`);
     existingElements.forEach(el => el.remove());
   }
 
@@ -71,20 +68,12 @@ const css = `
 
   const darkmode = new Darkmode(options);
   darkmode.showWidget();
-  console.log('Darkmode widget added successfully.');
 
-  const button = document.querySelector('.darkmode-toggle') || document.querySelector('.darkmode-layer--button');
-  if (button) {
-    console.log('Button element found:', button.outerHTML);
-  } else {
-    console.log('No button element found with .darkmode-toggle or .darkmode-layer--button.');
-  }
 
   isDarkmodeWidgetAdded = true;
 }
 
 window.removeEventListener('load', addDarkmodeWidget);
 window.addEventListener('load', () => {
-  console.log('Window load event triggered.');
   addDarkmodeWidget();
 });

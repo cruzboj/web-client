@@ -14,8 +14,6 @@ window.onload = () => {
 
 renderNews = (newsArr) => {
   newsArr.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
-  // console.log("entered here");
-  console.log(newsArr);
   for (let news of newsArr) {
     const newDiv = document.createElement("section");
     newDiv.classList.add("news-container");

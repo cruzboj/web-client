@@ -5,7 +5,6 @@ const socket = io("https://web-server-q7kx.onrender.com");
 let tradeData;
 
 socket.on("connect", () => {
-  console.log("Socket connected, id: ", socket.id);
   const token = localStorage.getItem("token");
   if (!token) {
     return;
