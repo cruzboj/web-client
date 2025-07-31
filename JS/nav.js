@@ -11,17 +11,11 @@ socket.on("connect", () => {
   }
   socket.emit("token", token);
 });
-socket.on("trade", (msg) => {
-  console.log("You Recieved a message: ", msg);
-});
-
 socket.on("trade_offer", (trade_details) => {
-  console.log(trade_details);
   tradeData = trade_details;
   tradeAlert(trade_details, "warning");
 });
 socket.on("trade_accepted", (msg) => {
-  console.log(msg);
   appendAlert(msg, "success");
   setTimeout(() => {
     location.reload();
@@ -113,7 +107,6 @@ async function getUserInfo() {
       },
     });
     if (!response.ok) {
-      console.log("No user info");
       return null;
     }
     const data = await response.json();
@@ -125,7 +118,6 @@ async function getUserInfo() {
     const id = data.id;
     return { id, username, email ,coins, isadmin , password };
   } catch (error) {
-    console.error("Error fetching user info: ", error);
     return null;
   }
 }
@@ -293,7 +285,6 @@ function handleRegister() {
     })
     .catch((error) => {
       alert("Error: " + error.message);
-      console.error(error);
     });
 }
 
@@ -372,13 +363,11 @@ function handleLogin() {
 function invalidLogin() {
   document.getElementById("loginUsername").value = "";
   document.getElementById("loginPass").value = "";
-  console.log("Invalid login");
   appendAlert("Invalid login", "danger");
 }
 
 async function onLogin(token) {
   localStorage.setItem("token", token);
-  console.log("login success", token);
   appendAlert("login success", "success");
   loadHtml(); 
 
@@ -395,7 +384,6 @@ async function onLogin(token) {
 
 function onLogout() {
   localStorage.removeItem("token");
-  console.log("Logged out");
   appendAlert("You Have Logged Out", "info");
 
   setTimeout(() => {
@@ -537,13 +525,11 @@ async function tradeAlert(trade_details, type) {
   if (!alertPlaceholder) return;
 
   const player2 = await getNameFromID(trade_details.p1_id);
-  console.log(player2);
   if (!player2) {
     return;
   }
 
   const card_p2 = await getCardformid(trade_details.p1_card);
-  console.log(card_p2);
   if (!card_p2) {
     return;
   }
@@ -608,10 +594,8 @@ async function getNameFromID(id) {
       headers: { Authorization: token },
     });
     const data = await res.json();
-    console.log("ID USER NAME ", data);
     return data;
   } catch (error) {
-    console.error("Failed to fetch username:", error);
     return null;
   }
 }
@@ -623,10 +607,9 @@ async function getCardformid(id) {
       headers: { Authorization: token },
     });
     const data = await res.json();
-    console.log("CARD ", data);
     return data;
   } catch (error) {
-    console.error("Failed to fetch card:", error);
+    appendAlert("Failed to fetch card:", "danger");
     return null;
   }
 }
@@ -648,14 +631,12 @@ function acceptTrade() {
     method: "POST",
   })
     .then((data) => {
-      if (data.ok) console.log("ok");
-
       setTimeout(() => {
         window.location.reload();
       }, 3000);
     })
     .catch((error) => {
-      console.error("Failed to fetch trade", error);
+      appendAlert("Failed to fetch trade","danger");
       return null;
     });
 }
@@ -727,12 +708,10 @@ function updateUserinfo() {
       return res.json();
     })
     .then((data) => {
-      console.log("User updated:", data);
       bootstrap.Modal.getInstance(document.getElementById("settingsModal"))?.hide();
       appendAlert("User info updated successfully", "success");
     })
     .catch((error) => {
-      console.error("Error updating user:", error);
       appendAlert("Update failed: " + error.message, "danger");
     });
 }
