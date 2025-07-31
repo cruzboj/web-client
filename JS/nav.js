@@ -125,11 +125,15 @@ async function getUserInfo() {
       return null;
     }
     const data = await response.json();
+    // console.log(data);
 
     const username = data.username || "guest";
     const coins = data.coins || "0";
     const isadmin = data.isadmin;
-    return { username, coins, isadmin };
+    const email = data.email || "null";
+    const password = data.password || "null";
+    const id = data.id;
+    return { id, username, email ,coins, isadmin , password };
   } catch (error) {
     console.error("Error fetching user info: ", error);
     return null;
@@ -151,7 +155,7 @@ function loadProfile() {
                     <div class="btn-group">
                         <button type="button" class="profile_Btn btn dropdown-toggle text-light" data-bs-toggle="dropdown" aria-expanded="false">${data.username}</button>
                         <ul class="dropdown-menu">
-                            <li><button type="button" class="btn btn-light w-100" data-bs-toggle="modal" data-bs-target="#Settings">Settings</button></li>
+                            <li><button type="button" class="btn btn-light w-100" data-bs-toggle="modal" data-bs-target="#settingsModal">Settings</button></li>
                             <li><button type="button" class="btn btn-light w-100" id="logoutBtn">Logout</button></li>
                         </ul>
                     </div>
@@ -162,6 +166,7 @@ function loadProfile() {
                 </section>
             </section>
             `;
+          document.querySelector(".forms-container").innerHTML += settingsFormHTML(data);
         } else {
           document.querySelector(".profile_container").innerHTML = `
                 <section class="profile_container">
@@ -170,7 +175,7 @@ function loadProfile() {
                     <div class="btn-group">
                         <button type="button" class="profile_Btn btn dropdown-toggle text-light" data-bs-toggle="dropdown" aria-expanded="false">${data.username}</button>
                         <ul class="dropdown-menu">
-                            <li><button type="button" class="btn btn-light w-100" data-bs-toggle="modal" data-bs-target="#Settings" id="settingsBtn">Settings</button></li>
+                            <li><button type="button" class="btn btn-light w-100" data-bs-toggle="modal" data-bs-target="#settingsModal">settings</button></li>
                             <li><button type="button" class="btn btn-light w-100" id="logoutBtn">Logout</button></li>
                             <li><button type="button" class="btn btn-light w-100" id="adminBtn">Admin Panel</button></li>
                         </ul>
@@ -182,12 +187,13 @@ function loadProfile() {
                 </section>
             </section>
             `;
+          document.querySelector(".forms-container").innerHTML += settingsFormHTML(data);
         }
       } else if (currentView === "mobile") {
         document.querySelector(".coinsUI").innerHTML = ` 
           <section class="coinsUI rounded-pill d-inline-flex align-items-center px-3 py-1 position-absolute top-0 start-50 translate-middle" style="height: 30px;">
               <i class="fa-solid fa-coins text-warning me-2"></i>
-              <p class="text-light m-0 ">${coins}</p>
+              <p class="text-light m-0 ">${data.coins}</p>
           </section>
           `;
       }
@@ -198,15 +204,16 @@ function loadProfile() {
         window.location.href = "./admin.html";
       });
     }
-    const settingBtn = document.querySelector("#settingsBtn");
-    if (settingBtn) {
-      settingBtn.addEventListener("click", () => {
-        window.location.href = "./settings.html";
-      });
-    }
+    // const settingBtn = document.querySelector("#settingsBtn");
+    // if (settingBtn) {
+    //   settingBtn.addEventListener("click", () => {
+    //     window.location.href = "./settings.html";
+    //   });
+    // }
   });
 }
 
+//default "guest" navbar
 function loadHtml() {
   const imgUser =
     "https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg?semt=ais_hybrid&w=740";
@@ -244,8 +251,10 @@ function loadHtml() {
             </div>
         </div>
 
+  <section class="forms-container">
   ${registerFormHTML()}
   ${loginformHTML()}
+  <section>
   `;
 
   loadProfile();
@@ -257,7 +266,7 @@ async function getUserMenu() {
   const userInfo = await getUserInfo();
   if (userInfo.username != "guest") {
     return `
-      <li><button type="button" class="btn btn-light w-100" data-bs-toggle="modal" data-bs-target="#Settings">Settings</button></li>
+      <li><button type="button" class="btn btn-light w-100" data-bs-toggle="modal" data-bs-target="#settingsModal">Settings</button></li>
       <li><button type="button" class="btn btn-light w-100" id="logoutBtn">Logout</button></li>
       `;
   } else {
@@ -313,7 +322,7 @@ function registerFormHTML() {
       <div class="modal-content">
           <div class="modal-header">
 
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
           
@@ -498,6 +507,7 @@ function mobileNav(navbar) {
 
       ${registerFormHTML()}
       ${loginformHTML()}
+
     `;
 
     // מאזין לתפריט מובייל
@@ -668,5 +678,82 @@ function acceptTrade() {
     .catch((error) => {
       console.error("Failed to fetch trade", error);
       return null;
+    });
+}
+
+
+function settingsFormHTML(data) {
+  
+  return `
+  <!-- settings Form -->
+<div class="modal fade" id="settingsModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body">
+        <form id="settingsForm">
+          <h1 class="modal-title fs-5 text-light bg-primary" id="exampleModalLabel">Change Account Information</h1>
+          <div class="row align-items-center">
+            <input type="hidden" name="setID" value="${data.id}">
+            <i class="fa-solid fa-user text-warning"></i>
+            <input type="text" id="setUsername" value="${data.username}" required autocomplete="username"/>
+            <i class="fa-solid fa-envelope text-warning"></i>
+            <input type="email" id="setEmail" value="${data.email}" required autocomplete="email"/>
+            <i class="fa-solid fa-lock text-warning"></i>
+            <input type="password" id="setPassword" value="${data.password}" required autocomplete="new-password" />
+          </div>
+        </form>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" onclick="updateUserinfo()">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+  `;
+}
+
+function updateUserinfo() {
+  const token = localStorage.getItem("token");
+  const form = document.getElementById("settingsForm");
+  if (!form || !token) return;
+
+  const setID = form.querySelector("input[name='setID']").value;
+  const username = form.querySelector("#setUsername").value;
+  const email = form.querySelector("#setEmail").value;
+  const password = form.querySelector("#setPassword").value;
+
+  const body = { id: setID, username, email, password };
+
+  fetch(serverNet + "/user", {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: token,
+    },
+    body: JSON.stringify(body),
+  })
+    .then((res) => {
+      if (!res.ok) {
+        return res.json().then((data) => {
+          throw new Error(data.error || "Unknown error");
+        });
+      }
+      return res.json();
+    })
+    .then((data) => {
+      console.log("User updated:", data);
+      bootstrap.Modal.getInstance(document.getElementById("settingsModal"))?.hide();
+      appendAlert("User info updated successfully", "success");
+    })
+    .catch((error) => {
+      console.error("Error updating user:", error);
+      appendAlert("Update failed: " + error.message, "danger");
     });
 }
