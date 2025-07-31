@@ -84,7 +84,7 @@ function filterTickets(users) {
     console.log(user);
     const matchesId =
       !userIdInput ||
-      user.ticketid.toString().toLowerCase().includes(userIdInput);
+      user.id.toString().toLowerCase().includes(userIdInput);
     const matchesDate = !dateInput || user.created_at.slice(0, 10) === dateInput;
     const matchesName =
       !nameInput || user.username.toLowerCase().includes(nameInput);
