@@ -32,9 +32,7 @@ let currentView = ""; //change nav from pc/moblie
 
 document.addEventListener("DOMContentLoaded", () => {
   let navbar = loadHtml();
-  // setupDynamicListeners();
 
-  //first refresh
   updateNavbar(navbar);
   //needes to be at the end line (navbar resize update)
   window.addEventListener("resize", () => {
@@ -76,7 +74,7 @@ function setupDynamicListeners() {
   const registerForm = document.getElementById("registerForm");
   if (registerForm) {
     registerForm.addEventListener("submit", (e) => {
-      e.preventDefault(); //default disable submit
+      e.preventDefault(); 
       handleRegister();
     });
   }
@@ -85,7 +83,7 @@ function setupDynamicListeners() {
   const loginForm = document.getElementById("loginForm");
   if (loginForm) {
     loginForm.addEventListener("submit", (e) => {
-      e.preventDefault(); //default disable submit
+      e.preventDefault();
       handleLogin();
     });
   }
@@ -93,11 +91,6 @@ function setupDynamicListeners() {
   // //logout
   document.body.removeEventListener("click", handleLogoutClick);
   document.body.addEventListener("click", handleLogoutClick);
-  // document.body.addEventListener("click", (e) => {
-  //   if (e.target && e.target.id === "logoutBtn") {
-  //     onLogout();
-  //   }
-  // });
 }
 
 function handleLogoutClick(e) {
@@ -124,8 +117,6 @@ async function getUserInfo() {
       return null;
     }
     const data = await response.json();
-    // console.log(data);
-
     const username = data.username || "guest";
     const coins = data.coins || "0";
     const isadmin = data.isadmin;
@@ -203,12 +194,6 @@ function loadProfile() {
         window.location.href = "./admin.html";
       });
     }
-    // const settingBtn = document.querySelector("#settingsBtn");
-    // if (settingBtn) {
-    //   settingBtn.addEventListener("click", () => {
-    //     window.location.href = "./settings.html";
-    //   });
-    // }
   });
 }
 
@@ -283,7 +268,6 @@ function handleRegister() {
   const email = document.getElementById("regEmail").value.trim();
   const password = document.getElementById("regPassword").value;
   const confirmPassword = document.getElementById("regConfirmPassword").value;
-  // console.log(username, email, password , confirmPassword);
 
   if (password !== confirmPassword) {
     alert("Passwords do not match!");
@@ -359,7 +343,6 @@ function handleLogin() {
 
   const username = document.getElementById("loginUsername").value.trim();
   const password = document.getElementById("loginPass").value;
-  // console.log(username, password);
 
   fetch(serverNet + "/login", {
     method: "POST",
@@ -397,13 +380,11 @@ async function onLogin(token) {
   localStorage.setItem("token", token);
   console.log("login success", token);
   appendAlert("login success", "success");
-  loadHtml(); // טען מחדש את הניווט, שהוא מתבסס על localStorage
+  loadHtml(); 
 
-  // סגור את המודל
   const modal = bootstrap.Modal.getInstance(document.getElementById("login"));
   if (modal) modal.hide();
 
-  // פתרון: הסר רקע שחור ושאריות של modal
   document.querySelectorAll(".modal-backdrop").forEach((el) => el.remove());
   document.body.classList.remove("modal-open");
   document.body.style = "";
@@ -509,7 +490,6 @@ function mobileNav(navbar) {
 
     `;
 
-    // מאזין לתפריט מובייל
     const btn = document.getElementById("mobileMenuBtn");
     const menu = document.getElementById("mobileMenu");
     btn.addEventListener("click", () => {
@@ -519,7 +499,7 @@ function mobileNav(navbar) {
     });
 
     setupDynamicListeners();
-    loadProfile(); // טען פרופיל אחרי העדכון
+    loadProfile(); 
   });
 }
 
@@ -547,7 +527,7 @@ function appendAlert(message, type) {
   alertPlaceholder.append(alertElement);
 
   setTimeout(() => {
-    alertElement.classList.remove("show"); // אפקט fade out
+    alertElement.classList.remove("show");
     alertElement.addEventListener("transitionend", () => alertElement.remove());
   }, 9000);
 }
@@ -629,7 +609,7 @@ async function getNameFromID(id) {
     });
     const data = await res.json();
     console.log("ID USER NAME ", data);
-    return data; // או data["username"]
+    return data;
   } catch (error) {
     console.error("Failed to fetch username:", error);
     return null;
@@ -644,7 +624,7 @@ async function getCardformid(id) {
     });
     const data = await res.json();
     console.log("CARD ", data);
-    return data; // תוודא שזה השם של השדה שאתה רוצה
+    return data;
   } catch (error) {
     console.error("Failed to fetch card:", error);
     return null;
