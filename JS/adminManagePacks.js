@@ -36,7 +36,7 @@ function searchGifs() {
         img.classList.add("img-fluid");
 
         const urlText = document.createElement("div");
-        urlText.className = "gif-url text-white";
+        urlText.className = "gif-url text-black";
         urlText.textContent = shortenUrl(imgUrl);
         urlText.style.cursor = "pointer";
 
