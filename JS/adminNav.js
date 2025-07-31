@@ -19,7 +19,6 @@ function createNav(){
       <a href="./adminUploadNews.html">Upload News</a>
       <a href="index.html">Back to Site</a>
       <hr class="bg-light">
-      <a href="#">Settings</a>
       <a href="#">Logout</a>
     </div>
   `;
