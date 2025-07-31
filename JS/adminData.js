@@ -8,7 +8,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function Init() {
   fetch(serverNet + "/admin/db", {
-    method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
