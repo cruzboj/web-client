@@ -1,15 +1,12 @@
 document.addEventListener("DOMContentLoaded", () => {
-    loadtrade(); //loading placeholder
+    loadtrade(); 
     fetch_user_cards();
     filtered();
-    // getid("admin");
 });
 function handleSearch(event) {
     event.preventDefault();
     const inputValue = document.getElementById('search_p2').value;
-    // console.log(inputValue);
     fetch_user2_cards(inputValue)
-    // alert("חיפשת: " + inputValue);
     return false;
 }
 async function getid(string) {
@@ -18,7 +15,7 @@ async function getid(string) {
         const data = await res.json();
         return data;
     } catch (err) {
-        console.error("Error fetching user ID:", err);
+        appendAlert("Error fetching user ID:", "danger")
         return null;
     }
 }
@@ -173,7 +170,7 @@ function getUsernameFromToken() {
         const parsed = JSON.parse(decoded);
         return parsed.username || null;
     } catch (err) {
-        console.error("Failed to decode token:", err);
+        appendAlert("Failed to decode token:", "danger");
         return null;
     }
 }
@@ -189,7 +186,7 @@ async function fetch_user_cards(){
     const username = getUsernameFromToken();
     const user_id = await getid(username);
     if (!user_id) {
-        console.error("User ID not found");
+        appendAlert("User ID not found", "danger");
         return;
     }
     try {
@@ -199,10 +196,10 @@ async function fetch_user_cards(){
             },
         });
         const data = await res.json();
-        userCardList = data; // שמור את כל הקלפים המקוריים
+        userCardList = data;
         renderUserCards(userCardList);
     } catch (error) {
-        console.error("Failed to fetch user cards:", error);
+        appendAlert("Failed to fetch user cards:", "danger");
     }
 }
 
@@ -237,10 +234,9 @@ function renderUserCards(cards) {
 
 async function addToP1(cardElement) {
     const p1Area = document.getElementById("p1Area");
-    p1Area.innerHTML = ""; // מנקה קודם
+    p1Area.innerHTML = "";
     const clone = cardElement.cloneNode(true);
     clone.style.height = "300px";
-    // מוסיף סטייל ישירות לתמונה שבתוך הקלון
     
     clone.querySelectorAll("h1, p").forEach(el => el.remove());
     const img = clone.querySelector("img");
@@ -253,7 +249,6 @@ async function addToP1(cardElement) {
         img.style.borderRadius = "5px";
     }
     p1Area.appendChild(clone);
-    //write to form data
     const cardid = cardElement.dataset.cardid;
     const packid = cardElement.dataset.packid || 0;
     const username = getUsernameFromToken();
@@ -269,7 +264,6 @@ async function fetch_user2_cards(string){
     }
     const user_id = await getid(string);
     if (!user_id) {
-        console.error("User ID not found");
         appendAlert(`error missing User`, "danger");
         return;
     }
@@ -301,15 +295,13 @@ async function fetch_user2_cards(string){
                     <img src="${card.image_url}" alt="${card.name}" class="img-fluid" style="margin:10px; height:180px; border-radius: 5px;"/>
                 </section>
             `;
-            // 👇 כאן הלחיצה
             cardElement.addEventListener("click", () => {
                 addToP2(cardElement.cloneNode(true), string);
             });
             user.appendChild(cardElement);
             });
     } catch (error) {
-        // console.error("Failed to fetch user cards:", error);
-        appendAlert(`User dont exists`, "danger");
+        appendAlert(`error User dont exists`, "danger");
     }
 }
 
@@ -328,7 +320,6 @@ async function addToP2(cardElement, username) {
         img.style.borderRadius = "5px";
     }
     p2Area.appendChild(clone);
-    // עדכון הטופס
     const cardid = cardElement.dataset.cardid;
     const userId = await getid(username);
     const inputUser = document.querySelector('input[name="username_p2"]');
@@ -337,7 +328,7 @@ async function addToP2(cardElement, username) {
         inputUser.value = userId;
         inputCard.value = cardid;
     } else {
-        console.warn("inputs not found");
+        appendAlert("input not found", "danger");
     }
 }
 

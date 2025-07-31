@@ -20,7 +20,7 @@ addEventListener("DOMContentLoaded", () => {
   })
     .then((response) => response.json())
     .then((userDetails) => {
-      data = userDetails.username;
+      data = userDetails;
       showData(data);
     });
 });

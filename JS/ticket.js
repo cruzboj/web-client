@@ -4,7 +4,6 @@ document.addEventListener("DOMContentLoaded", () => {
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
     const description_ticket = document.getElementById("description").value;
-    // console.log(description_ticket);
     sendticket(description_ticket);
   });
 

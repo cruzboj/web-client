@@ -66,7 +66,7 @@ function fetchPack() {
     .then(data => {
       packs = data;
 
-      packsElement.innerHTML = ""; //delete after loading
+      packsElement.innerHTML = ""; 
 
       packs.forEach((packData, index) => {
         const col = document.createElement("section");
@@ -92,7 +92,7 @@ function fetchPack() {
       packsElement.appendChild(row);
 
       effect3d();
-      openPack(); // רק אחרי שהדף נטען
+      openPack();
     })
     .catch(err => {
       console.error("Error fetching packs:", err);
@@ -124,9 +124,7 @@ function effect3d(){
 }
 
 function openPack(){
-  // let packChoose = null;
   let wasChosen = false;
-  // let wasOpened = false;
   const token = localStorage.getItem("token");
 
   const packs = document.querySelectorAll(".pack");
@@ -157,11 +155,7 @@ function openPack(){
         packChoose = pack;
         wasChosen = true;
         packChoose.classList.add("pack-chosen");
-
-
-        // מציאת האלמנט של col שעוטף את ה-pack
         const chosenCol = pack.closest("section.col");
-        // remove all col's
         const allCols = document.querySelectorAll(".Packs .row > section.col");
 
         allCols.forEach((col) => {
@@ -169,11 +163,7 @@ function openPack(){
             col.classList.add("hide-with-animation");
 
             col.addEventListener("animationend", () => {
-              col.remove(); //
-              // col.style.visibility = "hidden";
-              // col.style.pointerEvents = "none";
-
-
+              col.remove(); 
             }, { once: true });
           }
         });
@@ -181,7 +171,6 @@ function openPack(){
         return;
       }
 
-      // פתיחה בפועל (אם כבר בחרנו חבילה ולא פתחנו אותה עדיין)
       if (pack === packChoose && wasChosen && !wasOpened) {
         wasOpened = true;
 
@@ -196,7 +185,7 @@ function openPack(){
           .then(data => {
             cards_data = data.cards;
 
-            createCards(); // ← עכשיו כן יש קלפים
+            createCards();
             playTearSound();
             nextcard(pack);
 
@@ -211,7 +200,7 @@ function openPack(){
             }, { once: true });
           })
           .catch(err => {
-            console.error("Error fetching cards:", err);
+            appendAlert("Error fetching cards:", "danger");
           });
       }
     });
@@ -248,47 +237,41 @@ function playRareSound() {
 
 function createCards() {
   try {
-    // const res = await fetch(serverNet + `/user/packs/${packId}`);
-    // const data = await res.json();
+    const cards = document.querySelector(".cards");
 
-    const cards = document.querySelector(".cards");  // זה ה-container שלך
-
-    cards.innerHTML = ""; // מנקים קודם כל
-
-    cards_data.forEach(card => {  // forEach, לא foreach
+    cards.innerHTML = "";
+    cards_data.forEach(card => {
       const cardHtml = `
         <section class="card rare_${card.color_id}">
           <img src="${card.image_url}" alt="${card.name}">
         </section>
       `;
-      cards.insertAdjacentHTML("beforeend", cardHtml); // cards ולא cardsContainer
+      cards.insertAdjacentHTML("beforeend", cardHtml);
     });
   } catch (err) {
-    console.error("Error loading cards:", err);
+    appendAlert("Error loading cards:");
     return false;
   }
 }
 
 function nextcard(pack) {
-  // מציבים את כל הקלפים במערך (NodeList => Array)
   let cards = Array.from(pack.querySelectorAll(".card"));
 
   pack.addEventListener("click", () => {
 
-    //reload page
     if (cards.length === 1) {
       setTimeout(() => { 
         location.reload();
       }, 1500);
     }
-    const card = cards.pop(); // מוציאים קלף אחד מהסוף
+    const card = cards.pop();
 
     card.classList.add("fly-up");
     
     if (card.classList.contains("rare_2")) {
-      playRareSound(); // קול של rare
+      playRareSound();
     } else {
-      playNextCardsound(); // קול רגיל
+      playNextCardsound();
     }
       
     card.addEventListener("animationend", () => {
