@@ -9,9 +9,6 @@ function createNav(){
   navbar.innerHTML = `
     <!-- Sidebar -->
     <div class="sidebar">
-      <h4 class="text-center">
-          <img src="#" alt="Profile" class="rounded-circle mb-3" width="80" height="80">
-      </h4>
       <a href="admin.html">Dashboard</a>
       <a href="adminData.html">User Data</a>
       <a href="./adminManagePacks.html">Manage Packs</a>
