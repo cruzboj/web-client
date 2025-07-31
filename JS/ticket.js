@@ -12,7 +12,11 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 async function sendticket(description_ticket) {
-  const token = localStorage.getItem("token");
+    const token = localStorage.getItem("token");
+        if (!token) {
+        openLoginModal();
+        return;
+    }
   const data = await getUserInfo();
   console.log("Data:", description_ticket);
   const ticket_username = data.username;
